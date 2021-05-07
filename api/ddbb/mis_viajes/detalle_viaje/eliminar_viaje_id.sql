@@ -1,0 +1,1 @@
+DELETE FROM viajes WHERE viajes.id = 4; --Revisar CASCADE.
