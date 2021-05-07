@@ -10,9 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareUS">
         <activity
+            android:theme="@style/Theme.ShareUS.SplashTheme"
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.ShareUS.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
