@@ -3,28 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_misviajes">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.shareus.ui.home.HomeFragment"
+        android:id="@+id/nav_misviajes"
+        android:name="com.example.shareus.ui.misviajes.MisViajesFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_misviajes" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.shareus.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_encontrar"
+        android:name="com.example.shareus.ui.encontrar.EncontrarFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_encontrar" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.shareus.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_publicar"
+        android:name="com.example.shareus.ui.publicar.PublicarFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-    <fragment
-        android:id="@+id/nav_suger"
-        android:name="com.example.shareus.ui.sugerencias.SugerenciasFragment"
-        android:label="SugerenciasFragment"
-        tools:layout="@layout/fragment_sugererncias"/>
+        tools:layout="@layout/fragment_publicar" />
 </navigation>
