@@ -1,0 +1,28 @@
+version: "3.5"
+
+services:
+  postgres:
+    container_name: shareus_postgres
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5434:5432
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    restart: always
+
+  pgadmin:
+    container_name: shareus_pgpadmin
+    image: dpage/pgadmin4
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - 8088:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=dam@us.es
+      - PGADMIN_DEFAULT_PASSWORD=shareus
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+
