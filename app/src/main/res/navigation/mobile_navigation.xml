@@ -22,4 +22,9 @@
         android:name="com.example.shareus.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_suger"
+        android:name="com.example.shareus.ui.sugerencias.SugerenciasFragment"
+        android:label="SugerenciasFragment"
+        tools:layout="@layout/fragment_sugererncias"/>
 </navigation>
