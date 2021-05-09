@@ -20,8 +20,8 @@ public class Valoracion {
 		this.viaje = viaje;
 		this.comentario = comentario;
 		this.nota = nota;
-	}
-
+  }
+ 
 	public int getId() {
 		return id;
 	}

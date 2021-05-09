@@ -1,6 +1,1 @@
-SELECT
-	*
-FROM 
-	ubicaciones ub
-WHERE
-	ub.disponible = true AND ub.tipo = '0';
+SELECT * FROM ubicaciones ub WHERE ub.disponible = true AND ub.tipo = '0';
