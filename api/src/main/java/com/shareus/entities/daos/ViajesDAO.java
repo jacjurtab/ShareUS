@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shareus.entities.Viaje;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,14 +106,14 @@ public class ViajesDAO implements ViajesDAOInterface {
 		
 	}
 
-	public boolean eliminarViaje(int id) {
+	public boolean eliminarViaje(int viaje) {
 		Connection conn;
 		boolean resultado = false;
 		try {
 			conn = ds.getConnection();
 			String sql = "DELETE FROM viajes WHERE viajes.id = ?";
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setInt(1, id);
+			st.setInt(1, viaje);
 			int col_afectadas = st.executeUpdate();
 
 			if(col_afectadas == 1) resultado = true;
@@ -123,28 +126,132 @@ public class ViajesDAO implements ViajesDAOInterface {
 		return resultado;
 	}
 
-	public boolean eliminarPasajeroViaje(int id, int pasajero) {
+	public boolean insertarPasajeroViaje(int viaje, int pasajero) {
 		Connection conn;
 		boolean resultado = false;
 		try {
 			conn = ds.getConnection();
 			String[] sql = {
-					"UPDATE viajes SET num_pasajeros = num_pasajeros - 1 WHERE viajes.id = ?",
-					"DELETE FROM pasajeros WHERE pasajeros.viaje = ? AND pasajeros.pasajero = ?"
+					"INSERT INTO pasajeros (viaje, pasajero) VALUES (?, ?)",
+					"UPDATE viajes SET num_pasajeros = num_pasajeros + 1 WHERE viajes.id = ?"
 			};
 			PreparedStatement[] st = {conn.prepareStatement(sql[0]), conn.prepareStatement(sql[1])};
 
-			st[0].setInt(1, id);
-			st.addBatch("UPDATE viajes SET num_pasajeros = num_pasajeros - 1 WHERE viajes.id = " + id);
-			st.addBatch("");
-			st.set
-			PreparedStatement st = conn.prepareStatement(sql);
-			st.setInt(1, id);
-			st.setInt(2, id);
+			st[0].setInt(1, viaje);
+			st[0].setInt(2, pasajero);
+			st[1].setInt(1, viaje);
 
+			if(st[0].executeUpdate() == 1) {
+				st[1].executeUpdate();
+				resultado = true;
+			}
 
+			st[0].close();
+			st[1].close();
+			conn.close();
 		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+			try {
+				conn = ds.getConnection();
+				PreparedStatement st_undo = conn.prepareStatement("DELETE FROM pasajeros WHERE pasajeros.viaje = ? AND pasajeros.pasajero = ?");
+				st_undo.setInt(1, viaje);
+				st_undo.setInt(2, pasajero);
+				st_undo.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+		}
+
+		return resultado;
+	}
+
+	public boolean eliminarPasajeroViaje(int viaje, int pasajero) {
+		Connection conn;
+		boolean resultado = false;
+		try {
+			conn = ds.getConnection();
+			String[] sql = {
+					"DELETE FROM pasajeros WHERE pasajeros.viaje = ? AND pasajeros.pasajero = ?",
+					"UPDATE viajes SET num_pasajeros = num_pasajeros - 1 WHERE viajes.id = ?"
+			};
+			PreparedStatement[] st = {conn.prepareStatement(sql[0]), conn.prepareStatement(sql[1])};
+
+			st[0].setInt(1, viaje);
+			st[0].setInt(2, pasajero);
+			st[1].setInt(1, viaje);
+
+			if(st[0].executeUpdate() == 1) {
+				st[1].executeUpdate();
+				resultado = true;
+			}
+
+			st[0].close();
+			st[1].close();
+			conn.close();
+		} catch (SQLException throwables) {
+			System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+		}
+
+		return resultado;
+	}
+
+	public boolean insertarViajeValoracion(int viaje, int valorador, int valorado, int nota) {
+		Connection conn;
+		boolean resultado = false;
+		try {
+			conn = ds.getConnection();
+			String[] sql = {
+					"INSERT INTO valoraciones (valorado, valorador, viaje, nota) VALUES (?, ?, ?, ?);",
+					"UPDATE usuarios SET valoracion = (SELECT AVG(nota) AS valoracion FROM valoraciones va WHERE va.valorado = ?) " +
+					"WHERE usuarios.id = ?"
+			};
+			PreparedStatement[] st = {conn.prepareStatement(sql[0]), conn.prepareStatement(sql[1])};
+
+			st[0].setInt(1, valorado);
+			st[0].setInt(2, valorador);
+			st[0].setInt(3, viaje);
+			st[0].setInt(4, nota);
+
+			st[1].setInt(1, valorado);
+			st[1].setInt(2, valorado);
+
+
+			if(st[0].executeUpdate() == 1) {
+				st[1].executeUpdate();
+				resultado = true;
+			}
+
+			st[0].close();
+			st[1].close();
+			conn.close();
+		} catch (SQLException throwables) {
+			System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+		}
+
+		return resultado;
+	}
+
+	public boolean insertarViajeConductor(int conductor, int origen, int destino, Timestamp fecha, int max_plazas) {
+		Connection conn;
+		boolean resultado = false;
+		try {
+			conn = ds.getConnection();
+			String sql = "INSERT INTO viajes (conductor, origen, destino, fecha, max_plazas) VALUES (?, ?, ?, ?, ?)";
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, conductor);
+			st.setInt(2, origen);
+			st.setInt(3, destino);
+			st.setTimestamp(4, fecha);
+			st.setInt(5, max_plazas);
+
+			int col_afectadas = st.executeUpdate();
+
+			if(col_afectadas == 1) resultado = true;
+
+			st.close();
+			conn.close();
+		} catch (SQLException throwables) {
+			System.out.println("Error en ViajesDAO: " + throwables.getMessage());
 		}
 
 		return resultado;
@@ -159,9 +266,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 	    ds.setUser("dam");
 	    ds.setPassword("damshareus");
 	    ViajesDAO viajesDAO = new ViajesDAO(ds);
-	    System.out.println("OBTENER VIAJES CONDUCTOR\n");
-	    System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajesConductor(2)));
-	    System.out.println("\nOBTENER VIAJES PASAJERO\n");	    
-	    System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajesPasajero(2)));
+		System.out.println(mapper.writerWithDefaultPrettyPrinter()
+				.writeValueAsString(viajesDAO.insertarViajeConductor(3, 3, 12, new Timestamp(1621670400000L), 2)));
+//	    System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.eliminarPasajeroViaje(1, 4)));
 	}
 }
