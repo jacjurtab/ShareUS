@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ViajesDAO {
+public class ViajesDAO implements ViajesDAOInterface {
 	
 	private final DataSource ds;
 	
