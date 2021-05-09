@@ -1,6 +1,6 @@
 package com.shareus.entities;
 
-public class Valoraciones {
+public class Valoracion {
 	private int id;
 	private int valorador;
 	private int valorado; 
