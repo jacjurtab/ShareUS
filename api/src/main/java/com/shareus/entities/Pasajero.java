@@ -1,10 +1,20 @@
 package com.shareus.entities;
 
-public class Pasajeros {
+public class Pasajero {
 
 	private String nombre;
 	private int viaje;
 	
+	public Pasajero () {
+		
+	}
+	
+	public Pasajero(String nombre, int viaje) {
+		super();
+		this.nombre = nombre;
+		this.viaje = viaje;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

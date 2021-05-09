@@ -8,8 +8,8 @@
 		<version>2.4.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>rest-service</artifactId>
+	<groupId>com.shareus</groupId>
+	<artifactId>shareus-rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>rest-service</name>
 	<description>Demo project for Spring Boot</description>
@@ -26,6 +26,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.3-1100-jdbc41</version>
 		</dependency>
 	</dependencies>
 

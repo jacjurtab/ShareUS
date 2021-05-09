@@ -1,6 +1,6 @@
 package com.shareus.entities;
 
-public class Valoraciones {
+public class Valoracion {
 	private int id;
 	private int valorador;
 	private int valorado; 
@@ -8,6 +8,20 @@ public class Valoraciones {
 	private String comentario;
 	private float nota;
 	
+	public Valoracion() {
+		
+	}
+	
+	public Valoracion(int id, int valorador, int valorado, int viaje, String comentario, float nota) {
+		super();
+		this.id = id;
+		this.valorador = valorador;
+		this.valorado = valorado;
+		this.viaje = viaje;
+		this.comentario = comentario;
+		this.nota = nota;
+	}
+
 	public int getId() {
 		return id;
 	}

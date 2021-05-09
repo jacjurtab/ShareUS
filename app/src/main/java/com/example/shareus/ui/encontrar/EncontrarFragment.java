@@ -1,4 +1,4 @@
-package com.example.shareus.ui.gallery;
+package com.example.shareus.ui.encontrar;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shareus.R;
 
-public class GalleryFragment extends Fragment {
+public class EncontrarFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private EncontrarViewModel encontrarViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        encontrarViewModel =
+                new ViewModelProvider(this).get(EncontrarViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_encontrar, container, false);
+        final TextView textView = root.findViewById(R.id.text_encontrar);
+        encontrarViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

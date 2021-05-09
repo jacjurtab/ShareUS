@@ -1,82 +1,113 @@
 package com.shareus.entities;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Viaje {
 	
 	//TODO: todos los atributos tipo int son "id", cambiar a uuid
 	private int id;   
-	private int conductor;  
-	private int origen;
-	private int destino;
-	private Date fecha;
-	private Time hora;
+	private String conductor;  
+	private String origen;
+	private String destino;
+	private Timestamp fecha_hora;
 	private int num_pasajeros;
 	private int max_plazas;
-	private List<String> pasajeros;  //nombres de los pasajeros asociados al viaje
+	private List<Pasajero> pasajeros;  //nombres de los pasajeros asociados al viaje
 	private float valoracion;  //Representa a nota media del conductor
+
+	
+	public Viaje () {
+		
+	}
+	
+	public Viaje(int id, String conductor, String origen, String destino, Timestamp fecha_hora, 
+			int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float valoracion) {
+		super();
+		this.id = id;
+		this.conductor = conductor;
+		this.origen = origen;
+		this.destino = destino;
+		this.setFecha_hora(fecha_hora);
+		this.num_pasajeros = num_pasajeros;
+		this.max_plazas = max_plazas;
+		this.pasajeros = pasajeros;
+		this.valoracion = valoracion;
+	}
+
 	
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getConductor() {
+
+	public String getConductor() {
 		return conductor;
 	}
-	public void setConductor(int conductor) {
+
+	public void setConductor(String conductor) {
 		this.conductor = conductor;
 	}
-	public int getOrigen() {
+
+	public String getOrigen() {
 		return origen;
 	}
-	public void setOrigen(int origen) {
+
+	public void setOrigen(String origen) {
 		this.origen = origen;
 	}
-	public int getDestino() {
+
+	public String getDestino() {
 		return destino;
 	}
-	public void setDestino(int destino) {
+
+	public void setDestino(String destino) {
 		this.destino = destino;
 	}
-	public Date getFecha() {
-		return fecha;
-	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-	public Time getHora() {
-		return hora;
-	}
-	public void setHora(Time hora) {
-		this.hora = hora;
-	}
+
 	public int getNum_pasajeros() {
 		return num_pasajeros;
 	}
+
 	public void setNum_pasajeros(int num_pasajeros) {
 		this.num_pasajeros = num_pasajeros;
 	}
+
 	public int getMax_plazas() {
 		return max_plazas;
 	}
+
 	public void setMax_plazas(int max_plazas) {
 		this.max_plazas = max_plazas;
 	}
-	public List<String> getPasajeros() {
+
+	public List<Pasajero> getPasajeros() {
 		return pasajeros;
 	}
-	public void setPasajeros(List<String> pasajeros) {
+
+	public void setPasajeros(List<Pasajero> pasajeros) {
 		this.pasajeros = pasajeros;
 	}
+
 	public float getValoracion() {
 		return valoracion;
 	}
+
 	public void setValoracion(float valoracion) {
 		this.valoracion = valoracion;
 	}
+
+	public Timestamp getFecha_hora() {
+		return fecha_hora;
+	}
+
+	public void setFecha_hora(Timestamp fecha_hora) {
+		this.fecha_hora = fecha_hora;
+	}
+
+
 }
 

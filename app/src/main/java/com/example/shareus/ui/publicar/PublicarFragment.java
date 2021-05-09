@@ -1,4 +1,4 @@
-package com.example.shareus.ui.sugerencias;
+package com.example.shareus.ui.publicar;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shareus.R;
 
-public class SugerenciasFragment extends Fragment {
+public class PublicarFragment extends Fragment {
 
-    private SugerenciasViewModel sugerenciasViewModel;
+    private PublicarViewModel publicarViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        sugerenciasViewModel =
-                new ViewModelProvider(this).get(SugerenciasViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        sugerenciasViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        publicarViewModel =
+                new ViewModelProvider(this).get(PublicarViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_publicar, container, false);
+        final TextView textView = root.findViewById(R.id.text_publicar);
+        publicarViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
@@ -32,6 +32,4 @@ public class SugerenciasFragment extends Fragment {
         });
         return root;
     }
-
 }
-
