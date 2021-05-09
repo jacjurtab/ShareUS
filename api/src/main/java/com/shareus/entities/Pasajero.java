@@ -2,30 +2,30 @@ package com.shareus.entities;
 
 public class Pasajero {
 
+	private int id;
 	private String nombre;
-	private int viaje;
 	
 	public Pasajero () {
 		
 	}
-	
-	public Pasajero(String nombre, int viaje) {
+
+	public Pasajero(int id, String nombre) {
 		super();
+		this.id = id;
 		this.nombre = nombre;
-		this.viaje = viaje;
 	}
 
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	public int getViaje() {
-		return viaje;
-	}
-	public void setViaje(int viaje) {
-		this.viaje = viaje;
 	}
 	
 }

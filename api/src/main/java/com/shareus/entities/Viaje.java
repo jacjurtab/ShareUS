@@ -14,7 +14,7 @@ public class Viaje {
 	private int num_pasajeros;
 	private int max_plazas;
 	private List<Pasajero> pasajeros;  //nombres de los pasajeros asociados al viaje
-	private float valoracion;  //Representa a nota media del conductor
+	private float nota_conductor;  //Representa a nota media del conductor
 
 	
 	public Viaje () {
@@ -22,7 +22,7 @@ public class Viaje {
 	}
 	
 	public Viaje(int id, String conductor, String origen, String destino, Timestamp fecha_hora, 
-			int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float valoracion) {
+			int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor) {
 		super();
 		this.id = id;
 		this.conductor = conductor;
@@ -32,7 +32,7 @@ public class Viaje {
 		this.num_pasajeros = num_pasajeros;
 		this.max_plazas = max_plazas;
 		this.pasajeros = pasajeros;
-		this.valoracion = valoracion;
+		this.nota_conductor = nota_conductor;
 	}
 
 	
@@ -92,20 +92,20 @@ public class Viaje {
 		this.pasajeros = pasajeros;
 	}
 
-	public float getValoracion() {
-		return valoracion;
-	}
-
-	public void setValoracion(float valoracion) {
-		this.valoracion = valoracion;
-	}
-
 	public Timestamp getFecha_hora() {
 		return fecha_hora;
 	}
 
 	public void setFecha_hora(Timestamp fecha_hora) {
 		this.fecha_hora = fecha_hora;
+	}
+
+	public float getNota_conductor() {
+		return nota_conductor;
+	}
+
+	public void setNota_conductor(float nota_conductor) {
+		this.nota_conductor = nota_conductor;
 	}
 
 
