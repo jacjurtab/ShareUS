@@ -8,28 +8,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shareus.entities.Viaje;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ViajesDAO {
 	
-	private DataSource ds = null;
+	private final DataSource ds;
 	
 	public ViajesDAO(DataSource ds) {
 		super();
 		this.ds = ds;
 	}
-	
-	/**
-	 * Obtiene todos los viajes realizados por un usuario como conductor 
-	 * @param id del usuario que actúa como conductor del viaje
-	 * @return lista de todos los viajes realizados por un usuario
-	 */
+
 	public List<Viaje> obtenerViajesConductor(int conductor) {
 		Connection conn;
 		List<Viaje> viajes = new ArrayList<>();
@@ -64,12 +56,7 @@ public class ViajesDAO {
 		}
 		return viajes;		
 	}
-	
-	/**
-	 * Obtiene todos los viajes de un usuario como pasajero
-	 * @param id del usuario 
-	 * @return lista de todos los viajes en los que está inscrito el usuario
-	 */
+
 	public List<Viaje> obtenerViajesPasajero(int pasajero) {
 		Connection conn;
 		List<Viaje> viajes = new ArrayList<>();
@@ -115,6 +102,55 @@ public class ViajesDAO {
 	public void obteneViajesDisponibles(){
 		
 	}
+
+	public boolean eliminarViaje(int id) {
+		Connection conn;
+		boolean resultado = false;
+		try {
+			conn = ds.getConnection();
+			String sql = "DELETE FROM viajes WHERE viajes.id = ?";
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, id);
+			int col_afectadas = st.executeUpdate();
+
+			if(col_afectadas == 1) resultado = true;
+			st.close();
+			conn.close();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+
+		return resultado;
+	}
+
+	public boolean eliminarPasajeroViaje(int id, int pasajero) {
+		Connection conn;
+		boolean resultado = false;
+		try {
+			conn = ds.getConnection();
+			String[] sql = {
+					"UPDATE viajes SET num_pasajeros = num_pasajeros - 1 WHERE viajes.id = ?",
+					"DELETE FROM pasajeros WHERE pasajeros.viaje = ? AND pasajeros.pasajero = ?"
+			};
+			PreparedStatement[] st = {conn.prepareStatement(sql[0]), conn.prepareStatement(sql[1])};
+
+			st[0].setInt(1, id);
+			st.addBatch("UPDATE viajes SET num_pasajeros = num_pasajeros - 1 WHERE viajes.id = " + id);
+			st.addBatch("");
+			st.set
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, id);
+			st.setInt(2, id);
+
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+
+		return resultado;
+	}
+
+
 	
 	public static void main(String[] args) throws SQLException, JsonProcessingException {
 	    PGSimpleDataSource ds = new PGSimpleDataSource();
@@ -127,5 +163,5 @@ public class ViajesDAO {
 	    System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajesConductor(2)));
 	    System.out.println("\nOBTENER VIAJES PASAJERO\n");	    
 	    System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajesPasajero(2)));
-	}		
+	}
 }
