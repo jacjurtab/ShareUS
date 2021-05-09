@@ -1,14 +1,25 @@
 package com.shareus.entities;
 
-public class Ubicaciones {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Ubicacion {
 	
 	private int id;
 	private String nombre;
 	private float latitud;
 	private float longitud;
-	private boolean tipo;
+	private int tipo;
 	private boolean disponible;
-	
+
+	public Ubicacion(int id, String nombre, float latitud, float longitud, int tipo, boolean disponible) {
+		this.id = id;
+		this.nombre = nombre;
+		this.latitud = latitud;
+		this.longitud = longitud;
+		this.tipo = tipo;
+		this.disponible = disponible;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -33,10 +44,10 @@ public class Ubicaciones {
 	public void setLongitud(float longitud) {
 		this.longitud = longitud;
 	}
-	public boolean isTipo() {
+	public int getTipo() {
 		return tipo;
 	}
-	public void setTipo(boolean tipo) {
+	public void setTipo(int tipo) {
 		this.tipo = tipo;
 	}
 	public boolean isDisponible() {
