@@ -309,7 +309,7 @@ public class ViajesDAO implements ViajesDAOInterface {
     }
 
     @Override
-    public boolean insertarViajeConductor(int conductor, int origen, int destino, Timestamp fecha, int max_plazas) {
+    public boolean insertarViajeConductor(Integer conductor, Integer origen, Integer destino, Timestamp fecha, Integer max_plazas) {
         Connection conn;
         boolean resultado = false;
         try {
