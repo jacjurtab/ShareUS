@@ -30,15 +30,6 @@ public interface ViajesDAOInterface {
 
 	/**
 	 * Añade una nueva valoración a un usuario específico.
-	 * @param viaje del viaje
-	 * @param valorador que asigna puntación
-	 * @param valorado que obtiene la valoración
-	 * @param nota que contiene la puntiación del valorador
-	 */
-	boolean insertarViajeValoracion(int viaje, int valorador, int valorado, int nota);
-
-	/**
-	 * Añade una nueva valoración a un usuario específico.
 	 * @param conductor del viaje
 	 * @param origen del viaje
 	 * @param destino del viaje
@@ -78,13 +69,5 @@ public interface ViajesDAOInterface {
 	 * @return lista de viajes o lista de viajes disponibles
 	 */
 	List<Viaje> obtenerViajes(boolean disponibles);
-
-	/**
-	 * Obtiene una lista de valoraciones para un viaje especifico y un usuario.
-	 * @param viaje id del viaje en el que se han hecho las valoraciones.
-	 * @param valorado  usuario del cual se esta accediendo a las valoraciones
-	 * @return lista de valoraciones
-	 */
-	List<Valoracion> obtenerValoraciones(int viaje, int valorado);
 
 }
