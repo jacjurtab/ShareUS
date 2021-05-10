@@ -1,8 +1,12 @@
 package com.shareus.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Valoracion {
 	private int id;
 	private String valorador;
+	private int valorado;
 	private int viaje;
 	private String comentario;
 	private float nota;
@@ -14,7 +18,15 @@ public class Valoracion {
 		this.viaje = viaje;
 		this.comentario = comentario;
 		this.nota = nota;
-  }
+	}
+
+	public int getValorado() {
+		return valorado;
+	}
+
+	public void setValorado(int valorado) {
+		this.valorado = valorado;
+	}
 
 	public int getId() {
 		return id;
