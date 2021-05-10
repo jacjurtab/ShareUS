@@ -6,8 +6,12 @@ import com.shareus.models.Viaje;
 import com.shareus.models.VistasViaje;
 import com.shareus.models.daos.ViajesDAO;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,5 +48,28 @@ public class ViajeController {
             @PathVariable(value = "id") int viaje
     ) {
         return viajes.obtenerViajeId(viaje);
+    }
+    
+    @DeleteMapping("/viaje/{id}")
+    public boolean borrar(
+    		@PathVariable(value = "id") Integer viaje
+    ) {
+		return viajes.eliminarViaje(viaje);
+    }    
+    
+    @PutMapping(path = "/viaje/{id}/pasajeros/eliminar")
+    public boolean eliminarPasajero(
+    		@PathVariable(value = "id") Integer viaje,
+    		@RequestBody  String pasajero    		
+    ) {
+    	return viajes.eliminarPasajeroViaje(viaje, Integer.parseInt(pasajero)); 	
+    }
+       
+    @PutMapping(path = "/viaje/{id}/pasajeros/insertar")
+    public boolean insertaPasajero(
+    		@PathVariable(value = "id") Integer viaje,
+    		@RequestBody  String pasajero    		
+    ) {
+    	return viajes.insertarPasajeroViaje(viaje, Integer.parseInt(pasajero)); 	
     }
 }
