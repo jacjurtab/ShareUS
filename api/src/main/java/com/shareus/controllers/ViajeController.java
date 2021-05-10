@@ -73,7 +73,8 @@ public class ViajeController {
     		@PathVariable(value = "id") Integer viaje,
     		@RequestBody  String pasajero    		
     ) {
-    	return viajes.insertarPasajeroViaje(viaje, Integer.parseInt(pasajero)); 	
+        return viajes.insertarPasajeroViaje(viaje, Integer.parseInt(pasajero));
+    }
 
     @PostMapping(path = "/viaje", consumes = "application/json")
     public boolean insertar(
