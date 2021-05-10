@@ -2,6 +2,7 @@ package com.shareus.entities.daos;
 
 import javax.sql.DataSource;
 
+import com.shareus.entities.Valoracion;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,6 +24,34 @@ public class ViajesDAO implements ViajesDAOInterface {
 	public ViajesDAO(DataSource ds) {
 		super();
 		this.ds = ds;
+	}
+
+	public List<Valoracion> obtenerValoraciones(int viaje, int valorado) {
+		Connection conn;
+		List<Valoracion> valoraciones = new ArrayList<>();
+		try {
+			conn = ds.getConnection();
+			String sql = "SELECT va.id, vi.id AS viaje_id, us.nombre AS valorador, va.comentario, va.nota AS nota " +
+					"FROM viajes vi INNER JOIN valoraciones va ON vi.id = va.viaje INNER JOIN usuarios us ON va.valorador = us.id " +
+					"INNER JOIN usuarios us2 ON va.valorado = us2.id WHERE vi.id = ? AND va.valorado = ?";
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, viaje);
+			st.setInt(2, valorado);
+
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				Valoracion valoracion = new Valoracion(rs.getInt("id"), rs.getInt("viaje_id"),
+				rs.getString("valorador"), rs.getString("comentario"), rs.getInt("nota"));
+				valoraciones.add(valoracion);
+			}
+			rs.close();
+			st.close();
+			conn.close();
+		} catch (SQLException throwables) {
+			System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+		}
+
+		return valoraciones;
 	}
 
 	public List<Viaje> obtenerViajesConductor(int conductor) {
@@ -266,8 +295,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 	    ds.setUser("dam");
 	    ds.setPassword("damshareus");
 	    ViajesDAO viajesDAO = new ViajesDAO(ds);
-		System.out.println(mapper.writerWithDefaultPrettyPrinter()
-				.writeValueAsString(viajesDAO.insertarViajeConductor(3, 3, 12, new Timestamp(1621670400000L), 2)));
-//	    System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.eliminarPasajeroViaje(1, 4)));
+//		System.out.println(mapper.writerWithDefaultPrettyPrinter()
+//				.writeValueAsString(viajesDAO.insertarViajeConductor(3, 3, 12, new Timestamp(1621670400000L), 2)));
+	    System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerValoraciones(1, 3)));
 	}
 }
