@@ -1,8 +1,12 @@
-package com.shareus.entities;
+package com.shareus.models;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 public class Pasajero {
 
+	@JsonView(VistasViaje.Completo.class)
 	private int id;
+	@JsonView(VistasViaje.Completo.class)
 	private String nombre;
 	
 	public Pasajero () {

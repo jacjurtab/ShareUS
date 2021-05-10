@@ -1,10 +1,10 @@
-package com.shareus.entities.daos;
+package com.shareus.models.daos;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.shareus.entities.Valoracion;
-import com.shareus.entities.Viaje;
+import com.shareus.models.Valoracion;
+import com.shareus.models.Viaje;
 
 public interface ViajesDAOInterface {
 	/**
