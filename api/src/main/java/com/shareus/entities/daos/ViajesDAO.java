@@ -7,12 +7,15 @@ import org.postgresql.ds.PGSimpleDataSource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shareus.entities.Pasajero;
 import com.shareus.entities.Viaje;
 
-import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +28,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 		super();
 		this.ds = ds;
 	}
-
+  
+  @Override
 	public List<Valoracion> obtenerValoraciones(int viaje, int valorado) {
 		Connection conn;
 		List<Valoracion> valoraciones = new ArrayList<>();
@@ -53,7 +57,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 		return valoraciones;
 	}
-
+  
+  @Override
 	public List<Viaje> obtenerViajesConductor(int conductor) {
 		Connection conn;
 		List<Viaje> viajes = new ArrayList<>();
@@ -88,7 +93,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 		}
 		return viajes;		
 	}
-
+  
+  @Override
 	public List<Viaje> obtenerViajesPasajero(int pasajero) {
 		Connection conn;
 		List<Viaje> viajes = new ArrayList<>();
@@ -126,15 +132,97 @@ public class ViajesDAO implements ViajesDAOInterface {
 		return viajes;		
 	}
 	
-	public void obtenerViajeId() {
-		
-		
-	}
+	@Override
+	public Viaje obtenerViajeId(int idViaje) {
+		Connection conn;
+		Viaje viaje = null;
+		try {
+			conn = ds.getConnection();
+			String sql = "SELECT\n"
+					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.valoracion AS nota_conductor, us2.id AS pasajero_id, us2.nombre AS pasajero,"
+					+ "	ub.nombre AS origen, ub1.nombre AS destino, vi.fecha, vi.num_pasajeros, vi.max_plazas"
+					+ " FROM "
+					+ "	viajes vi INNER JOIN"
+					+ "	usuarios us ON vi.conductor = us.id INNER JOIN"
+					+ "	ubicaciones ub ON vi.origen = ub.id INNER JOIN"
+					+ "	ubicaciones ub1 ON vi.destino = ub1.id INNER JOIN"
+					+ "	pasajeros pa ON vi.id = pa.viaje INNER JOIN"
+					+ "	usuarios us2 ON pa.pasajero = us2.id"
+					+ " WHERE"
+					+ "	vi.id =?";
+			PreparedStatement st = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			st.setInt(1, idViaje);			
+			ResultSet rs = st.executeQuery();			
+			if (rs.next()) {
+				viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+											rs.getString("destino"), rs.getTimestamp("fecha"),
+											rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
+				rs.previous();
+				List<Pasajero> pasajeros = new ArrayList<>();
+				while(rs.next()) {
+					pasajeros.add(new Pasajero(rs.getInt("pasajero_id"), rs.getString("pasajero")));
+				}
+				viaje.setPasajeros(pasajeros);
+			}
+			rs.close();
+			st.close();
+			conn.close();	
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error en ViajesDAO (obtenerViajeId): " + e.getMessage());
+		}
+		return viaje;
+	}	
 	
-	public void obteneViajesDisponibles(){
-		
+	@Override
+	public List<Viaje> obtenerViajes(boolean disponibles) {
+		Connection conn;
+		List<Viaje> viajes = new ArrayList<>();
+		try {
+			conn = ds.getConnection();
+				
+			String sql = "SELECT"
+					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.valoracion AS nota_conductor, "
+					+ "	ub.nombre AS origen, ub1.nombre AS destino, vi.fecha, vi.num_pasajeros, vi.max_plazas"
+					+ " FROM "
+					+ "	viajes vi INNER JOIN"
+					+ "	usuarios us ON vi.conductor = us.id INNER JOIN"
+					+ "	ubicaciones ub ON vi.origen = ub.id INNER JOIN"
+					+ "	ubicaciones ub1 ON vi.destino = ub1.id"
+					+ " WHERE"
+					+ "	vi.num_pasajeros < vi.max_plazas";
+			PreparedStatement st = conn.prepareStatement(sql);	
+			ResultSet rs = st.executeQuery();	
+			if (disponibles == false) {
+				while (rs.next()) {
+					Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+												rs.getString("destino"), rs.getTimestamp("fecha"),
+												rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
+					viajes.add(viaje);
+				}
+			} else {
+				while (rs.next()) {
+					if (rs.getTimestamp("fecha").after(Timestamp.from(Instant.now()))){
+						Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+													rs.getString("destino"), rs.getTimestamp("fecha"),
+													rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
+						viajes.add(viaje);
+					}
+				}
+			
+				rs.close();
+				st.close();	
+				conn.close();
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error en ViajesDAO (obtenerViajes): " + e.getMessage());
+		}
+		return viajes;
 	}
-
+  
+  @Override
 	public boolean eliminarViaje(int viaje) {
 		Connection conn;
 		boolean resultado = false;
@@ -154,7 +242,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 		return resultado;
 	}
-
+  
+  @Override
 	public boolean insertarPasajeroViaje(int viaje, int pasajero) {
 		Connection conn;
 		boolean resultado = false;
@@ -193,7 +282,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 		return resultado;
 	}
-
+  
+  @Override
 	public boolean eliminarPasajeroViaje(int viaje, int pasajero) {
 		Connection conn;
 		boolean resultado = false;
@@ -223,7 +313,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 		return resultado;
 	}
-
+  
+  @Override
 	public boolean insertarViajeValoracion(int viaje, int valorador, int valorado, int nota) {
 		Connection conn;
 		boolean resultado = false;
@@ -259,7 +350,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 		return resultado;
 	}
-
+  
+  @Override
 	public boolean insertarViajeConductor(int conductor, int origen, int destino, Timestamp fecha, int max_plazas) {
 		Connection conn;
 		boolean resultado = false;
@@ -285,9 +377,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 		return resultado;
 	}
-
-
-	
+  
 	public static void main(String[] args) throws SQLException, JsonProcessingException {
 	    PGSimpleDataSource ds = new PGSimpleDataSource();
 	    ObjectMapper mapper = new ObjectMapper();
