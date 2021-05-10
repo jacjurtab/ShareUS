@@ -1,8 +1,8 @@
-package com.shareus.entities.daos;
+package com.shareus.models.daos;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shareus.entities.Ubicacion;
+import com.shareus.models.Ubicacion;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;

@@ -1,6 +1,4 @@
-package com.shareus.entities;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.shareus.models;
 
 public class Ubicacion {
 	

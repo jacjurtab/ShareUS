@@ -1,4 +1,4 @@
-package com.shareus.entities;
+package com.shareus.models;
 
 public class Valoracion {
 	private int id;

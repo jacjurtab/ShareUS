@@ -1,10 +1,13 @@
-package com.shareus.entities.daos;
+package com.shareus.models.daos;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shareus.entities.Pasajero;
-import com.shareus.entities.Valoracion;
-import com.shareus.entities.Viaje;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.shareus.models.Pasajero;
+import com.shareus.models.Valoracion;
+import com.shareus.models.Viaje;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
@@ -25,24 +28,31 @@ public class ViajesDAO implements ViajesDAOInterface {
 
     public static void main(String[] args) throws SQLException, JsonProcessingException {
         PGSimpleDataSource ds = new PGSimpleDataSource();
-        ObjectMapper mapper = new ObjectMapper();
         ds.setUrl("jdbc:postgresql://api.share-us.tech:5434/shareus");
         ds.setUser("dam");
         ds.setPassword("damshareus");
-        ViajesDAO viajesDAO = new ViajesDAO(ds);
+        ViajesDAO viajes = new ViajesDAO(ds);
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleBeanPropertyFilter theFilter = SimpleBeanPropertyFilter.serializeAllExcept("nota_conductor");
+        FilterProvider filters = new SimpleFilterProvider().addFilter("myFilter", theFilter);
+
+        Viaje viaje = viajes.obtenerViajeId(1);
+        String dtoAsString = mapper.writer(filters).writeValueAsString(viaje);
+
+        System.out.println(dtoAsString);
 		/*System.out.println(mapper.writerWithDefaultPrettyPrinter()
 				.writeValueAsString(viajesDAO.insertarViajeConductor(3, 3, 12, new Timestamp(1621670400000L), 2)));*/
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerValoraciones(1, 3)));
+        //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerValoraciones(1, 3)));
         //System.out.println("OBTENER VIAJES CONDUCTOR\n");
         //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajesConductor(2)));
         //System.out.println("\nOBTENER VIAJES PASAJERO\n");
         //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajesPasajero(2)));
         //System.out.println("\nOBTENER VIAJE ID\n");
         //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajeId(1)));
-        System.out.println("\nOBTENER VIAJES\n");
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajes(false)));
-        System.out.println("\nOBTENER VIAJES DISPONIBLES\n");
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajes(true)));
+        //System.out.println("\nOBTENER VIAJES\n");
+        //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajes(false)));
+        //System.out.println("\nOBTENER VIAJES DISPONIBLES\n");
+        //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(viajesDAO.obtenerViajes(true)));
     }
 
     @Override
@@ -152,15 +162,15 @@ public class ViajesDAO implements ViajesDAOInterface {
         Viaje viaje = null;
         try {
             conn = ds.getConnection();
-            String sql = "SELECT\n"
+            String sql = "SELECT"
                     + "	vi.id AS id_viaje, us.nombre AS conductor, us.valoracion AS nota_conductor, us2.id AS pasajero_id, us2.nombre AS pasajero,"
                     + "	ub.nombre AS origen, ub1.nombre AS destino, vi.fecha, vi.num_pasajeros, vi.max_plazas"
                     + " FROM "
                     + "	viajes vi INNER JOIN"
-                    + "	usuarios us ON vi.conductor = us.id INNER JOIN"
                     + "	ubicaciones ub ON vi.origen = ub.id INNER JOIN"
                     + "	ubicaciones ub1 ON vi.destino = ub1.id INNER JOIN"
-                    + "	pasajeros pa ON vi.id = pa.viaje INNER JOIN"
+                    + "	usuarios us ON vi.conductor = us.id FULL OUTER JOIN"
+                    + "	pasajeros pa ON vi.id = pa.viaje FULL OUTER JOIN"
                     + "	usuarios us2 ON pa.pasajero = us2.id"
                     + " WHERE"
                     + "	vi.id =?";
