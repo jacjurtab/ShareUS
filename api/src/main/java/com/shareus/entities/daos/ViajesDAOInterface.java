@@ -3,6 +3,7 @@ package com.shareus.entities.daos;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.shareus.entities.Valoracion;
 import com.shareus.entities.Viaje;
 
 public interface ViajesDAOInterface {
@@ -48,7 +49,7 @@ public interface ViajesDAOInterface {
   
   /**
 	 * Obtiene todos los viajes realizados por un usuario como conductor 
-	 * @param id del usuario que actúa como conductor del viaje
+	 * @param conductor del usuario que actúa como conductor del viaje
 	 * @return lista de todos los viajes realizados por un usuario 
 	 * (lista vacia si no tiene viajes asociados)
 	 */
@@ -56,7 +57,7 @@ public interface ViajesDAOInterface {
 	
 	/**
 	 * Obtiene todos los viajes de un usuario como pasajero
-	 * @param id del usuario 
+	 * @param pasajero del usuario
 	 * @return lista de todos los viajes en los que está inscrito el usuario 
 	 * (lista vacia si no tiene viajes asociados)
 	 */
@@ -64,7 +65,7 @@ public interface ViajesDAOInterface {
 	
 	/**
 	 * Obtiene el viaje cuyo id corresponde con el indicado como parametro
-	 * @param id del viaje
+	 * @param idViaje del viaje
 	 * @return viaje cuyo id corresponde con el indicado (null si no lo encuentra)
 	 */
 	Viaje obtenerViajeId(int idViaje);
@@ -72,10 +73,18 @@ public interface ViajesDAOInterface {
 	/**
 	 * Obtiene el historial de viajes (historial completo o solo viajes disponibles,
 	 * es decir, viaves que tengan alguna plaza libre y que no hayan prescrito
-	 * @param boolean disponibles (si es true solo se obtienen los viajes 
+	 * @param disponibles disponibles (si es true solo se obtienen los viajes
 	 * con fecha posterior a la actual)
 	 * @return lista de viajes o lista de viajes disponibles
 	 */
 	List<Viaje> obtenerViajes(boolean disponibles);
+
+	/**
+	 * Obtiene una lista de valoraciones para un viaje especifico y un usuario.
+	 * @param viaje id del viaje en el que se han hecho las valoraciones.
+	 * @param valorado  usuario del cual se esta accediendo a las valoraciones
+	 * @return lista de valoraciones
+	 */
+	List<Valoracion> obtenerValoraciones(int viaje, int valorado);
 
 }
