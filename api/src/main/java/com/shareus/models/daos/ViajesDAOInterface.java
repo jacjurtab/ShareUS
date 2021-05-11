@@ -41,18 +41,28 @@ public interface ViajesDAOInterface {
   /**
 	 * Obtiene todos los viajes realizados por un usuario como conductor 
 	 * @param conductor del usuario que actúa como conductor del viaje
-	 * @return lista de todos los viajes realizados por un usuario 
+	 * @param vencidos 
+	 * @return lista de los viajes de un usuario como conductor
+	 * (si vencidos es true solo devuelve viajes pasados,
+	 * si vencidos es false solo devuelve viajes futuros,
+	 * si vencidos es null devuelve viejes pasador y fururos)
+	 * (lista vacia si no tiene viajes asociados)
 	 * (lista vacia si no tiene viajes asociados)
 	 */
-	List<Viaje> obtenerViajesConductor(int conductor);
+	List<Viaje> obtenerViajesConductor(int conductor, Boolean vencidos);
 	
 	/**
 	 * Obtiene todos los viajes de un usuario como pasajero
 	 * @param pasajero del usuario
-	 * @return lista de todos los viajes en los que está inscrito el usuario 
+	 * @param vencidos 
+	 * @return lista los viajes en los que se ha inscrito el usuario 
+	 * (si vencidos es true solo devuelve viajes pasados,
+	 * si vencidos es false solo devuelve viajes futuros,
+	 * si vencidos es null devuelve viejes pasador y fururos)
 	 * (lista vacia si no tiene viajes asociados)
 	 */
-	List<Viaje> obtenerViajesPasajero(int pasajero);
+	
+	List<Viaje> obtenerViajesPasajero(int pasajero, Boolean vencidos);
 	
 	/**
 	 * Obtiene el viaje cuyo id corresponde con el indicado como parametro
@@ -64,10 +74,10 @@ public interface ViajesDAOInterface {
 	/**
 	 * Obtiene el historial de viajes (historial completo o solo viajes disponibles,
 	 * es decir, viaves que tengan alguna plaza libre y que no hayan prescrito
-	 * @param disponibles disponibles (si es true solo se obtienen los viajes
+	 * @param disponibles (si es true solo se obtienen los viajes
 	 * con fecha posterior a la actual)
 	 * @return lista de viajes o lista de viajes disponibles
 	 */
-	List<Viaje> obtenerViajes(boolean disponibles);
+	List<Viaje> obtenerViajes(Boolean disponibles);
 
 }
