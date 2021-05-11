@@ -71,10 +71,10 @@ public class MisViajesFragment extends Fragment {
 
     public  class PagerAdapter extends FragmentPagerAdapter {
 
-        int _numerodetabs;
+        int numerodetabs;
         public PagerAdapter(FragmentManager fm, int numerodetabs) {
             super(fm);
-            this._numerodetabs = numerodetabs;
+            this.numerodetabs = numerodetabs;
         }
 
         @Override
@@ -89,8 +89,9 @@ public class MisViajesFragment extends Fragment {
         }
 
         @Override
-        public int getCount() {
-            return _numerodetabs;
+        public int getCount()
+        {
+            return numerodetabs;
         }
     }
 }
