@@ -20,7 +20,7 @@ public class UbicacionController {
 
     @GetMapping("/ubicaciones")
     public List<Ubicacion> ubicaciones(
-            @RequestParam(value = "disponible", required = false) Boolean disponible,
+            @RequestParam(value = "disponible", defaultValue="true") Boolean disponible,
             @RequestParam(value = "tipo", defaultValue = "0") int tipo
     ) {
         return ubicaciones.obtenerUbicaciones(disponible, tipo);

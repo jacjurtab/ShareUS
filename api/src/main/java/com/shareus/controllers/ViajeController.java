@@ -32,17 +32,18 @@ public class ViajeController {
     public List<Viaje> viajes(
             @RequestParam(value = "conductor", required = false) Integer conductor,
             @RequestParam(value = "pasajero", required = false) Integer pasajero,
-            @RequestParam(value = "disponible", required = false) Boolean disponible
+            @RequestParam(value = "disponibles", required = false) Boolean disponibles,
+            @RequestParam(value = "vencidos", required = false) Boolean vencidos
     ) {
         if(conductor != null) {
-            return viajes.obtenerViajesConductor(conductor);
+            return viajes.obtenerViajesConductor(conductor, vencidos);
         } else if(pasajero != null) {
-            return viajes.obtenerViajesPasajero(pasajero);
-        } else if(disponible != null) {
-            return viajes.obtenerViajes(disponible);
-        } else {
+            return viajes.obtenerViajesPasajero(pasajero, vencidos);
+        } else{
+            return viajes.obtenerViajes(disponibles);
+        }/* else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "parámetro conductor o pasajero es necesario");
-        }
+        }*/
     }
 
     @GetMapping("/viaje/{id}")
