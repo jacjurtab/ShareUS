@@ -2,13 +2,17 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        gradlePluginPortal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.2"
-
+        classpath 'com.android.tools.build:gradle:4.1.2'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath "com.gradle:gradle-enterprise-gradle-plugin:3.6"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.36.0"
     }
 }
 
