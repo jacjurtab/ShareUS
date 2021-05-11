@@ -11,6 +11,8 @@ public class EncontrarViewModel extends ViewModel {
     public EncontrarViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is gallery fragment");
+
+
     }
 
     public LiveData<String> getText() {
