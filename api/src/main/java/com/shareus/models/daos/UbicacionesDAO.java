@@ -50,7 +50,7 @@ public class UbicacionesDAO {
             st.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Error en UbicacionesDAO: " + e.getMessage());
+            System.out.println("Error en UbicacionesDAO (obtenerUbicaciones): " + e.getMessage());
         }
 
         return ubicaciones;
