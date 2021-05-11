@@ -106,7 +106,6 @@ public class ViajesDAO implements ViajesDAOInterface {
 			st.close();
 			conn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			System.out.println("Error en ViajesDAO (obtenerViajesConductor): " + e.getMessage());
 		}
 		return viajes;
@@ -207,7 +206,6 @@ public class ViajesDAO implements ViajesDAOInterface {
 			st.close();
 			conn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			System.out.println("Error en ViajesDAO (obtenerViajeId): " + e.getMessage());
 		}
 		return viaje;
@@ -265,7 +263,6 @@ public class ViajesDAO implements ViajesDAOInterface {
 			st.close();
 			conn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			System.out.println("Error en ViajesDAO (obtenerViajes): " + e.getMessage());
 		}
 		return viajes;
@@ -285,8 +282,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 			if (col_afectadas == 1) resultado = true;
 			st.close();
 			conn.close();
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("Error en ViajesDAO (eliminarViaje): " + e.getMessage());
 		}
 
 		return resultado;
@@ -300,13 +297,14 @@ public class ViajesDAO implements ViajesDAOInterface {
 			conn = ds.getConnection();
 			String[] sql = {
 					"INSERT INTO pasajeros (viaje, pasajero) VALUES (?, ?)",
-					"UPDATE viajes SET num_pasajeros = num_pasajeros + 1 WHERE viajes.id = ?"
+					"UPDATE viajes SET num_pasajeros = (SELECT count(*) FROM pasajeros WHERE pasajeros.viaje = ?) WHERE viajes.id = ?"
 			};
 			PreparedStatement[] st = {conn.prepareStatement(sql[0]), conn.prepareStatement(sql[1])};
 
 			st[0].setInt(1, viaje);
 			st[0].setInt(2, pasajero);
 			st[1].setInt(1, viaje);
+			st[1].setInt(2, viaje);
 
 			if (st[0].executeUpdate() == 1) {
 				st[1].executeUpdate();
@@ -326,7 +324,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+			System.out.println("Error en ViajesDAO (insertarPasajeroViaje): " + throwables.getMessage());
 		}
 
 		return resultado;
@@ -340,13 +338,14 @@ public class ViajesDAO implements ViajesDAOInterface {
 			conn = ds.getConnection();
 			String[] sql = {
 					"DELETE FROM pasajeros WHERE pasajeros.viaje = ? AND pasajeros.pasajero = ?",
-					"UPDATE viajes SET num_pasajeros = num_pasajeros - 1 WHERE viajes.id = ?"
+					"UPDATE viajes SET (SELECT count(*) FROM pasajeros WHERE pasajeros.viaje = ?) WHERE viajes.id = ?"
 			};
 			PreparedStatement[] st = {conn.prepareStatement(sql[0]), conn.prepareStatement(sql[1])};
 
 			st[0].setInt(1, viaje);
 			st[0].setInt(2, pasajero);
 			st[1].setInt(1, viaje);
+			st[1].setInt(2, viaje);
 
 			if (st[0].executeUpdate() == 1) {
 				st[1].executeUpdate();
@@ -357,7 +356,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 			st[1].close();
 			conn.close();
 		} catch (SQLException throwables) {
-			System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+			System.out.println("Error en ViajesDAO (eliminarPasajeroViaje): " + throwables.getMessage());
 		}
 
 		return resultado;
@@ -384,7 +383,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 			st.close();
 			conn.close();
 		} catch (SQLException throwables) {
-			System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+			System.out.println("Error en ViajesDAO (insertarViajeConductor): " + throwables.getMessage());
 		}
 
 		return resultado;

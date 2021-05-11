@@ -50,7 +50,7 @@ public class ValoracionesDAO implements ValoracionesDAOInterface {
             st[1].close();
             conn.close();
         } catch (SQLException throwables) {
-            System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+            System.out.println("Error en ViajesDAO (insertarViajesValoracion): " + throwables.getMessage());
         }
 
         return resultado;
@@ -79,7 +79,7 @@ public class ValoracionesDAO implements ValoracionesDAOInterface {
             st.close();
             conn.close();
         } catch (SQLException throwables) {
-            System.out.println("Error en ViajesDAO: " + throwables.getMessage());
+            System.out.println("Error en ViajesDAO (obtenerViajesValoraciones): " + throwables.getMessage());
         }
 
         return valoraciones;
