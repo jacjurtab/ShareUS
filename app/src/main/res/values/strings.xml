@@ -11,8 +11,19 @@
     <string name="menu_gallery">Iniciar Sesión</string>
     <string name="menu_slideshow">Publicar Viajes</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_tabs">TabsActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+
+    <string name="spinneruniversidad">Selecciona tu universidad</string>
+    <string name="spinnerubi">Selecciona tu ubicación de partida</string>
+
+    <string name="eligedestino">Elige tu destino</string>
+    <string name="universidad1">ETSI</string>
+    <string name="universidad2">FCOM</string>
+    <string name="universidad3">ETSA</string>
+    <string name="universidad4">Reina Mercedes</string>
+
+    <string name="eligeorigen">Elige tu origen</string>
+    <string name="ubi1">Triana</string>
+    <string name="ubi2">Sevilla Este</string>
+    <string name="ubi3">Espartinas</string>
+    <string name="ubi4">Bellavista</string>
 </resources>
