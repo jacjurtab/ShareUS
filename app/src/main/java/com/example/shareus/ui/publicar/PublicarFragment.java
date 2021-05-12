@@ -33,6 +33,7 @@ public class PublicarFragment extends Fragment {
                 new ViewModelProvider(this).get(PublicarViewModel.class);
         View root = inflater.inflate(R.layout.fragment_publicar, container, false);
         EditText etPlannedDate = (EditText) root.findViewById(R.id.etPlannedDate);
+        EditText etPlannedHour = (EditText) root.findViewById(R.id.etPlannedHour);
         etPlannedDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +42,53 @@ public class PublicarFragment extends Fragment {
                 }
             }
         });
+        etPlannedHour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.etPlannedHour) {
+                    showTimePickerDialog(etPlannedHour);
+                }
+            }
+        });
         return root;
+    }
+
+    private void showTimePickerDialog(EditText etPlannedHour) {
+        TimePickerFragment newFragment = TimePickerFragment.newInstance(new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                final String selectedTime = hourOfDay + ":" + minute;
+                etPlannedHour.setText(selectedTime);
+            }
+        });
+        newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+    }
+
+    public static class TimePickerFragment extends DialogFragment {
+
+        private TimePickerDialog.OnTimeSetListener listener;
+
+        public static TimePickerFragment newInstance(TimePickerDialog.OnTimeSetListener listener) {
+            TimePickerFragment fragment = new TimePickerFragment();
+            fragment.setListener(listener);
+            return fragment;
+        }
+
+        public void setListener(TimePickerDialog.OnTimeSetListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            TimePickerDialog hora_actual = new TimePickerDialog(getActivity(), listener, hour, minute,DateFormat.is24HourFormat(getActivity()));
+
+            return hora_actual;
+        }
     }
 
     private void showDatePickerDialog(EditText etPlannedDate) {
@@ -81,7 +128,7 @@ public class PublicarFragment extends Fragment {
 
             DatePickerDialog dia_actual = new DatePickerDialog(getActivity(), listener, year - 18, month, day);
 
-            //c.set(Calendar.YEAR, year - 100);
+            c.set(Calendar.DAY_OF_MONTH, day + 1);
             dia_actual.getDatePicker().setMinDate(c.getTimeInMillis());
             c.set(Calendar.MONTH, month + 1);
             dia_actual.getDatePicker().setMaxDate(c.getTimeInMillis());

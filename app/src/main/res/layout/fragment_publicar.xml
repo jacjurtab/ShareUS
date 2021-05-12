@@ -6,55 +6,123 @@
     android:layout_height="match_parent"
     tools:context=".ui.publicar.PublicarFragment">
 
+
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ScrollView01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="27dp"
         android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
+
         <LinearLayout
             android:layout_width="fill_parent"
-            android:orientation="vertical"
-            android:layout_height="fill_parent">
-
-            <!--Put form controls here-->
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/TextViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rellene los campos que se piden a continuación"
-                android:textSize="10pt">
-            </TextView>
+                android:text="Publique su nuevo viaje"
+                android:textSize="36sp"></TextView>
+
+            <Spinner
+                android:id="@+id/SpinnerUniversidades"
+                android:layout_width="241dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:entries="@array/universidades"
+                android:prompt="@string/spinneruniversidad"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView52"
+                app:layout_constraintVertical_bias="0.061"></Spinner>
+
+            <Spinner
+                android:id="@+id/SpinnerUbicaciones"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:entries="@array/ubicaciones"
+                android:prompt="@string/spinnerubi"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView52"
+                app:layout_constraintVertical_bias="0.061"></Spinner>
 
             <EditText
                 android:id="@+id/etPlannedDate"
-                android:hint="Introduzca fecha"
-                android:layout_width="match_parent"
+                android:layout_width="248dp"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                android:focusable="false"
+                android:layout_gravity="center"
                 android:clickable="true"
-                android:maxLines="1" />
+                android:focusable="false"
+                android:hint="Introduzca fecha"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textAlignment="center" />
 
+            <EditText
+                android:id="@+id/etPlannedHour"
+                android:layout_width="248dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Introduzca hora"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/plazasTotales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Número de pasajeros"
+                android:inputType="number"
+                android:textAlignment="center">
+            </EditText>
+
+            <Button
+                android:id="@+id/botonlimpiar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Limpiar"
+                android:layout_weight="1"
+                app:cornerRadius="@dimen/appbar_padding" />
+
+            <Button
+                android:id="@+id/botonpublicar"
+                android:backgroundTint="@color/green_700"
+                android:text="publicar"
+                app:cornerRadius="@dimen/appbar_padding"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"/>
         </LinearLayout>
+
+
     </ScrollView>
 
 
 
-
-    <TextView
-        android:id="@+id/text_publicar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
