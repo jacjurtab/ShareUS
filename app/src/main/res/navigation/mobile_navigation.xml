@@ -12,14 +12,19 @@
         tools:layout="@layout/fragment_misviajes" />
 
     <fragment
-        android:id="@+id/nav_encontrar"
-        android:name="com.example.shareus.ui.encontrar.EncontrarFragment"
+        android:id="@+id/nav_login"
+        android:name="com.example.shareus.ui.login.LoginFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_encontrar" />
+        tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/nav_publicar"
         android:name="com.example.shareus.ui.publicar.PublicarFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_publicar" />
+    <fragment
+        android:id="@+id/nav_encontrar"
+        android:name="com.example.shareus.ui.encontrar.EncontrarFragment"
+        android:label="encontrar_fragment"
+        tools:layout="@layout/encontrar_fragment" />
 </navigation>
