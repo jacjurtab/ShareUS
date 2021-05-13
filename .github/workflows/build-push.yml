@@ -1,4 +1,4 @@
-name: Java Maven build and Docker image
+name: Dockerfile build and Deploy
 
 on:
   push:
@@ -63,7 +63,7 @@ jobs:
           push: true
           tags: docker.pkg.github.com/${{ env.REPO }}/${{ env.IMAGE_NAME }}:latest
   callback_watchtower:
-    name: Makes HTTP Request to update docker containers
+    name: Update docker containers
     runs-on: ubuntu-latest
     needs: build_and_push_to_registry
     steps:
