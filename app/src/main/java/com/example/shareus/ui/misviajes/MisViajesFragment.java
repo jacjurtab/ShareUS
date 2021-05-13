@@ -4,24 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.shareus.R;
-import com.example.shareus.ViajesConductorFragment;
-import com.example.shareus.ViajesPasadosFragment;
-import com.example.shareus.ViajesPasajeroFragment;
+import com.example.shareus.ui.misviajes.tabview.ViajesConductorFragment;
+import com.example.shareus.ui.misviajes.tabview.ViajesPasadosFragment;
+import com.example.shareus.ui.misviajes.tabview.ViajesPasajeroFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class MisViajesFragment extends Fragment {
