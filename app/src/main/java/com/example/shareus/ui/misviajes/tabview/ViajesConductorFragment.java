@@ -15,7 +15,7 @@ import com.example.shareus.R;
  * Use the {@link ViajesConductorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ViajesConductorFragment extends Fragment {
+public class ViajesConductorFragment extends Fragmento {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
