@@ -11,7 +11,7 @@
         android:id="@+id/menutabs"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:tabBackground="@color/purple_500"/>
+        app:tabIndicatorColor="@color/colorPrimaryDark"/>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pagetabs"
         android:layout_width="match_parent"
