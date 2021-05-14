@@ -16,6 +16,8 @@ import com.example.shareus.R;
 import com.example.shareus.ui.misviajes.tabview.ViajesConductorFragment;
 import com.example.shareus.ui.misviajes.tabview.ViajesPasadosFragment;
 import com.example.shareus.ui.misviajes.tabview.ViajesPasajeroFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 public class MisViajesFragment extends Fragment {
@@ -27,8 +29,7 @@ public class MisViajesFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        misViajesViewModel =
-                new ViewModelProvider(this).get(MisViajesViewModel.class);
+        misViajesViewModel = new ViewModelProvider(this).get(MisViajesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_misviajes, container, false);
 
         tabLayout = root.findViewById(R.id.menutabs);
