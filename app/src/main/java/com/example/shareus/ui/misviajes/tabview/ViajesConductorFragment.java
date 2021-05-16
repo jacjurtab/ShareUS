@@ -42,12 +42,12 @@ public class ViajesConductorFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viajes = new ArrayList<>();
 
-        viajes.add(new Viaje(1, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
-        viajes.add(new Viaje(2, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
-        viajes.add(new Viaje(1, "Jacinto", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
-        viajes.add(new Viaje(2, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
-        viajes.add(new Viaje(1, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
-        viajes.add(new Viaje(2, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
+        viajes.add(new Viaje(6, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
+        viajes.add(new Viaje(5, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
+        viajes.add(new Viaje(4, "Jacinto", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
+        viajes.add(new Viaje(3, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
+        viajes.add(new Viaje(2, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
+        viajes.add(new Viaje(1, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
     }
 
     @Override
@@ -86,9 +86,12 @@ public class ViajesConductorFragment extends Fragment {
 
         lista.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(cxt, DetailActivity.class);
+            intent.putExtra("id", viajes.get(i).getId());
             startActivity(intent);
             Activity act = (Activity) cxt;
-            act.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            if (act != null) {
+                act.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
 
         });
 

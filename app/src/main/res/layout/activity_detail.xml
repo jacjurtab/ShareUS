@@ -67,6 +67,111 @@
             </RelativeLayout>
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_margin="20dp">
+        <GridLayout
+            android:id="@+id/origen_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="2">
+            <ImageView
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_home_24"
+                android:layout_column="0"
+                android:layout_width="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginStart="5dp"
+                android:text="Origen"
+                android:textSize="20sp"/>
+        </GridLayout>
+        <TextView
+            android:id="@+id/origen_value"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="La Macarena"
+            android:layout_marginVertical="5dp"
+            android:textSize="20sp"
+            android:layout_below="@id/origen_grid"/>
+        <GridLayout
+            android:id="@+id/destino_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_below="@id/origen_value">
+            <ImageView
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_school_24"
+                android:layout_column="0"
+                android:layout_width="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Destino"
+                android:textSize="20sp"/>
+        </GridLayout>
+        <TextView
+            android:id="@+id/destino_value"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="CAMPUS REINA MERCEDES"
+            android:layout_marginVertical="5dp"
+            android:textSize="20sp"
+            android:layout_below="@id/destino_grid"/>
+        <GridLayout
+            android:id="@+id/precio_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_below="@id/destino_value">
+            <ImageView
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="10dp"
+                android:src="@drawable/ic_baseline_payment_24"
+                android:layout_column="0"
+                android:layout_width="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Precio"
+                android:textSize="20sp"/>
+        </GridLayout>
+        <TextView
+            android:id="@+id/precio_value"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="8€"
+            android:layout_marginVertical="5dp"
+            android:textSize="20sp"
+            android:layout_below="@id/precio_grid"/>
+        <GridLayout
+            android:id="@+id/pasajeros_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_below="@id/precio_value">
+            <ImageView
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="10dp"
+                android:src="@drawable/ic_baseline_people_alt_24"
+                android:layout_column="0"
+                android:layout_width="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Pasajeros (2/4)"
+                android:textSize="20dp"/>
+        </GridLayout>
+    </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/backwards"
@@ -76,5 +181,4 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
