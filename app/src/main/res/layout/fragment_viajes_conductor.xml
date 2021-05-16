@@ -6,20 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.misviajes.tabview.ViajesConductorFragment">
 
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        card_view:cardCornerRadius="4dp">
-        <TextView
-            android:id="@+id/info_text"
-            android:text="asdasdsadada"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
-    </androidx.cardview.widget.CardView>
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listado"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginHorizontal="10dp">
+    </ListView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
