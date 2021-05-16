@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.shareus.DetailActivity;
 import com.example.shareus.R;
+import com.example.shareus.Utils;
 import com.example.shareus.model.Viaje;
 import com.example.shareus.model.ListAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ViajesConductorFragment extends Fragment {
@@ -62,22 +64,22 @@ public class ViajesConductorFragment extends Fragment {
             @Override
             public void crearEntrada(Object entrada, View view) {
                 Viaje viaje = (Viaje) entrada;
-                TextView origen = (TextView) view.findViewById(R.id.tw_origen);
+                TextView origen = view.findViewById(R.id.tw_origen);
                 origen.setText(viaje.getOrigen());
 
-                TextView destino = (TextView) view.findViewById(R.id.tw_destino);
+                TextView destino = view.findViewById(R.id.tw_destino);
                 destino.setText(viaje.getDestino());
 
-                TextView fecha = (TextView) view.findViewById(R.id.tw_fecha);
-                fecha.setText(viaje.getFecha_hora().toString());
+                TextView fecha = view.findViewById(R.id.tw_fecha);
+                fecha.setText(Utils.prettyParse(new Date(viaje.getFecha_hora().getTime())));
 
-                TextView pasajeros = (TextView) view.findViewById(R.id.tw_pasajeros);
+                TextView pasajeros = view.findViewById(R.id.tw_pasajeros);
                 pasajeros.setText(viaje.getNum_pasajeros() + "/" + viaje.getMax_plazas());
 
-                TextView conductor = (TextView) view.findViewById(R.id.tw_conductor);
+                TextView conductor = view.findViewById(R.id.tw_conductor);
                 conductor.setText(viaje.getConductor());
 
-                TextView valoracion = (TextView) view.findViewById(R.id.tw_valoracion);
+                TextView valoracion = view.findViewById(R.id.tw_valoracion);
                 valoracion.setText(Float.toString(viaje.getNota_conductor()));
             }
         });
