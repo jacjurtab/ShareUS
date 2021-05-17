@@ -3,10 +3,14 @@ package com.example.shareus.ui;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.android.volley.RequestQueue;
+import com.example.shareus.MainActivity;
+import com.example.shareus.api.ApiREST;
 import com.example.shareus.model.Viaje;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ViajesViewModel extends ViewModel {
@@ -20,6 +24,7 @@ public class ViajesViewModel extends ViewModel {
     private MutableLiveData<List<Viaje>> viajesPasados;
     private MutableLiveData<List<Viaje>> viajesPasajero;
     private MutableLiveData<List<Viaje>> viajesConductor;
+    RequestQueue mRequestQueue = ApiREST.getInstance(null).getQueue();
 
     public MutableLiveData<List<Viaje>> getViajes(Tipo tipo) {
         switch (tipo) {
@@ -46,20 +51,46 @@ public class ViajesViewModel extends ViewModel {
     }
 
     public void actualizarViajes(Tipo tipo) {
-        List<Viaje> viajes_api = new ArrayList<>();
-
         switch (tipo) {
             case PASADOS:
-                this.viajesPasados.setValue(viajes_api);
+                ApiREST.obtenerViajesCond(MainActivity.getUserId(), true, mRequestQueue, new ApiREST.Callback() {
+                    @Override
+                    public void onResult(Object res) {
+                        List<Viaje> viajes_api = new ArrayList<>();
+                        List<Viaje> viajes = (List<Viaje>) res;
+                        viajes_api.addAll(viajes);
+
+                        ApiREST.obtenerViajesPas(MainActivity.getUserId(), true, mRequestQueue, new ApiREST.Callback() {
+                            @Override
+                            public void onResult(Object res) {
+                                List<Viaje> viajes = (List<Viaje>) res;
+                                viajes_api.addAll(viajes);
+                                Collections.sort(viajes_api);
+                                System.out.println ("[REST][Viajes pasados] Respuesta tamaño: "+viajes_api.toArray().length);
+                                viajesPasados.setValue(viajes_api);
+                              }
+                        });
+                    }
+                });
                 break;
             case PASAJERO:
-                viajes_api.add(new Viaje(10, "Celia", "Sevilla Este", "CAMPUS ETSI", new Timestamp(1620117000000L), 2, 4, null, 5.7f));
-                this.viajesPasajero.setValue(viajes_api);
+                ApiREST.obtenerViajesPas(MainActivity.getUserId(), false, mRequestQueue, new ApiREST.Callback() {
+                    @Override
+                    public void onResult(Object res) {
+                        List<Viaje> viajes_api = (List<Viaje>) res;
+                        viajesPasajero.setValue(viajes_api);
+                    }
+                });
+
                 break;
             case CONDUCTOR:
-                viajes_api.add(new Viaje(6, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, null, 5.7f));
-                viajes_api.add(new Viaje(5, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, null, 8.4f));
-                this.viajesConductor.setValue(viajes_api);
+                ApiREST.obtenerViajesCond(MainActivity.getUserId(), false, mRequestQueue, new ApiREST.Callback() {
+                    @Override
+                    public void onResult(Object res) {
+                        List<Viaje> viajes_api = (List<Viaje>) res;
+                        viajesConductor.setValue(viajes_api);
+                    }
+                });
                 break;
         }
     }

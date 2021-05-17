@@ -85,7 +85,7 @@ public class BlankFragment extends Fragment {
             }
         });
 
-       //Consulta obtener viajes FUTUROS conductor
+       //Consulta obtener viajes FUTUROS pasajero
         ApiREST.obtenerViajesPas(2, false, mRequestQueue, new ApiREST.Callback() {
             @Override
             public void onResult(Object res) {
