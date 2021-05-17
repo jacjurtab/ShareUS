@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -84,7 +86,8 @@ public class ViajeController {
         Integer conductor = Integer.parseInt(viaje.getConductor());
         Integer origen = Integer.parseInt(viaje.getOrigen());
         Integer destino = Integer.parseInt(viaje.getDestino());
+        Timestamp ts = new Timestamp(viaje.getFecha_hora());
 
-        return viajes.insertarViajeConductor(conductor, origen, destino, viaje.getFecha_hora(), viaje.getMax_plazas());
+        return viajes.insertarViajeConductor(conductor, origen, destino, ts, viaje.getMax_plazas());
     }
 }

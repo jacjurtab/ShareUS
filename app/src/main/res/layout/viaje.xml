@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground"
+    android:orientation="horizontal" >
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <GridLayout
+                android:id="@+id/GridLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginHorizontal="10dp"
+                android:columnCount="3"
+                android:rowCount="2"
+                tools:context=".GridLayoutActivity">
+
+                <ImageView
+                    android:layout_height="32dp"
+                    android:layout_column="0"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_baseline_home_24"
+                    app:tint="@color/colorAccent" />
+
+                <ImageView
+                    android:layout_height="32dp"
+                    android:layout_column="1"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:tint="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="La Macarena"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:layout_height="32dp"
+                    android:layout_column="0"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_baseline_school_24"
+                    app:tint="@color/colorAccent" />
+
+                <ImageView
+                    android:layout_height="32dp"
+                    android:layout_column="1"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:tint="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="CAMPUS REINA MERCEDES"
+                    android:textSize="22sp" />
+            </GridLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginVertical="6dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/colorPrimary" />
+
+            <GridLayout
+                android:id="@+id/GridLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginHorizontal="10dp"
+                android:columnCount="2"
+                android:rowCount="1"
+                tools:context=".GridLayoutActivity">
+
+                <LinearLayout android:layout_column="0">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/ic_baseline_access_time_filled_24"
+                        app:tint="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="16/05/2021 16:30"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_column="1"
+                    android:layout_gravity="right">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="3/4"
+                        android:textSize="22sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_baseline_people_alt_24"
+                        app:tint="@color/colorPrimaryDark" />
+                </LinearLayout>
+            </GridLayout>
+            <GridLayout
+                android:id="@+id/GridLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginHorizontal="10dp"
+                android:columnCount="3"
+                android:rowCount="1"
+                tools:context=".GridLayoutActivity">
+
+                <LinearLayout
+                    android:layout_column="0"
+                    android:layout_marginEnd="10dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/ic_menu_coche"
+                        app:tint="@color/colorPrimaryDark" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="Ángel"
+                        android:textSize="22sp" />
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_baseline_horizontal_rule_24"
+                    app:tint="@color/colorPrimaryDark" />
+                <LinearLayout
+                    android:layout_column="2"
+                    android:layout_marginStart="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="4.3"
+                        android:textSize="22sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_baseline_star_24"
+                        app:tint="#FBC02D" />
+                </LinearLayout>
+            </GridLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

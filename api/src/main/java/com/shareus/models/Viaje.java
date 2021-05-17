@@ -17,7 +17,7 @@ public class Viaje {
 	@JsonView(VistasViaje.Simple.class)
 	private String destino;
 	@JsonView(VistasViaje.Simple.class)
-	private Timestamp fecha_hora;
+	private Long fecha_hora;
 	@JsonView(VistasViaje.Simple.class)
 	private int num_pasajeros;
 	@JsonView(VistasViaje.Simple.class)
@@ -31,14 +31,14 @@ public class Viaje {
 		
 	}
 	
-	public Viaje(int id, String conductor, String origen, String destino, Timestamp fecha_hora, 
+	public Viaje(int id, String conductor, String origen, String destino, long fecha_hora,
 			int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor) {
 		super();
 		this.id = id;
 		this.conductor = conductor;
 		this.origen = origen;
 		this.destino = destino;
-		this.setFecha_hora(fecha_hora);
+		this.fecha_hora = fecha_hora;
 		this.num_pasajeros = num_pasajeros;
 		this.max_plazas = max_plazas;
 		this.pasajeros = pasajeros;
@@ -102,11 +102,11 @@ public class Viaje {
 		this.pasajeros = pasajeros;
 	}
 
-	public Timestamp getFecha_hora() {
+	public Long getFecha_hora() {
 		return fecha_hora;
 	}
 
-	public void setFecha_hora(Timestamp fecha_hora) {
+	public void setFecha_hora(Long fecha_hora) {
 		this.fecha_hora = fecha_hora;
 	}
 
