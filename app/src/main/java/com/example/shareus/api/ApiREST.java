@@ -90,7 +90,7 @@ public final class ApiREST {
     }
 
 
-    public static void obtenerViajesDisponibles(boolean disponible, RequestQueue mRequestQueue, Callback callback) {
+    public static void obtenerViajes(boolean disponible, RequestQueue mRequestQueue, Callback callback) {
         String url = BASE + "/viajes?disponibles=" + disponible;
         System.out.println(url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, res -> {

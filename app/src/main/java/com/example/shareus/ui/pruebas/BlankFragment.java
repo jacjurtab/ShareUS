@@ -18,6 +18,7 @@ import com.example.shareus.model.Viaje;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -69,7 +70,7 @@ public class BlankFragment extends Fragment {
 
 /*
         //Consulta obtener viajes disponibles
-        ApiREST.obtenerViajesDisponibles(true, mRequestQueue, new ApiREST.Callback() {
+        ApiREST.obtenerViajes(true, mRequestQueue, new ApiREST.Callback() {
             @Override
             public void onResult(Object res) {
                 List<Viaje> viajes = (List<Viaje>) res;
@@ -91,26 +92,33 @@ public class BlankFragment extends Fragment {
                 List<Viaje> viajes = (List<Viaje>) res;
             }
         });
+*/
 
-
-        //Consulta viajes pasados de un usuario
+        //Consulta viajes PASADOS de un usuario
         List<Viaje> viajesPasados = new ArrayList<>();
         ApiREST.obtenerViajesCond(2, true, mRequestQueue, new ApiREST.Callback() {
             @Override
             public void onResult(Object res) {
                 List<Viaje> viajes = (List<Viaje>) res;
                 viajesPasados.addAll(viajes);
-            }
-        });
-        ApiREST.obtenerViajesPas(2, true, mRequestQueue, new ApiREST.Callback() {
-            @Override
-            public void onResult(Object res) {
-                List<Viaje> viajes = (List<Viaje>) res;
-                viajesPasados.addAll(viajes);
-                System.out.println ("[REST][Viajes pasados] Respuesta tamañi: "+viajesPasados.toArray().length);
+
+                ApiREST.obtenerViajesPas(2, true, mRequestQueue, new ApiREST.Callback() {
+                    @Override
+                    public void onResult(Object res) {
+                        List<Viaje> viajes = (List<Viaje>) res;
+                        viajesPasados.addAll(viajes);
+                        Collections.sort(viajesPasados);
+                        System.out.println ("[REST][Viajes pasados] Respuesta tamaño: "+viajesPasados.toArray().length);
+
+                        for (Viaje i : viajesPasados){
+                            System.out.println("i " + i.getFecha_hora().toString());
+                        }
+                    }
+                });
             }
         });
 
+/*
         //Consulta vubicaciones universidades
         ApiREST.obtenerUbicaciones(0,  mRequestQueue, new ApiREST.Callback() {
             @Override

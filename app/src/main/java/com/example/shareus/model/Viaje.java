@@ -3,7 +3,7 @@ package com.example.shareus.model;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class Viaje {
+public class Viaje implements Comparable<Viaje>{
 
 	private int id;
 	private String conductor;
@@ -89,5 +89,15 @@ public class Viaje {
 		this.nota_conductor = nota_conductor;
 	}
 
+	@Override
+	public int compareTo(Viaje o) {
+		if (fecha_hora.before( o.fecha_hora)) {
+			return -1;
+		}
+		if (fecha_hora.after( o.fecha_hora)) {
+			return 1;
+		}
+		return 0;
+	}
 }
 
