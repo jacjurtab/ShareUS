@@ -25,7 +25,7 @@
                     android:id="@+id/titulo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Viaje programado para 2021/05/02 08:30"
+                    android:text="@null"
                     android:textSize="30sp"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="Ángel"
+                        android:text="@null"
                         android:textSize="22sp"/>
                     <ImageView
                         android:layout_marginHorizontal="10dp"
@@ -56,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="5.3"
+                        android:text="@null"
                         android:textSize="22sp"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -68,8 +68,9 @@
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
     <RelativeLayout
+        android:id="@+id/detalle_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_margin="20dp">
         <GridLayout
@@ -87,14 +88,14 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:layout_marginStart="5dp"
-                android:text="Origen"
+                android:text="@string/origen"
                 android:textSize="20sp"/>
         </GridLayout>
         <TextView
             android:id="@+id/origen_value"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="La Macarena"
+            android:text="@null"
             android:layout_marginVertical="5dp"
             android:textSize="20sp"
             android:layout_below="@id/origen_grid"/>
@@ -114,14 +115,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Destino"
+                android:text="@string/destino"
                 android:textSize="20sp"/>
         </GridLayout>
         <TextView
             android:id="@+id/destino_value"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="CAMPUS REINA MERCEDES"
+            android:text="@null"
             android:layout_marginVertical="5dp"
             android:textSize="20sp"
             android:layout_below="@id/destino_grid"/>
@@ -141,14 +142,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Precio"
+                android:text="@string/precio"
                 android:textSize="20sp"/>
         </GridLayout>
         <TextView
             android:id="@+id/precio_value"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="8€"
+            android:text="@null"
             android:layout_marginVertical="5dp"
             android:textSize="20sp"
             android:layout_below="@id/precio_grid"/>
@@ -165,20 +166,40 @@
                 android:layout_column="0"
                 android:layout_width="wrap_content"/>
             <TextView
+                android:id="@+id/pasajeros_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Pasajeros (2/4)"
-                android:textSize="20dp"/>
+                android:text="@null"
+                android:textSize="20sp"/>
         </GridLayout>
+        <ListView
+            android:id="@+id/pasajeros_detalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:layout_marginHorizontal="10dp"
+            android:layout_below="@id/pasajeros_grid">
+        </ListView>
     </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_opcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@null"
+        app:icon="@drawable/ic_baseline_delete_forever_24"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/backwards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/colorAccent"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+        app:icon="@drawable/ic_baseline_arrow_back_24"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

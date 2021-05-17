@@ -20,6 +20,7 @@ import com.example.shareus.R;
 import com.example.shareus.Utils;
 import com.example.shareus.model.Viaje;
 import com.example.shareus.model.ListAdapter;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -42,18 +43,14 @@ public class ViajesConductorFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viajes = new ArrayList<>();
 
-        viajes.add(new Viaje(6, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
-        viajes.add(new Viaje(5, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
-        viajes.add(new Viaje(4, "Jacinto", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
-        viajes.add(new Viaje(3, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
-        viajes.add(new Viaje(2, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, 5.7f));
-        viajes.add(new Viaje(1, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, 8.4f));
+        viajes.add(new Viaje(6, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, null, 5.7f));
+        viajes.add(new Viaje(5, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, null, 8.4f));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_viajes_conductor, container, false);
-        FloatingActionButton fab = root.findViewById(R.id.fab);
+        ExtendedFloatingActionButton fab = root.findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action",
                 Snackbar.LENGTH_LONG).setAction("Action", null).show());
 
