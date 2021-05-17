@@ -33,7 +33,6 @@ public class Viaje implements Comparable<Viaje>{
 		this.nota_conductor = nota_conductor;
 	}
 
-	
 	public int getId() {
 		return id;
 	}
@@ -100,4 +99,3 @@ public class Viaje implements Comparable<Viaje>{
 		return 0;
 	}
 }
-

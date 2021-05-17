@@ -44,11 +44,11 @@
                     app:tint="@color/colorPrimaryDark" />
 
                 <TextView
+                    android:id="@+id/tw_origen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="2"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="La Macarena"
                     android:textSize="22sp" />
 
                 <ImageView
@@ -65,11 +65,11 @@
                     app:tint="@color/colorPrimaryDark" />
 
                 <TextView
+                    android:id="@+id/tw_destino"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="2"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="CAMPUS REINA MERCEDES"
                     android:textSize="22sp" />
             </GridLayout>
 
@@ -102,22 +102,22 @@
                         app:tint="@color/colorPrimaryDark" />
 
                     <TextView
+                        android:id="@+id/tw_fecha"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="16/05/2021 16:30"
                         android:textSize="22sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_column="1"
-                    android:layout_gravity="right">
+                    android:layout_gravity="end">
 
                     <TextView
+                        android:id="@+id/tw_pasajeros"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="3/4"
                         android:textSize="22sp" />
 
                     <ImageView
@@ -133,7 +133,7 @@
                 android:id="@+id/GridLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginHorizontal="10dp"
                 android:columnCount="3"
                 android:rowCount="1"
@@ -150,10 +150,10 @@
                         android:src="@drawable/ic_menu_coche"
                         app:tint="@color/colorPrimaryDark" />
                     <TextView
+                        android:id="@+id/tw_conductor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="Ángel"
                         android:textSize="22sp" />
                 </LinearLayout>
                 <ImageView
@@ -165,10 +165,10 @@
                     android:layout_column="2"
                     android:layout_marginStart="10dp">
                     <TextView
+                        android:id="@+id/tw_valoracion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="4.3"
                         android:textSize="22sp" />
                     <ImageView
                         android:layout_width="wrap_content"
