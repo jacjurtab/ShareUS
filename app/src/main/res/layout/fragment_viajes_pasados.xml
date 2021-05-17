@@ -3,22 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.misviajes.tabview.ViajesPasadosFragment">
+    tools:context=".ui.misviajes.tabs.ViajesPasadosFragment">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+    <ListView
+        android:id="@+id/listado"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_margin="25dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp">
+        android:divider="@null"
+        android:layout_marginHorizontal="10dp">
+    </ListView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Aqui vas a ver tus viajes ya realizados, tanto como pasajero como como conductor" />
-
-    </androidx.cardview.widget.CardView>
+    <include layout="@layout/empty" android:id="@+id/empty"/>
 
 </FrameLayout>

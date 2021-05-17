@@ -1,16 +1,16 @@
-package com.example.shareus.ui.misviajes;
+package com.example.shareus.ui.pruebas;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class MisViajesViewModel extends ViewModel {
+public class BlanckFragmentViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public MisViajesViewModel() {
+    public BlanckFragmentViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is MisViajes fragment");
+        mText.setValue("This is Pruebas fragment");
     }
 
     public LiveData<String> getText() {
