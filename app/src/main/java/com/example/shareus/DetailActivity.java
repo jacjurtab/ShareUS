@@ -2,19 +2,11 @@ package com.example.shareus;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,14 +15,10 @@ import com.example.shareus.model.ListAdapter;
 import com.example.shareus.model.Pasajero;
 import com.example.shareus.model.Viaje;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-
-import org.w3c.dom.Text;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
@@ -68,8 +56,8 @@ public class DetailActivity extends AppCompatActivity {
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     public void render(Viaje viaje) {
-        boolean esConductor = true;
-        int idUsuario = 4;
+        boolean esConductor = false;
+        int idUsuario = MainActivity.getUserId();
 
         TextView titulo = findViewById(R.id.titulo);
         titulo.setText("Viaje programado para " + Utils.prettyParse(viaje.getFecha_hora()));

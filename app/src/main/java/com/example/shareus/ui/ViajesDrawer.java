@@ -17,7 +17,7 @@ import com.example.shareus.model.Viaje;
 import java.util.Date;
 import java.util.List;
 
-public class Drawer {
+public class ViajesDrawer {
 
     public static void renderViajes(List<Viaje> viajes, Context cxt, View view) {
         ListView lista = view.findViewById(R.id.listado);

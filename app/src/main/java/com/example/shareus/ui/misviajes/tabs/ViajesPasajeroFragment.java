@@ -5,11 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shareus.R;
-import com.example.shareus.ui.Drawer;
+import com.example.shareus.ui.ViajesDrawer;
 import com.example.shareus.ui.ViajesViewModel;
 
 public class ViajesPasajeroFragment extends Fragment {
@@ -19,13 +20,16 @@ public class ViajesPasajeroFragment extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_viajes_pasajero, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         ViajesViewModel viajesViewModel = new ViewModelProvider(this).get(ViajesViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_viajes_pasajero, container, false);
-
         viajesViewModel.getViajes(ViajesViewModel.Tipo.PASAJERO).observe(getViewLifecycleOwner(), viajes -> {
-            Drawer.renderViajes(viajes, this.getContext(), root);
+            ViajesDrawer.renderViajes(viajes, this.getContext(), this.getView());
         });
-
-        return root;
     }
 }
