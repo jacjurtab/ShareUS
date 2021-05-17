@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class ViajesConductorFragment extends Fragment {
 
         viajes.add(new Viaje(6, "Ángel", "La Macarena", "CAMPUS VIAPOL", new Timestamp(1620117000000L), 2, 4, null, 5.7f));
         viajes.add(new Viaje(5, "Celia", "Sevilla Este", "FACULTAD COMUNICACIÓN", new Timestamp(1621060200000L), 0, 3, null, 8.4f));
+        viajes.add(null);
     }
 
     @Override
@@ -55,29 +57,33 @@ public class ViajesConductorFragment extends Fragment {
                 Snackbar.LENGTH_LONG).setAction("Action", null).show());
 
         Context cxt = this.getContext();
-        lista = (ListView) root.findViewById(R.id.listado);
+        lista = root.findViewById(R.id.listado);
         lista.setAdapter(new ListAdapter(this.getContext(), R.layout.viaje, viajes) {
             @SuppressLint("SetTextI18n")
             @Override
             public void crearEntrada(Object entrada, View view) {
                 Viaje viaje = (Viaje) entrada;
-                TextView origen = view.findViewById(R.id.tw_origen);
-                origen.setText(viaje.getOrigen());
+                if(viaje != null) {
+                    TextView origen = view.findViewById(R.id.tw_origen);
+                    origen.setText(viaje.getOrigen());
 
-                TextView destino = view.findViewById(R.id.tw_destino);
-                destino.setText(viaje.getDestino());
+                    TextView destino = view.findViewById(R.id.tw_destino);
+                    destino.setText(viaje.getDestino());
 
-                TextView fecha = view.findViewById(R.id.tw_fecha);
-                fecha.setText(Utils.prettyParse(new Date(viaje.getFecha_hora().getTime())));
+                    TextView fecha = view.findViewById(R.id.tw_fecha);
+                    fecha.setText(Utils.prettyParse(new Date(viaje.getFecha_hora().getTime())));
 
-                TextView pasajeros = view.findViewById(R.id.tw_pasajeros);
-                pasajeros.setText(viaje.getNum_pasajeros() + "/" + viaje.getMax_plazas());
+                    TextView pasajeros = view.findViewById(R.id.tw_pasajeros);
+                    pasajeros.setText(viaje.getNum_pasajeros() + "/" + viaje.getMax_plazas());
 
-                TextView conductor = view.findViewById(R.id.tw_conductor);
-                conductor.setText(viaje.getConductor());
+                    TextView conductor = view.findViewById(R.id.tw_conductor);
+                    conductor.setText(viaje.getConductor());
 
-                TextView valoracion = view.findViewById(R.id.tw_valoracion);
-                valoracion.setText(Float.toString(viaje.getNota_conductor()));
+                    TextView valoracion = view.findViewById(R.id.tw_valoracion);
+                    valoracion.setText(Float.toString(viaje.getNota_conductor()));
+                } else {
+                    view.setVisibility(View.GONE);
+                }
             }
         });
 
