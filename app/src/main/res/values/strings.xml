@@ -120,4 +120,5 @@
     <string name="destino">Destino</string>
     <string name="precio">Precio</string>
     <string name="a_adir_viaje">Añadir Viaje</string>
+    <string name="no_se_han_encontrado_resultados">No se han encontrado resultados.</string>
 </resources>

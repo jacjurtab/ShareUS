@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.misviajes.tabview.ViajesConductorFragment">
+    tools:context=".ui.misviajes.tabs.ViajesConductorFragment">
 
     <ListView
         android:id="@+id/listado"
@@ -13,6 +13,8 @@
         android:divider="@null"
         android:layout_marginHorizontal="10dp">
     </ListView>
+
+    <include layout="@layout/empty" android:id="@+id/empty"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
