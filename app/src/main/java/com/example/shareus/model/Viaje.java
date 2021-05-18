@@ -15,14 +15,13 @@ public class Viaje implements Comparable<Viaje>{
 	private int max_plazas;
 	private List<Pasajero> pasajeros;  //nombres de los pasajeros asociados al viaje
 	private float nota_conductor;  //Representa a nota media del conductor
-	private float precio;
 
 	public Viaje () {
 		
 	}
 	
 	public Viaje(int id, int idConductor, String conductor, String origen, String destino, Timestamp fecha_hora,
-				 int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor, float precio) {
+				 int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor) {
 		super();
 		this.id = id;
 		this.idConductor = idConductor;
@@ -34,7 +33,6 @@ public class Viaje implements Comparable<Viaje>{
 		this.max_plazas = max_plazas;
 		this.pasajeros = pasajeros;
 		this.nota_conductor = nota_conductor;
-		this.precio = precio;
 	}
 
 	public int getId() {
@@ -93,8 +91,6 @@ public class Viaje implements Comparable<Viaje>{
 	public void setNota_conductor(float nota_conductor) {
 		this.nota_conductor = nota_conductor;
 	}
-	public float getPrecio() { return precio; }
-	public void setPrecio(float precio) { this.precio = precio; }
 
 	@Override
 	public int compareTo(Viaje o) {
