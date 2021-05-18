@@ -169,15 +169,14 @@ public class BlankFragment extends Fragment {
             }
         });
 
-*/
+
       //Crear viaje
-        ApiREST.crearViaje(1, 5, 10, 1622152800000L, 4, 0.4F, mRequestQueue, new ApiREST.Callback() {
+        ApiREST.crearViaje(1, 5, 10, 1622152800000L, 4,   mRequestQueue, new ApiREST.Callback() {
             @Override
             public void onResult(Object res) {
 
             }
         });
-/*
 
      //Crear Valoración
         ApiREST.crearValoracion(7, 4 , 3, 9.6F,   mRequestQueue, new ApiREST.Callback() {

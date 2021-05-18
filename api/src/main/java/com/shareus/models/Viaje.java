@@ -28,15 +28,13 @@ public class Viaje {
 	private List<Pasajero> pasajeros;  //nombres de los pasajeros asociados al viaje
 	@JsonView(VistasViaje.Simple.class)
 	private float nota_conductor;  //Representa a nota media del conductor
-	@JsonView(VistasViaje.Simple.class)
-	private float precio;
 
 	public Viaje () {
 		
 	}
 	
 	public Viaje(int id, int idConductor, String conductor, String origen, String destino, long fecha_hora,
-			int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor, float precio) {
+			int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor) {
 		super();
 		this.id = id;
 		this.idConductor = idConductor;
@@ -48,7 +46,6 @@ public class Viaje {
 		this.max_plazas = max_plazas;
 		this.pasajeros = pasajeros;
 		this.nota_conductor = nota_conductor;
-		this.precio = precio
 	}
 
 	
@@ -128,8 +125,6 @@ public class Viaje {
 		this.nota_conductor = nota_conductor;
 	}
 
-	public float getPrecio() { return precio; }
 
-	public void setPrecio(float precio) { this.precio = precio; }
 }
 
