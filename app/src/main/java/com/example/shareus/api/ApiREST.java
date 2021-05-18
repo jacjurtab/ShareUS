@@ -55,7 +55,7 @@ public final class ApiREST {
     /**
      * Peticiones relacionadas con VIAJES
      * */
-    public static void crearViaje(int idConductor, int idOrigen, int idDestino, long fecha_hora, int max_plazas, RequestQueue mRequestQueue, Callback callback) {
+    public static void crearViaje(int idConductor, int idOrigen, int idDestino, long fecha_hora, int max_plazas, float precio, RequestQueue mRequestQueue, Callback callback) {
         String url = BASE + "/viaje";
         System.out.println(url);
         StringRequest request = new StringRequest(Request.Method.POST, url, res -> {
@@ -78,6 +78,7 @@ public final class ApiREST {
                     json.put("destino", idDestino);
                     json.put("fecha_hora", fecha_hora);
                     json.put("max_plazas", max_plazas);
+                    json.put("precio", precio);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -116,7 +117,8 @@ public final class ApiREST {
                             item.getInt("num_pasajeros"),
                             item.getInt("max_plazas"),
                             pasajeros,
-                            Float.parseFloat(item.getString("nota_conductor")));
+                            Float.parseFloat(item.getString("nota_conductor")),
+                            Float.parseFloat(item.getString("precio")));
                     viajes.add(viaje);
 
                 }
@@ -155,7 +157,8 @@ public final class ApiREST {
                         res.getInt("num_pasajeros"),
                         res.getInt("max_plazas"),
                         pasajeros,
-                        Float.parseFloat(res.getString("nota_conductor")));
+                        Float.parseFloat(res.getString("nota_conductor")),
+                        Float.parseFloat(res.getString("precio")));
                 callback.onResult(viaje);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -190,7 +193,8 @@ public final class ApiREST {
                             item.getInt("num_pasajeros"),
                             item.getInt("max_plazas"),
                             null,
-                            Float.parseFloat(item.getString("nota_conductor")));
+                            Float.parseFloat(item.getString("nota_conductor")),
+                            Float.parseFloat(item.getString("precio")));
                     viajes.add(viaje);
 
                 }
@@ -228,7 +232,8 @@ public final class ApiREST {
                             item.getInt("num_pasajeros"),
                             item.getInt("max_plazas"),
                             null,
-                            Float.parseFloat(item.getString("nota_conductor")));
+                            Float.parseFloat(item.getString("nota_conductor")),
+                            Float.parseFloat(item.getString("precio")));
                     viajes.add(viaje);
 
                 }
