@@ -48,7 +48,7 @@ public class Viaje {
 		this.max_plazas = max_plazas;
 		this.pasajeros = pasajeros;
 		this.nota_conductor = nota_conductor;
-		this.precio = precio
+		this.precio = precio;
 	}
 
 	
