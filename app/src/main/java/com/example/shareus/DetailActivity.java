@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.volley.RequestQueue;
+import com.example.shareus.api.ApiREST;
 import com.example.shareus.model.ListAdapter;
 import com.example.shareus.model.Pasajero;
 import com.example.shareus.model.Viaje;
@@ -26,6 +28,7 @@ public class DetailActivity extends AppCompatActivity {
     ListView lista;
     List<Pasajero> pasajeros;
     Activity cxt;
+    RequestQueue mRequestQueue = ApiREST.getInstance(null).getQueue();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +45,20 @@ public class DetailActivity extends AppCompatActivity {
 
         int id = getIntent().getIntExtra("id", -1);
 
-        pasajeros = new ArrayList<>();
-        pasajeros.add(new Pasajero(1, "Juan"));
-        pasajeros.add(new Pasajero(2, "Maria"));
-        pasajeros.add(new Pasajero(3, "Paula"));
-
-        Viaje viaje = new Viaje(id, "Ángel", "Espartinas", "CAMPUS REINA MERCEDES",
-                new Timestamp(1621274024680L), 3, 4, pasajeros, 5.6f);
-
-        render(viaje);
+        ApiREST.obtenerViaje(id, mRequestQueue, new ApiREST.Callback() {
+            @Override
+            public void onResult(Object res) {
+                Viaje viaje = (Viaje) res;
+                render(viaje);
+            }
+        });
     }
 
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     public void render(Viaje viaje) {
-        boolean esConductor = false;
         int idUsuario = MainActivity.getUserId();
+        boolean esConductor = (idUsuario == viaje.getIdConductor());
 
         TextView titulo = findViewById(R.id.titulo);
         titulo.setText("Viaje programado para " + Utils.prettyParse(viaje.getFecha_hora()));

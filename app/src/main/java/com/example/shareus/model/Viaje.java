@@ -6,6 +6,7 @@ import java.util.List;
 public class Viaje implements Comparable<Viaje>{
 
 	private int id;
+	private int idConductor;
 	private String conductor;
 	private String origen;
 	private String destino;
@@ -19,10 +20,11 @@ public class Viaje implements Comparable<Viaje>{
 		
 	}
 	
-	public Viaje(int id, String conductor, String origen, String destino, Timestamp fecha_hora, 
-			int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor) {
+	public Viaje(int id, int idConductor, String conductor, String origen, String destino, Timestamp fecha_hora,
+				 int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor) {
 		super();
 		this.id = id;
+		this.idConductor = idConductor;
 		this.conductor = conductor;
 		this.origen = origen;
 		this.destino = destino;
@@ -39,6 +41,8 @@ public class Viaje implements Comparable<Viaje>{
 	public void setId(int id) {
 		this.id = id;
 	}
+	public int getIdConductor() { return idConductor; }
+	public void setIdConductor(int idConductor) { this.idConductor = idConductor; }
 	public String getConductor() {
 		return conductor;
 	}
