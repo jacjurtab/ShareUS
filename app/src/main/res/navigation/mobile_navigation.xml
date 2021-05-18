@@ -25,6 +25,11 @@
     <fragment
         android:id="@+id/nav_encontrar"
         android:name="com.example.shareus.ui.encontrar.EncontrarFragment"
-        android:label="encontrar_fragment"
+        android:label="Encontrar Viaje"
         tools:layout="@layout/encontrar_fragment" />
+    <fragment
+        android:id="@+id/nav_prueba"
+        android:name="com.example.shareus.ui.pruebas.BlankFragment"
+        android:label="Prueba"
+        tools:layout="@layout/fragment_blank" />
 </navigation>
