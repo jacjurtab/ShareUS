@@ -20,9 +20,7 @@ import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class ApiREST {
     private static ApiREST apiREST = null;
@@ -110,6 +108,7 @@ public final class ApiREST {
                                 pasajero.getString("nombre")));
                     }
                     viaje = new Viaje(item.getInt("id"),
+                            item.getInt(("idConductor")),
                             item.getString("conductor"),
                             item.getString("origen"),
                             item.getString("destino"),
@@ -148,6 +147,7 @@ public final class ApiREST {
                             pasajero.getString("nombre")));
                 }
                 viaje = new Viaje(res.getInt("id"),
+                        res.getInt(("idConductor")),
                         res.getString("conductor"),
                         res.getString("origen"),
                         res.getString("destino"),
@@ -182,6 +182,7 @@ public final class ApiREST {
                     JSONObject item = res.getJSONObject(j);
 
                     viaje = new Viaje(item.getInt("id"),
+                            item.getInt(("idConductor")),
                             item.getString("conductor"),
                             item.getString("origen"),
                             item.getString("destino"),
@@ -219,6 +220,7 @@ public final class ApiREST {
                     JSONObject item = res.getJSONObject(j);
 
                     viaje = new Viaje(item.getInt("id"),
+                            item.getInt(("idConductor")),
                             item.getString("conductor"),
                             item.getString("origen"),
                             item.getString("destino"),
