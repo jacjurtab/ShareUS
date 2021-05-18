@@ -7,16 +7,12 @@
     tools:context=".ui.publicar.PublicarFragment">
 
 
-    <ScrollView
-        android:id="@+id/ScrollView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="27dp"
-        android:scrollbars="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="25dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -27,14 +23,17 @@
                 android:id="@+id/TextViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
                 android:text="Publique su nuevo viaje"
-                android:textSize="36sp"></TextView>
+                android:textSize="36sp">
+            </TextView>
 
             <Spinner
                 android:id="@+id/SpinnerUniversidades"
                 android:layout_width="241dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -53,7 +52,7 @@
                 android:id="@+id/SpinnerUbicaciones"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -72,7 +71,7 @@
                 android:id="@+id/etPlannedDate"
                 android:layout_width="248dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:clickable="true"
                 android:focusable="false"
                 android:hint="Introduzca fecha"
@@ -84,7 +83,7 @@
                 android:id="@+id/etPlannedHour"
                 android:layout_width="248dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:clickable="true"
                 android:focusable="false"
                 android:hint="Introduzca hora"
@@ -96,32 +95,38 @@
                 android:id="@+id/plazasTotales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:hint="Número de pasajeros"
                 android:inputType="number"
                 android:textAlignment="center">
             </EditText>
 
-            <Button
-                android:id="@+id/botonlimpiar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Limpiar"
-                android:layout_weight="1"
-                app:cornerRadius="@dimen/appbar_padding" />
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/botonpublicar"
-                android:backgroundTint="@color/colorAccent"
-                android:text="publicar"
-                app:cornerRadius="@dimen/appbar_padding"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"/>
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="111dp"
+                    android:layout_height="wrap_content"
+                    android:text="Limpiar" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:backgroundTint="@color/colorVerde"
+                    android:text="Publicar" />
+
+            </GridLayout>
+
         </LinearLayout>
 
+    </androidx.cardview.widget.CardView>
 
-    </ScrollView>
+
 
 
 
