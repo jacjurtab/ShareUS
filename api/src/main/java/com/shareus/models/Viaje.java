@@ -11,6 +11,8 @@ public class Viaje {
 	@JsonView(VistasViaje.Simple.class)
 	private int id;
 	@JsonView(VistasViaje.Simple.class)
+	private int idConductor;
+	@JsonView(VistasViaje.Simple.class)
 	private String conductor;
 	@JsonView(VistasViaje.Simple.class)
 	private String origen;
@@ -31,10 +33,11 @@ public class Viaje {
 		
 	}
 	
-	public Viaje(int id, String conductor, String origen, String destino, long fecha_hora,
+	public Viaje(int id, int idConductor, String conductor, String origen, String destino, long fecha_hora,
 			int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor) {
 		super();
 		this.id = id;
+		this.idConductor = idConductor;
 		this.conductor = conductor;
 		this.origen = origen;
 		this.destino = destino;
@@ -53,6 +56,10 @@ public class Viaje {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public void setIdConductor(int idConductor) { this.idConductor = idConductor; }
+
+	public int getIdConductor() { return idConductor; }
 
 	public String getConductor() {
 		return conductor;
