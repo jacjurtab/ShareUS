@@ -87,7 +87,8 @@ public class ViajeController {
         Integer origen = Integer.parseInt(viaje.getOrigen());
         Integer destino = Integer.parseInt(viaje.getDestino());
         Timestamp ts = new Timestamp(viaje.getFecha_hora());
+        Float precio = viaje.getPrecio();
 
-        return viajes.insertarViajeConductor(conductor, origen, destino, ts, viaje.getMax_plazas());
+        return viajes.insertarViajeConductor(conductor, origen, destino, ts, viaje.getMax_plazas(), precio);
     }
 }
