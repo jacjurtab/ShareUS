@@ -381,7 +381,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 			st.setInt(3, destino);
 			st.setTimestamp(4, fecha);
 			st.setInt(5, max_plazas);
-			st.setFloat(5, precio);
+			st.setFloat(6, precio);
 
 			int col_afectadas = st.executeUpdate();
 
