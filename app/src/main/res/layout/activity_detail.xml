@@ -181,6 +181,15 @@
             android:layout_marginHorizontal="10dp"
             android:layout_below="@id/pasajeros_grid">
         </ListView>
+        <TextView
+            android:id="@+id/empty"
+            android:layout_marginVertical="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_se_han_encontrado_pasajeros"
+            android:layout_below="@id/pasajeros_detalle"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -190,8 +199,9 @@
         android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="bottom|end"
         android:backgroundTint="@color/colorAccent"
-        android:text="@null"
-        app:icon="@drawable/ic_baseline_delete_forever_24"/>
+        android:visibility="invisible"
+        android:text="@string/cargando"
+        app:icon="@drawable/ic_baseline_lock_clock_24"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/backwards"

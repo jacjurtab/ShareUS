@@ -35,9 +35,8 @@ public interface ViajesDAOInterface {
 	 * @param destino del viaje
 	 * @param fecha timestamp del dia y hora
 	 * @param max_plazas numero de plazas maximo
-	 * @param precio del viaje
 	 */
-	public boolean insertarViajeConductor(Integer conductor, Integer origen, Integer destino, Timestamp fecha, Integer max_plazas, Float precio);
+	public boolean insertarViajeConductor(Integer conductor, Integer origen, Integer destino, Timestamp fecha, Integer max_plazas);
   
   /**
 	 * Obtiene todos los viajes realizados por un usuario como conductor 

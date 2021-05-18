@@ -55,7 +55,7 @@ public final class ApiREST {
     /**
      * Peticiones relacionadas con VIAJES
      * */
-    public static void crearViaje(int idConductor, int idOrigen, int idDestino, long fecha_hora, int max_plazas, float precio, RequestQueue mRequestQueue, Callback callback) {
+    public static void crearViaje(int idConductor, int idOrigen, int idDestino, long fecha_hora, int max_plazas, RequestQueue mRequestQueue, Callback callback) {
         String url = BASE + "/viaje";
         System.out.println(url);
         StringRequest request = new StringRequest(Request.Method.POST, url, res -> {
@@ -78,7 +78,6 @@ public final class ApiREST {
                     json.put("destino", idDestino);
                     json.put("fecha_hora", fecha_hora);
                     json.put("max_plazas", max_plazas);
-                    json.put("precio", precio);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -117,8 +116,7 @@ public final class ApiREST {
                             item.getInt("num_pasajeros"),
                             item.getInt("max_plazas"),
                             pasajeros,
-                            Float.parseFloat(item.getString("nota_conductor")),
-                            Float.parseFloat(item.getString("precio")));
+                            Float.parseFloat(item.getString("nota_conductor")));
                     viajes.add(viaje);
 
                 }
@@ -142,12 +140,6 @@ public final class ApiREST {
             Viaje viaje;
             List<Pasajero> pasajeros = new ArrayList<>();
             try {
-                JSONArray pasajeros_js = res.getJSONArray("pasajeros");
-                for (int i = 0; i < pasajeros_js.length(); i++) {
-                    JSONObject pasajero = pasajeros_js.getJSONObject(i);
-                    pasajeros.add(new Pasajero(pasajero.getInt("id"),
-                            pasajero.getString("nombre")));
-                }
                 viaje = new Viaje(res.getInt("id"),
                         res.getInt(("idConductor")),
                         res.getString("conductor"),
@@ -157,8 +149,17 @@ public final class ApiREST {
                         res.getInt("num_pasajeros"),
                         res.getInt("max_plazas"),
                         pasajeros,
-                        Float.parseFloat(res.getString("nota_conductor")),
-                        Float.parseFloat(res.getString("precio")));
+                        Float.parseFloat(res.getString("nota_conductor")));
+
+                if(viaje.getNum_pasajeros() > 0) {
+                    JSONArray pasajeros_js = res.getJSONArray("pasajeros");
+                    for (int i = 0; i < pasajeros_js.length(); i++) {
+                        JSONObject pasajero = pasajeros_js.getJSONObject(i);
+                        pasajeros.add(new Pasajero(pasajero.getInt("id"),
+                                pasajero.getString("nombre")));
+                    }
+                    viaje.setPasajeros(pasajeros);
+                }
                 callback.onResult(viaje);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -193,8 +194,7 @@ public final class ApiREST {
                             item.getInt("num_pasajeros"),
                             item.getInt("max_plazas"),
                             null,
-                            Float.parseFloat(item.getString("nota_conductor")),
-                            Float.parseFloat(item.getString("precio")));
+                            Float.parseFloat(item.getString("nota_conductor")));
                     viajes.add(viaje);
 
                 }
@@ -232,8 +232,7 @@ public final class ApiREST {
                             item.getInt("num_pasajeros"),
                             item.getInt("max_plazas"),
                             null,
-                            Float.parseFloat(item.getString("nota_conductor")),
-                            Float.parseFloat(item.getString("precio")));
+                            Float.parseFloat(item.getString("nota_conductor")));
                     viajes.add(viaje);
 
                 }

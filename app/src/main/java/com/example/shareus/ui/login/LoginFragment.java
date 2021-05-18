@@ -1,56 +1,63 @@
 package com.example.shareus.ui.login;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.shareus.MainActivity;
-import com.example.shareus.R;
-import com.google.gson.JsonObject;
-import com.microsoft.graph.authentication.IAuthenticationProvider;
-import com.microsoft.graph.concurrency.ICallback;
-import com.microsoft.graph.core.ClientException;
-import com.microsoft.graph.http.IHttpRequest;
-import com.microsoft.graph.models.extensions.Drive;
-import com.microsoft.graph.models.extensions.IGraphServiceClient;
-import com.microsoft.graph.requests.extensions.GraphServiceClient;
 import com.microsoft.identity.client.AuthenticationCallback;
 import com.microsoft.identity.client.IAccount;
 import com.microsoft.identity.client.IAuthenticationResult;
+import com.microsoft.identity.client.IMultipleAccountPublicClientApplication;
 import com.microsoft.identity.client.IPublicClientApplication;
-import com.microsoft.identity.client.ISingleAccountPublicClientApplication;
 import com.microsoft.identity.client.PublicClientApplication;
 import com.microsoft.identity.client.SilentAuthenticationCallback;
+import com.microsoft.identity.client.exception.MsalClientException;
 import com.microsoft.identity.client.exception.MsalException;
+import com.microsoft.identity.client.exception.MsalServiceException;
+import com.microsoft.identity.client.exception.MsalUiRequiredException;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.shareus.R;
 
 public class LoginFragment extends Fragment {
 
     private LoginViewModel loginViewModel;
 
-    private final static String[] SCOPES = {"Files.Read"};
+    private final static String[] SCOPES = {"user.read"};
     /* Azure AD v2 Configs */
     final static String AUTHORITY = "https://login.microsoftonline.com/common";
-    private ISingleAccountPublicClientApplication mSingleAccountApp;
+    private IMultipleAccountPublicClientApplication mMultipleAccountApp;
+    private List<IAccount> accountList;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /* UI & Debugging Variables */
-    Button signInButton;
-    Button signOutButton;
+    Button removeAccountButton;
     Button callGraphApiInteractiveButton;
     Button callGraphApiSilentButton;
+    TextView scopeTextView;
+    TextView graphResourceTextView;
     TextView logTextView;
-    TextView currentUserTextView;
+    Spinner accountListSpinner;
 
     /*@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,122 +88,141 @@ public class LoginFragment extends Fragment {
 
         initializeUI(root);
 
-        PublicClientApplication.createSingleAccountPublicClientApplication(getActivity().getApplicationContext(),
-                R.raw.azure_auth_config, new IPublicClientApplication.ISingleAccountApplicationCreatedListener() {
+        PublicClientApplication.createMultipleAccountPublicClientApplication(getActivity().getApplicationContext(),
+                R.raw.azure_auth_config,
+                new IPublicClientApplication.IMultipleAccountApplicationCreatedListener() {
                     @Override
-                    public void onCreated(ISingleAccountPublicClientApplication application) {
-                        mSingleAccountApp = application;
-                        loadAccount();
+                    public void onCreated(IMultipleAccountPublicClientApplication application) {
+                        mMultipleAccountApp = application;
+                        loadAccounts();
                     }
+
                     @Override
                     public void onError(MsalException exception) {
-                        displayError(exception);
                     }
                 });
 
         return root;
     }
 
-    //When app comes to the foreground, load existing account to determine if user is signed in
-    private void loadAccount() {
-        if (mSingleAccountApp == null) {
+
+    private void initializeUI(@NonNull final View view) {
+        removeAccountButton = view.findViewById(R.id.btn_removeAccount);
+        callGraphApiInteractiveButton = view.findViewById(R.id.btn_callGraphInteractively);
+        callGraphApiSilentButton = view.findViewById(R.id.btn_callGraphSilently);
+        logTextView = view.findViewById(R.id.txt_log);
+        accountListSpinner = view.findViewById(R.id.account_list);
+
+        removeAccountButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (mMultipleAccountApp == null) {
+                    return;
+                }
+
+                /**
+                 * Removes the selected account and cached tokens from this app (or device, if the device is in shared mode).
+                 */
+                mMultipleAccountApp.removeAccount(accountList.get(accountListSpinner.getSelectedItemPosition()),
+                        new IMultipleAccountPublicClientApplication.RemoveAccountCallback() {
+                            @Override
+                            public void onRemoved() {
+                                Toast.makeText(getContext(), "Account removed.", Toast.LENGTH_SHORT)
+                                        .show();
+
+                                /* Reload account asynchronously to get the up-to-date list. */
+                                loadAccounts();
+                            }
+
+                            @Override
+                            public void onError(@NonNull MsalException exception) {
+                                displayError(exception);
+                            }
+                        });
+            }
+        });
+
+        callGraphApiInteractiveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (mMultipleAccountApp == null) {
+                    return;
+                }
+
+                /**
+                 * Acquire token interactively. It will also create an account object for the silent call as a result (to be obtained by getAccount()).
+                 *
+                 * If acquireTokenSilent() returns an error that requires an interaction,
+                 * invoke acquireToken() to have the user resolve the interrupt interactively.
+                 *
+                 * Some example scenarios are
+                 *  - password change
+                 *  - the resource you're acquiring a token for has a stricter set of requirement than your SSO refresh token.
+                 *  - you're introducing a new scope which the user has never consented for.
+                 */
+                mMultipleAccountApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+            }
+        });
+
+        callGraphApiSilentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMultipleAccountApp == null) {
+                    return;
+                }
+
+                final IAccount selectedAccount = accountList.get(accountListSpinner.getSelectedItemPosition());
+
+                /**
+                 * Performs acquireToken without interrupting the user.
+                 *
+                 * This requires an account object of the account you're obtaining a token for.
+                 * (can be obtained via getAccount()).
+                 */
+                mMultipleAccountApp.acquireTokenSilentAsync(SCOPES,
+                        selectedAccount,
+                        selectedAccount.getAuthority(),
+                        getAuthSilentCallback());
+            }
+        });
+
+    }
+
+
+
+
+    /**
+     * Load currently signed-in accounts, if there's any.
+     **/
+    private void loadAccounts() {
+        if (mMultipleAccountApp == null) {
             return;
         }
 
-        mSingleAccountApp.getCurrentAccountAsync(new ISingleAccountPublicClientApplication.CurrentAccountCallback() {
+        mMultipleAccountApp.getAccounts(new IPublicClientApplication.LoadAccountsCallback() {
             @Override
-            public void onAccountLoaded(@Nullable IAccount activeAccount) {
+            public void onTaskCompleted(final List<IAccount> result) {
                 // You can use the account data to update your UI or your app database.
-                updateUI(activeAccount);
+                accountList = result;
+                updateUI(accountList);
             }
 
             @Override
-            public void onAccountChanged(@Nullable IAccount priorAccount, @Nullable IAccount currentAccount) {
-                if (currentAccount == null) {
-                    // Perform a cleanup task as the signed-in account changed.
-                    performOperationOnSignOut();
-                }
-            }
-
-            @Override
-            public void onError(@NonNull MsalException exception) {
+            public void onError(MsalException exception) {
                 displayError(exception);
             }
         });
     }
 
-    private void initializeUI(View view){
-        signInButton = view.findViewById(R.id.signIn);
-        callGraphApiSilentButton = view.findViewById(R.id.callGraphSilent);
-        callGraphApiInteractiveButton = view.findViewById(R.id.callGraphInteractive);
-        signOutButton = view.findViewById(R.id.clearCache);
-        logTextView = view.findViewById(R.id.txt_log);
-        currentUserTextView = view.findViewById(R.id.current_user);
 
-        //Sign in user
-        signInButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                if (mSingleAccountApp == null) {
-                    return;
-                }
-                mSingleAccountApp.signIn(getActivity(), null, SCOPES, getAuthInteractiveCallback());
-            }
-        });
+    private SilentAuthenticationCallback getAuthSilentCallback() {
+        return new SilentAuthenticationCallback() {
 
-        //Sign out user
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSingleAccountApp == null){
-                    return;
-                }
-                mSingleAccountApp.signOut(new ISingleAccountPublicClientApplication.SignOutCallback() {
-                    @Override
-                    public void onSignOut() {
-                        updateUI(null);
-                        performOperationOnSignOut();
-                    }
-                    @Override
-                    public void onError(@NonNull MsalException exception){
-                        displayError(exception);
-                    }
-                });
-            }
-        });
-
-        //Interactive
-        callGraphApiInteractiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSingleAccountApp == null) {
-                    return;
-                }
-                mSingleAccountApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
-            }
-        });
-
-        //Silent
-        callGraphApiSilentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSingleAccountApp == null){
-                    return;
-                }
-                mSingleAccountApp.acquireTokenSilentAsync(SCOPES, AUTHORITY, getAuthSilentCallback());
-            }
-        });
-    }
-
-    private AuthenticationCallback getAuthInteractiveCallback() {
-        return new AuthenticationCallback() {
             @Override
             public void onSuccess(IAuthenticationResult authenticationResult) {
-                /* Successfully got a token, use it to call a protected resource - MSGraph */
                 Log.d(TAG, "Successfully authenticated");
-                /* Update UI */
-                updateUI(authenticationResult.getAccount());
-                /* call graph */
-                callGraphAPI(authenticationResult);
+
+                /* Successfully got a token, use it to call a protected resource - MSGraph */
+                //callGraphAPI(authenticationResult);
+                logTextView.setText("Cuenta relogeada sin problemas");
             }
 
             @Override
@@ -204,7 +230,53 @@ public class LoginFragment extends Fragment {
                 /* Failed to acquireToken */
                 Log.d(TAG, "Authentication failed: " + exception.toString());
                 displayError(exception);
+
+                if (exception instanceof MsalClientException) {
+                    /* Exception inside MSAL, more info inside MsalError.java */
+                } else if (exception instanceof MsalServiceException) {
+                    /* Exception when communicating with the STS, likely config issue */
+                } else if (exception instanceof MsalUiRequiredException) {
+                    /* Tokens expired or no session, retry with interactive */
+                }
             }
+        };
+    }
+
+    /**
+     * Callback used for interactive request.
+     * If succeeds we use the access token to call the Microsoft Graph.
+     * Does not check cache.
+     */
+    private AuthenticationCallback getAuthInteractiveCallback() {
+        return new AuthenticationCallback() {
+
+            @Override
+            public void onSuccess(IAuthenticationResult authenticationResult) {
+                /* Successfully got a token, use it to call a protected resource - MSGraph */
+                Log.d(TAG, "Successfully authenticated");
+                Log.d(TAG, "ID Token: " + authenticationResult.getAccount().getClaims().get("id_token"));
+
+                /* call graph */
+                //callGraphAPI(authenticationResult);
+                logTextView.setText("Se ha autenticado correctamente");
+
+                /* Reload account asynchronously to get the up-to-date list. */
+                loadAccounts();
+            }
+
+            @Override
+            public void onError(MsalException exception) {
+                /* Failed to acquireToken */
+                Log.d(TAG, "Authentication failed: " + exception.toString());
+                displayError(exception);
+
+                if (exception instanceof MsalClientException) {
+                    /* Exception inside MSAL, more info inside MsalError.java */
+                } else if (exception instanceof MsalServiceException) {
+                    /* Exception when communicating with the STS, likely config issue */
+                }
+            }
+
             @Override
             public void onCancel() {
                 /* User canceled the authentication */
@@ -213,83 +285,88 @@ public class LoginFragment extends Fragment {
         };
     }
 
-    private SilentAuthenticationCallback getAuthSilentCallback() {
-        return new SilentAuthenticationCallback() {
-            @Override
-            public void onSuccess(IAuthenticationResult authenticationResult) {
-                Log.d(TAG, "Successfully authenticated");
-                callGraphAPI(authenticationResult);
-            }
-            @Override
-            public void onError(MsalException exception) {
-                Log.d(TAG, "Authentication failed: " + exception.toString());
-                displayError(exception);
-            }
-        };
-    }
-
-    private void callGraphAPI(IAuthenticationResult authenticationResult) {
-
-        final String accessToken = authenticationResult.getAccessToken();
-
-        IGraphServiceClient graphClient =
-                GraphServiceClient
-                        .builder()
-                        .authenticationProvider(new IAuthenticationProvider() {
-                            @Override
-                            public void authenticateRequest(IHttpRequest request) {
-                                Log.d(TAG, "Authenticating request," + request.getRequestUrl());
-                                request.addHeader("Authorization", "Bearer " + accessToken);
-                            }
-                        })
-                        .buildClient();
-        graphClient
-                .me()
-                .drive()
-                .buildRequest()
-                .get(new ICallback<Drive>() {
+    /**
+     * Make an HTTP request to obtain MSGraph data
+     *
+     * The sample is using the global service cloud as a default.
+     * If you're developing an app for sovereign cloud users, please change the Microsoft Graph Resource URL accordingly.
+     * https://docs.microsoft.com/en-us/graph/deployments#microsoft-graph-and-graph-explorer-service-root-endpoints
+     */
+    private void callGraphAPI(final IAuthenticationResult authenticationResult) {
+        MSGraphRequestWrapper.callGraphAPIUsingVolley(
+                getContext(),
+                graphResourceTextView.getText().toString(),
+                authenticationResult.getAccessToken(),
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void success(final Drive drive) {
-                        Log.d(TAG, "Found Drive " + drive.id);
-                        displayGraphResult(drive.getRawObject());
+                    public void onResponse(JSONObject response) {
+                        /* Successfully called graph, process data and send to UI */
+                        Log.d(TAG, "Response: " + response.toString());
+                        displayGraphResult(response);
                     }
-
+                },
+                new Response.ErrorListener() {
                     @Override
-                    public void failure(ClientException ex) {
-                        displayError(ex);
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error: " + error.toString());
+                        displayError(error);
                     }
                 });
     }
 
-    private void updateUI(@Nullable final IAccount account) {
-        if (account != null) {
-            signInButton.setEnabled(false);
-            signOutButton.setEnabled(true);
-            callGraphApiInteractiveButton.setEnabled(true);
-            callGraphApiSilentButton.setEnabled(true);
-            currentUserTextView.setText(account.getUsername());
-        } else {
-            signInButton.setEnabled(true);
-            signOutButton.setEnabled(false);
-            callGraphApiInteractiveButton.setEnabled(false);
-            callGraphApiSilentButton.setEnabled(false);
-            currentUserTextView.setText("");
-            logTextView.setText("");
-        }
+    //
+    // Helper methods manage UI updates
+    // ================================
+    // displayGraphResult() - Display the graph response
+    // displayError() - Display the graph response
+    // updateSignedInUI() - Updates UI when the user is signed in
+    // updateSignedOutUI() - Updates UI when app sign out succeeds
+    //
+
+    /**
+     * Display the graph response
+     */
+    private void displayGraphResult(@NonNull final JSONObject graphResponse) {
+        logTextView.setText(graphResponse.toString());
     }
 
+    /**
+     * Display the error message
+     */
     private void displayError(@NonNull final Exception exception) {
         logTextView.setText(exception.toString());
     }
 
-    private void displayGraphResult(@NonNull final JsonObject graphResponse) {
-        logTextView.setText(graphResponse.toString());
-    }
+    /**
+     * Updates UI based on the obtained account list.
+     */
+    private void updateUI(@NonNull final List<IAccount> result) {
 
-    private void performOperationOnSignOut() {
-        final String signOutText = "Signed Out.";
-        currentUserTextView.setText("");
-        Toast.makeText(getActivity().getApplicationContext(), signOutText, Toast.LENGTH_SHORT)
-                .show();
+        if (result.size() > 0) {
+            removeAccountButton.setEnabled(true);
+            callGraphApiInteractiveButton.setEnabled(true);
+            callGraphApiSilentButton.setEnabled(true);
+        } else {
+            removeAccountButton.setEnabled(false);
+            callGraphApiInteractiveButton.setEnabled(true);
+            callGraphApiSilentButton.setEnabled(false);
+        }
+
+        final ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_spinner_item,
+                new ArrayList<String>() {{
+                    for (final IAccount account : result)
+                        add(account.getUsername());
+                }}
+        );
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        accountListSpinner.setAdapter(dataAdapter);
+        dataAdapter.notifyDataSetChanged();
     }
 }
+
+
+
+
+
