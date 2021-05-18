@@ -78,7 +78,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				if (!vencidos) { //Viajes  no vencidos
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").after(Timestamp.from(Instant.now()))) {
-							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), conductor, rs.getString("conductor"), rs.getString("origen"),
 									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 							viajes.add(viaje);
@@ -87,7 +87,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				}else { //Viajes vencidos
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").before(Timestamp.from(Instant.now()))) {
-							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), conductor, rs.getString("conductor"), rs.getString("origen"),
 									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 							viajes.add(viaje);
@@ -96,7 +96,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				}
 			}else { //Viajes vencidos y no vencidos
 				while (rs.next()) {
-					Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+					Viaje viaje = new Viaje(rs.getInt("id_viaje"), conductor, rs.getString("conductor"), rs.getString("origen"),
 							rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 							rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 					viajes.add(viaje);
@@ -118,7 +118,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 		try {
 			conn = ds.getConnection();
 			String sql = "SELECT"
-					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.valoracion AS nota_conductor, us2.nombre AS pasajero, ub.nombre AS origen, ub1.nombre AS destino, "
+					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.id AS idConductor, us.valoracion AS nota_conductor, us2.nombre AS pasajero, ub.nombre AS origen, ub1.nombre AS destino, "
 					+ "	vi.fecha, vi.num_pasajeros, vi.max_plazas"
 					+ " FROM"
 					+ "	viajes vi INNER JOIN"
@@ -136,7 +136,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				if (!vencidos) { //Viajes no vencidos
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").after(Timestamp.from(Instant.now()))) {
-							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
 									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 							viajes.add(viaje);
@@ -145,7 +145,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				}else { // Viajes vencidos
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").before(Timestamp.from(Instant.now()))) {
-							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
 									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 							viajes.add(viaje);
@@ -154,7 +154,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				}
 			}else { //viajes vencidos y no vencidos
 				while (rs.next()) {
-					Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+					Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
 							rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 							rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 					viajes.add(viaje);
@@ -177,7 +177,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 		try {
 			conn = ds.getConnection();
 			String sql = "SELECT"
-					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.valoracion AS nota_conductor, us2.id AS pasajero_id, us2.nombre AS pasajero,"
+					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.id AS idConductor, us.valoracion AS nota_conductor, us2.id AS pasajero_id, us2.nombre AS pasajero,"
 					+ "	ub.nombre AS origen, ub1.nombre AS destino, vi.fecha, vi.num_pasajeros, vi.max_plazas"
 					+ " FROM "
 					+ "	viajes vi INNER JOIN"
@@ -192,7 +192,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 			st.setInt(1, idViaje);
 			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
-				viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+				viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
 						rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 						rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 				rs.previous();
@@ -219,7 +219,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 			conn = ds.getConnection();
 
 			String sql = "SELECT"
-					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.valoracion AS nota_conductor, "
+					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.id AS idConductor, us.valoracion AS nota_conductor, "
 					+ "	ub.nombre AS origen, ub1.nombre AS destino, vi.fecha, vi.num_pasajeros, vi.max_plazas"
 					+ " FROM "
 					+ "	viajes vi INNER JOIN"
@@ -234,7 +234,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				if (disponibles) {
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").after(Timestamp.from(Instant.now()))) {
-							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
 									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 							viajes.add(viaje);
@@ -243,7 +243,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				} else {
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").before(Timestamp.from(Instant.now()))) {
-							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
 									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 							viajes.add(viaje);
@@ -252,7 +252,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 				}
 			} else {
 				while (rs.next()) {
-					Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("conductor"), rs.getString("origen"),
+					Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
 							rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 							rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"));
 					viajes.add(viaje);
