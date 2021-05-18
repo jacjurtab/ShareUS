@@ -2,8 +2,7 @@
   "client_id": "7e79a9c5-1c48-45cd-80a8-f79c12fbc7c0",
   "authorization_user_agent": "DEFAULT",
   "redirect_uri": "msauth://com.example.shareus/5lr%2BmEnC2Uxp87157N6XUo9VGO8%3D",
-  "account_mode" : "SINGLE",
-  "broker_redirect_uri_registered": true,
+  "account_mode" : "MULTIPLE",
   "authorities": [
     {
       "type": "AAD",
