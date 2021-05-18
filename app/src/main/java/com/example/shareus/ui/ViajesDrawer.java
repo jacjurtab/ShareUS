@@ -2,10 +2,12 @@ package com.example.shareus.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.shareus.DetailActivity;
@@ -22,7 +24,9 @@ public class ViajesDrawer {
     public static void renderViajes(List<Viaje> viajes, Context cxt, View view) {
         ListView lista = view.findViewById(R.id.listado);
         View empty = view.findViewById(R.id.empty);
-        lista.setEmptyView(empty);
+        View loading = view.findViewById(R.id.loading);
+        loading.setVisibility(View.VISIBLE);
+        lista.setEmptyView(loading);
         lista.setAdapter(new ListAdapter(cxt, R.layout.viaje, viajes) {
             @SuppressLint("SetTextI18n")
             @Override
@@ -59,6 +63,9 @@ public class ViajesDrawer {
             Activity act = (Activity) cxt;
             act.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         });
+        loading.setVisibility(View.GONE);
+        empty.setVisibility(View.VISIBLE);
+        lista.setEmptyView(empty);
     }
 
 }

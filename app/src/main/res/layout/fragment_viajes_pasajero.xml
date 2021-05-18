@@ -13,6 +13,7 @@
         android:layout_marginHorizontal="10dp">
     </ListView>
 
-    <include layout="@layout/empty" android:id="@+id/empty"/>
+    <include layout="@layout/empty" android:id="@+id/empty" android:visibility="invisible"/>
+    <include layout="@layout/loading" android:id="@+id/loading" android:visibility="visible"/>
 
 </FrameLayout>
