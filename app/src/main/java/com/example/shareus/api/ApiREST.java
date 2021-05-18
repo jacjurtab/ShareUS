@@ -142,12 +142,6 @@ public final class ApiREST {
             Viaje viaje;
             List<Pasajero> pasajeros = new ArrayList<>();
             try {
-                JSONArray pasajeros_js = res.getJSONArray("pasajeros");
-                for (int i = 0; i < pasajeros_js.length(); i++) {
-                    JSONObject pasajero = pasajeros_js.getJSONObject(i);
-                    pasajeros.add(new Pasajero(pasajero.getInt("id"),
-                            pasajero.getString("nombre")));
-                }
                 viaje = new Viaje(res.getInt("id"),
                         res.getInt(("idConductor")),
                         res.getString("conductor"),
@@ -159,6 +153,16 @@ public final class ApiREST {
                         pasajeros,
                         Float.parseFloat(res.getString("nota_conductor")),
                         Float.parseFloat(res.getString("precio")));
+
+                if(viaje.getNum_pasajeros() > 0) {
+                    JSONArray pasajeros_js = res.getJSONArray("pasajeros");
+                    for (int i = 0; i < pasajeros_js.length(); i++) {
+                        JSONObject pasajero = pasajeros_js.getJSONObject(i);
+                        pasajeros.add(new Pasajero(pasajero.getInt("id"),
+                                pasajero.getString("nombre")));
+                    }
+                    viaje.setPasajeros(pasajeros);
+                }
                 callback.onResult(viaje);
             } catch (JSONException e) {
                 e.printStackTrace();
