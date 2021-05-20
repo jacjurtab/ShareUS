@@ -395,4 +395,62 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 		return resultado;
 	}
+	
+	public List<Viaje> obtenerViajesUbi(String origen, String destino, Boolean disponibles){		
+		Connection conn;
+		List<Viaje> viajes = new ArrayList<>();
+		try {
+			conn = ds.getConnection();
+
+			String sql = "SELECT"
+					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.id AS idConductor, us.valoracion AS nota_conductor, "
+					+ "	ub.nombre AS origen, ub1.nombre AS destino, vi.fecha, vi.num_pasajeros, vi.max_plazas, vi.precio"
+					+ " FROM "
+					+ "	viajes vi INNER JOIN"
+					+ "	usuarios us ON vi.conductor = us.id INNER JOIN"
+					+ "	ubicaciones ub ON vi.origen = ub.id INNER JOIN"
+					+ "	ubicaciones ub1 ON vi.destino = ub1.id"
+					+ " WHERE ub.nombre=? && ub2.nombre=?"
+					+ (disponibles!=null && disponibles?" && vi.num_pasajeros < vi.max_plazas":"")
+					+ " ORDER BY vi.fecha";
+			PreparedStatement st = conn.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			if(disponibles != null) {
+				if (disponibles) {
+					while (rs.next()) {
+						if (rs.getTimestamp("fecha").after(Timestamp.from(Instant.now()))) {
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
+									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
+									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
+							viajes.add(viaje);
+						}
+					} 
+				} else {
+					while (rs.next()) {
+						if (rs.getTimestamp("fecha").before(Timestamp.from(Instant.now()))) {
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
+									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
+									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
+							viajes.add(viaje);
+						}
+					}
+				}
+			} else {
+				while (rs.next()) {
+					Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
+							rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
+							rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
+					viajes.add(viaje);
+				}
+
+			}
+			rs.close();
+			st.close();
+			conn.close();
+		} catch (SQLException e) {
+			System.out.println("Error en ViajesDAO (obtenerViajes): " + e.getMessage());
+		}
+		return viajes;		
+	
+	}
 }

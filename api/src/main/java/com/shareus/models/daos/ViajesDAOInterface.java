@@ -76,9 +76,20 @@ public interface ViajesDAOInterface {
 	 * Obtiene el historial de viajes (historial completo o solo viajes disponibles,
 	 * es decir, viaves que tengan alguna plaza libre y que no hayan prescrito
 	 * @param disponibles (si es true solo se obtienen los viajes
-	 * con fecha posterior a la actual)
-	 * @return lista de viajes o lista de viajes disponibles
+	 * con fecha posterior a la actual y con plaas disponibles)
+	 * @return lista de  todos los viajes o solo los disponibles
 	 */
 	List<Viaje> obtenerViajes(Boolean disponibles);
+	
+	/**
+	 * Obtiene lista de viajes don origen y destino iguales a los indicados
+	 * @param origen
+	 * @param destino
+	 * @param disponibles (si es true solo se obtienen los viajes
+	 * con fecha posterior a la actual y con plaas disponibles)
+	 * @return lista de viajes cuyo origen y destino sean los indicados
+	 */
+	List<Viaje> obtenerViajesUbi(String origen, String destino, Boolean disponibles);
+
 
 }

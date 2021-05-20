@@ -35,19 +35,27 @@ public class ViajeController {
             @RequestParam(value = "conductor", required = false) Integer conductor,
             @RequestParam(value = "pasajero", required = false) Integer pasajero,
             @RequestParam(value = "disponibles", required = false) Boolean disponibles,
-            @RequestParam(value = "vencidos", required = false) Boolean vencidos
+            @RequestParam(value = "vencidos", required = false) Boolean vencidos,
+            @RequestParam(value = "origen", required = false) String origen,
+            @RequestParam(value = "destino", required = false) String destino
     ) {
-        if(conductor != null) {
+        if(conductor != null)
             return viajes.obtenerViajesConductor(conductor, vencidos);
-        } else if(pasajero != null) {
+        else if(pasajero != null)
             return viajes.obtenerViajesPasajero(pasajero, vencidos);
-        } else{
+        else if (origen != null && destino != null) 
+        	 return viajes.obtenerViajesUbi(origen, destino, disponibles);        	
+        else if (origen != null || destino != null) {
+        	if (origen != null) 
+        		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falta especificar el destino");
+        	else 
+        		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falta especificar el origen");
+        } else {
             return viajes.obtenerViajes(disponibles);
-        }/* else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "parámetro conductor o pasajero es necesario");
-        }*/
+        }
     }
 
+    
     @GetMapping("/viaje/{id}")
     @JsonView(VistasViaje.Completo.class)
     public Viaje viaje(
