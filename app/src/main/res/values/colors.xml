@@ -5,4 +5,7 @@
     <color name="colorAccent">#A0B841</color>
     <color name="colorBackground">#F7F7F7</color>
     <color name="colorVerde">#4CAF50</color>
+    <color name="colorRojoBoton">#D32F2F</color>
+    <color name="whiteOverlay">#607B8D</color>
+    <color name="white">#CFD8DC</color>
 </resources>

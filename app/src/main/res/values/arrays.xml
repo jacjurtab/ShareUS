@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="universidades">
+    <!-- <string-array name="universidades">
         <item>@string/eligedestino</item>
         <item>@string/universidad1</item>
         <item>@string/universidad2</item>
         <item>@string/universidad3</item>
         <item>@string/universidad4</item>
-    </string-array>
+    </string-array> -->
 
     <string-array name="ubicaciones">
         <item>@string/eligeorigen</item>

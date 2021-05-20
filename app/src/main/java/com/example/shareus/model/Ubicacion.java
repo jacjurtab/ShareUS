@@ -1,5 +1,7 @@
 package com.example.shareus.model;
 
+import java.util.List;
+
 public class Ubicacion {
 	
 	private int id;
@@ -54,4 +56,5 @@ public class Ubicacion {
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
 	}
+
 }
