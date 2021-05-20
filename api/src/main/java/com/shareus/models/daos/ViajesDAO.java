@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.shareus.models.Pasajero;
-import com.shareus.models.Valoracion;
 import com.shareus.models.Viaje;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -158,7 +157,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 							rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 							rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
 					viajes.add(viaje);
-				}            	
+				}
 			}
 			rs.close();
 			st.close();
@@ -239,7 +238,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
 							viajes.add(viaje);
 						}
-					} 
+					}
 				} else {
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").before(Timestamp.from(Instant.now()))) {
@@ -309,7 +308,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 			if (st[0].executeUpdate() == 1) {
 				deshacer = true;
-				if(st[1].executeUpdate() == 1) {					
+				if(st[1].executeUpdate() == 1) {
 					resultado = true;
 					deshacer = false;
 				}
@@ -394,5 +393,65 @@ public class ViajesDAO implements ViajesDAOInterface {
 		}
 
 		return resultado;
+	}
+
+	public List<Viaje> obtenerViajesUbi(String origen, String destino, Boolean disponibles){
+		Connection conn;
+		List<Viaje> viajes = new ArrayList<>();
+		try {
+			conn = ds.getConnection();
+
+			String sql = "SELECT"
+					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.id AS idConductor, us.valoracion AS nota_conductor, "
+					+ "	ub.nombre AS origen, ub1.nombre AS destino, vi.fecha, vi.num_pasajeros, vi.max_plazas, vi.precio"
+					+ " FROM "
+					+ "	viajes vi INNER JOIN"
+					+ "	usuarios us ON vi.conductor = us.id INNER JOIN"
+					+ "	ubicaciones ub ON vi.origen = ub.id INNER JOIN"
+					+ "	ubicaciones ub1 ON vi.destino = ub1.id"
+					+ " WHERE ub.nombre=? AND ub1.nombre=?"
+					+ (disponibles!=null && disponibles?" AND (vi.num_pasajeros<vi.max_plazas)":"")
+					+ " ORDER BY vi.fecha";
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, origen);
+			st.setString(2, destino);
+			ResultSet rs = st.executeQuery();
+			if(disponibles != null) {
+				if (disponibles) {
+					while (rs.next()) {
+						if (rs.getTimestamp("fecha").after(Timestamp.from(Instant.now()))) {
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
+									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
+									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
+							viajes.add(viaje);
+						}
+					}
+				} else {
+					while (rs.next()) {
+						if (rs.getTimestamp("fecha").before(Timestamp.from(Instant.now()))) {
+							Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
+									rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
+									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
+							viajes.add(viaje);
+						}
+					}
+				}
+			} else {
+				while (rs.next()) {
+					Viaje viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
+							rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
+							rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
+					viajes.add(viaje);
+				}
+
+			}
+			rs.close();
+			st.close();
+			conn.close();
+		} catch (SQLException e) {
+			System.out.println("Error en ViajesDAO (obtenerViajes): " + e.getMessage());
+		}
+		return viajes;
+
 	}
 }
