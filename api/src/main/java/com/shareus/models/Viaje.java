@@ -1,34 +1,32 @@
 package com.shareus.models;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public class Viaje {
 
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private int id;
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private int idConductor;
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private String conductor;
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private String origen;
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private String destino;
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private Long fecha_hora;
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private int num_pasajeros;
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private int max_plazas;
-	@JsonView(VistasViaje.Completo.class)
+	@JsonView(Vistas.Completo.class)
 	private List<Pasajero> pasajeros;  //nombres de los pasajeros asociados al viaje
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private float nota_conductor;  //Representa a nota media del conductor
-	@JsonView(VistasViaje.Simple.class)
+	@JsonView(Vistas.Simple.class)
 	private float precio;
 
 	public Viaje () {

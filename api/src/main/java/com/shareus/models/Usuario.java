@@ -1,27 +1,61 @@
 package com.shareus.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Usuario {
-	
+
+	@JsonView(Vistas.Simple.class)
 	private int id;
-	private String clave;
+	@JsonView(Vistas.Simple.class)
+	private String usuario;
+	@JsonView(Vistas.Completo.class)
 	private String nombre;
+	@JsonView(Vistas.Completo.class)
 	private String primer_apellido;
+	@JsonView(Vistas.Completo.class)
 	private String segundo_apellido;
+	@JsonView(Vistas.Simple.class)
 	private String email;
+	@JsonView(Vistas.Completo.class)
 	private String telefono;
+	@JsonView(Vistas.Completo.class)
 	private float valoracion;
-	
+
+	public Usuario(int id, String usuario, String email) {
+		this.id = id;
+		this.usuario = usuario;
+		this.email = email;
+	}
+
+	public Usuario() {
+
+	}
+
+	public Usuario(int id, String usuario, String nombre, String primer_apellido, String segundo_apellido, String email, String telefono, float valoracion) {
+		this.id = id;
+		this.usuario = usuario;
+		this.nombre = nombre;
+		this.primer_apellido = primer_apellido;
+		this.segundo_apellido = segundo_apellido;
+		this.email = email;
+		this.telefono = telefono;
+		this.valoracion = valoracion;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public String getClave() {
-		return clave;
-	}
-	public void setClave(String clave) {
-		this.clave = clave;
 	}
 	public String getNombre() {
 		return nombre;
