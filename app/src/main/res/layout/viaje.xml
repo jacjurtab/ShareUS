@@ -112,7 +112,6 @@
                 <LinearLayout
                     android:layout_column="1"
                     android:layout_gravity="end">
-
                     <TextView
                         android:id="@+id/tw_pasajeros"
                         android:layout_width="wrap_content"
@@ -135,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginHorizontal="10dp"
-                android:columnCount="3"
+                android:columnCount="4"
                 android:rowCount="1"
                 tools:context=".GridLayoutActivity">
 
@@ -176,6 +175,14 @@
                         android:src="@drawable/ic_baseline_star_24"
                         app:tint="#FBC02D" />
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/tw_precio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="2dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="22sp"/>
             </GridLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

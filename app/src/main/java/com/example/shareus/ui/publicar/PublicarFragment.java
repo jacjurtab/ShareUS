@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shareus.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class PublicarFragment extends Fragment {
@@ -54,11 +55,15 @@ public class PublicarFragment extends Fragment {
     }
 
     private void showTimePickerDialog(EditText etPlannedHour) {
+        final Calendar getTime = Calendar.getInstance();
         TimePickerFragment newFragment = TimePickerFragment.newInstance(new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                final String selectedTime = hourOfDay + ":" + minute;
-                etPlannedHour.setText(selectedTime);
+                getTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                getTime.set(Calendar.MINUTE, minute);
+                SimpleDateFormat timeformat=new SimpleDateFormat("HH:mm");
+                String formatedDate = timeformat.format(getTime.getTime());
+                etPlannedHour.setText(formatedDate);
             }
         });
         newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
