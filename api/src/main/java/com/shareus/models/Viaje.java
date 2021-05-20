@@ -48,7 +48,6 @@ public class Viaje {
 		this.nota_conductor = nota_conductor;
 		this.precio = precio;
 	}
-
 	
 	public int getId() {
 		return id;

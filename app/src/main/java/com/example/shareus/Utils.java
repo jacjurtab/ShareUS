@@ -1,8 +1,11 @@
 package com.example.shareus;
 
+import com.example.shareus.model.Ubicacion;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Utils {
@@ -41,5 +44,24 @@ public class Utils {
         } else {
             return full.format(given) + " a las " + time.format(given);
         }
+    }
+
+    public static String[] getListaNombres(List<Ubicacion> lista) {
+        String nombres= "";
+        for (Ubicacion i : lista ){
+            nombres += (i.getNombre() + ",");
+        }
+        String[] ubs = nombres.split(",");
+        return ubs;
+    }
+
+    public  static Integer getIdUbi(List<Ubicacion> lista, String ubi){
+        Integer id = null;
+        for (Ubicacion i : lista ){
+            if (i.getNombre().equals(ubi)){
+                id = i.getId();
+            }
+        }
+        return id;
     }
 }

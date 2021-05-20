@@ -57,7 +57,8 @@ public final class ApiREST {
     /**
      * Peticiones relacionadas con VIAJES
      * */
-    public static void crearViaje(int idConductor, int idOrigen, int idDestino, long fecha_hora, int max_plazas, float precio, RequestQueue mRequestQueue, Callback callback) {
+    public static void crearViaje(int idConductor, int idOrigen, int idDestino, long fecha_hora, int max_plazas,
+                                  float precio, RequestQueue mRequestQueue, Callback callback) {
         String url = BASE + "/viaje";
         System.out.println(url);
         StringRequest request = new StringRequest(Request.Method.POST, url, res -> {
@@ -128,11 +129,58 @@ public final class ApiREST {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            System.out.println("[REST][obtenerViajesDisponibles] Respuesta recibida" + res.toString());
+            System.out.println("[REST][obtenerViajesDisponibles] Respuesta recibida: " + res.toString());
             VolleyLog.v("Response:%n %s", res);
         }, error -> {
             VolleyLog.e("Error: ", error.getMessage());
             System.out.println("[REST] Error respuestas: obtenerViajesDisponibles  :"+error.getMessage());
+        });
+        mRequestQueue.add(request);
+    }
+
+    public static void obtenerViajesUbi(String origen, String destino, boolean disponible,
+                                        RequestQueue mRequestQueue, Callback callback) {
+        String url = BASE + "/viajes?origen=" + origen + "&destino=" + destino + "&disponibles=" + disponible;
+        System.out.println(url);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, res -> {
+
+            List<Viaje> viajes = new ArrayList<>();
+            try {
+                for (int j = 0; j< res.length(); j++) {
+
+                    Viaje viaje = null;
+                    JSONObject item = res.getJSONObject(j);
+                    List<Pasajero> pasajeros = new ArrayList<>();
+
+                    JSONArray pasajeros_js = item.getJSONArray("pasajeros");
+                    for (int i = 0; i < pasajeros_js.length(); i++) {
+                        JSONObject pasajero = pasajeros_js.getJSONObject(i);
+                        pasajeros.add(new Pasajero(pasajero.getInt("id"),
+                                pasajero.getString("nombre")));
+                    }
+                    viaje = new Viaje(item.getInt("id"),
+                            item.getInt(("idConductor")),
+                            item.getString("conductor"),
+                            item.getString("origen"),
+                            item.getString("destino"),
+                            new Timestamp(item.getLong("fecha_hora")),
+                            item.getInt("num_pasajeros"),
+                            item.getInt("max_plazas"),
+                            pasajeros,
+                            Float.parseFloat(item.getString("nota_conductor")),
+                            Float.parseFloat(item.getString("precio")));
+                    viajes.add(viaje);
+
+                }
+                callback.onResult(viajes);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println("[REST][obtenerViajesUbi] Respuesta recibida: " + res.toString());
+            VolleyLog.v("Response:%n %s", res);
+        }, error -> {
+            VolleyLog.e("Error: ", error.getMessage());
+            System.out.println("[REST] Error respuestas: obtenerViajesUbi  :"+error.getMessage());
         });
         mRequestQueue.add(request);
     }
@@ -385,7 +433,8 @@ public final class ApiREST {
         mRequestQueue.add(request);
     }
 
-    public static void crearValoracion(int idViaje, int idValorador, int idValorado, float nota, RequestQueue mRequestQueue, Callback callback){
+    public static void crearValoracion(int idViaje, int idValorador, int idValorado, float nota,
+                                       RequestQueue mRequestQueue, Callback callback){
         String url = BASE + "/valoracion";
         System.out.println(url);
         StringRequest request = new StringRequest(Request.Method.POST, url, res -> {

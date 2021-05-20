@@ -42,18 +42,17 @@ public class ViajeController {
             return viajes.obtenerViajesConductor(conductor, vencidos);
         else if(pasajero != null)
             return viajes.obtenerViajesPasajero(pasajero, vencidos);
-        else if (origen != null && destino != null)
-            return viajes.obtenerViajesUbi(origen, destino, disponibles);
+        else if (origen != null && destino != null) 
+        	 return viajes.obtenerViajesUbi(origen, destino, disponibles);        	
         else if (origen != null || destino != null) {
-            if (origen != null)
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falta especificar el destino");
-            else
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falta especificar el origen");
+        	if (origen != null) 
+        		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falta especificar el destino");
+        	else 
+        		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falta especificar el origen");
         } else {
             return viajes.obtenerViajes(disponibles);
         }
     }
-
 
     @GetMapping("/viaje/{id}")
     @JsonView(Vistas.Completo.class)

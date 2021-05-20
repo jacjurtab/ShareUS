@@ -451,7 +451,6 @@ public class ViajesDAO implements ViajesDAOInterface {
 		} catch (SQLException e) {
 			System.out.println("Error en ViajesDAO (obtenerViajes): " + e.getMessage());
 		}
-		return viajes;
-
+		return viajes;		
 	}
 }

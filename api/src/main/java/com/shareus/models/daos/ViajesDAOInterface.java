@@ -80,6 +80,17 @@ public interface ViajesDAOInterface {
 	 * @return lista de  todos los viajes o solo los disponibles
 	 */
 	List<Viaje> obtenerViajes(Boolean disponibles);
+	
+	/**
+	 * Obtiene lista de viajes don origen y destino iguales a los indicados
+	 * @param origen
+	 * @param destino
+	 * @param disponibles (si es true solo se obtienen los viajes
+	 * con fecha posterior a la actual y con plaas disponibles)
+	 * @return lista de viajes cuyo origen y destino sean los indicados
+	 */
+	List<Viaje> obtenerViajesUbi(String origen, String destino, Boolean disponibles);
+
 
 
 }

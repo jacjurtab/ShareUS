@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragment_publicar"
     tools:context=".ui.publicar.PublicarFragment">
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="25dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp">
+        android:layout_margin="15dp"
+        app:cardCornerRadius="10dp"
+        android:elevation="20dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -25,47 +26,31 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="center"
-                android:text="Publique su nuevo viaje"
-                android:textSize="36sp">
+                android:text="Nuevo Viaje"
+                android:textSize="40sp">
             </TextView>
 
             <Spinner
-                android:id="@+id/SpinnerUniversidades"
-                android:layout_width="241dp"
+                android:id="@+id/Spinnerorigen"
+                android:layout_marginTop="10dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:entries="@array/universidades"
-                android:prompt="@string/spinneruniversidad"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.434"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView52"
-                app:layout_constraintVertical_bias="0.061"></Spinner>
+                android:textAlignment="center">
+
+            </Spinner>
 
             <Spinner
-                android:id="@+id/SpinnerUbicaciones"
-                android:layout_width="240dp"
+                android:id="@+id/Spinnerdestino"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp"
                 android:entries="@array/ubicaciones"
                 android:prompt="@string/spinnerubi"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.434"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView52"
-                app:layout_constraintVertical_bias="0.061"></Spinner>
+                android:textAlignment="center">
+
+            </Spinner>
 
             <EditText
                 android:id="@+id/etPlannedDate"
@@ -101,23 +86,36 @@
                 android:textAlignment="center">
             </EditText>
 
+            <EditText
+                android:id="@+id/precio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:hint="Precio por pasajero"
+                android:inputType="numberDecimal"
+                android:textAlignment="center">
+            </EditText>
+
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp">
 
                 <Button
-                    android:id="@+id/button"
-                    android:layout_width="111dp"
+                    android:id="@+id/atras"
+                    android:layout_width="wrap_content"
+                    android:backgroundTint="@color/colorRojoBoton"
                     android:layout_height="wrap_content"
-                    android:text="Limpiar" />
+                    android:text="Cancelar" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/publicar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="0"
                     android:layout_column="2"
-                    android:backgroundTint="@color/colorVerde"
+                    android:backgroundTint="@color/colorAccent"
                     android:text="Publicar" />
 
             </GridLayout>

@@ -93,7 +93,7 @@ public class BlankFragment extends Fragment {
             }
         });
 */
-
+/*
         //Consulta viajes PASADOS de un usuario
         List<Viaje> viajesPasados = new ArrayList<>();
         ApiREST.obtenerViajesCond(2, true, mRequestQueue, new ApiREST.Callback() {
@@ -118,7 +118,7 @@ public class BlankFragment extends Fragment {
             }
         });
 
-/*
+
         //Consulta vubicaciones universidades
         ApiREST.obtenerUbicaciones(0,  mRequestQueue, new ApiREST.Callback() {
             @Override
@@ -126,14 +126,16 @@ public class BlankFragment extends Fragment {
                 List<Ubicacion> ubicaciones = (List<Ubicacion>) res;
             }
         });
-
+*/
         //Consulta ubicaciones lugares
         ApiREST.obtenerUbicaciones(1,  mRequestQueue, new ApiREST.Callback() {
             @Override
             public void onResult(Object res) {
                 List<Ubicacion> ubicaciones = (List<Ubicacion>) res;
+                System.out.println ("Probando Ubicaciones" + ubicaciones.toArray().length);
             }
         });
+        /*
 
         //Consulta valoraciones de un usuario
         ApiREST.obtenerValoracion(1, 3,  mRequestQueue, new ApiREST.Callback() {
@@ -142,8 +144,8 @@ public class BlankFragment extends Fragment {
                 List<Valoracion> valoraciones = (List<Valoracion>) res;
             }
         });
-*/
- /*
+
+
         //Insertar pasajero a un viaje
         ApiREST.insertarPasajero(3, 2,  mRequestQueue, new ApiREST.Callback() {
             @Override
@@ -169,7 +171,7 @@ public class BlankFragment extends Fragment {
             }
         });
 
-*/
+
       //Crear viaje
         ApiREST.crearViaje(1, 5, 10, 1622152800000L, 4, 0.4F, mRequestQueue, new ApiREST.Callback() {
             @Override
@@ -177,7 +179,7 @@ public class BlankFragment extends Fragment {
 
             }
         });
-/*
+
 
      //Crear Valoración
         ApiREST.crearValoracion(7, 4 , 3, 9.6F,   mRequestQueue, new ApiREST.Callback() {
@@ -187,6 +189,31 @@ public class BlankFragment extends Fragment {
             }
         });
 */
+
+        //Consulta viajes PASADOS de un usuario
+        List<Viaje> viajesPasados = new ArrayList<>();
+        ApiREST.obtenerViajesUbi("La Macarena", "ETSI", true, mRequestQueue, new ApiREST.Callback() {
+            @Override
+            public void onResult(Object res) {
+                List<Viaje> viajes = (List<Viaje>) res;
+                viajesPasados.addAll(viajes);
+
+                ApiREST.obtenerViajesPas(2, true, mRequestQueue, new ApiREST.Callback() {
+                    @Override
+                    public void onResult(Object res) {
+                        List<Viaje> viajes = (List<Viaje>) res;
+                        viajesPasados.addAll(viajes);
+                        Collections.sort(viajesPasados);
+                        System.out.println ("[REST][Viajes pasados] Respuesta tamaño: "+viajesPasados.toArray().length);
+
+                        for (Viaje i : viajesPasados){
+                            System.out.println("i " + i.getFecha_hora().toString());
+                        }
+                    }
+                });
+            }
+        });
+
 
         return vista;
     }
