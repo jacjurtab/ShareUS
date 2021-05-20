@@ -122,4 +122,6 @@
     <string name="a_adir_viaje">Añadir Viaje</string>
     <string name="no_se_han_encontrado_resultados">No se han encontrado resultados.</string>
     <string name="obteniendo_datos">Obteniendo datos...</string>
+    <string name="cargando">Cargando...</string>
+    <string name="no_se_han_encontrado_pasajeros">No se han encontrado pasajeros</string>
 </resources>

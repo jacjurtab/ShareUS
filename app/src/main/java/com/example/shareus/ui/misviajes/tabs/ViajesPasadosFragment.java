@@ -21,14 +21,17 @@ public class ViajesPasadosFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViajesViewModel viajesViewModel = new ViewModelProvider(this).get(ViajesViewModel.class);
+        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.PASADOS);
+
         return inflater.inflate(R.layout.fragment_viajes_pasados, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         ViajesViewModel viajesViewModel = new ViewModelProvider(this).get(ViajesViewModel.class);
+
         viajesViewModel.getViajes(ViajesViewModel.Tipo.PASADOS).observe(getViewLifecycleOwner(), viajes -> {
             ViajesDrawer.renderViajes(viajes, this.getContext(), this.getView());
         });
