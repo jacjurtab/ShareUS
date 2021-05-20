@@ -3,8 +3,8 @@ package com.example.shareus.model;
 public class Usuario {
 	
 	private int id;
-	private String clave;
 	private String nombre;
+	private String usuario;
 	private String primer_apellido;
 	private String segundo_apellido;
 	private String email;
@@ -16,12 +16,6 @@ public class Usuario {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public String getClave() {
-		return clave;
-	}
-	public void setClave(String clave) {
-		this.clave = clave;
 	}
 	public String getNombre() {
 		return nombre;
@@ -40,6 +34,13 @@ public class Usuario {
 	}
 	public void setSegundo_apellido(String segundo_apellido) {
 		this.segundo_apellido = segundo_apellido;
+	}
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	public String getEmail() {
 		return email;

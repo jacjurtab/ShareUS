@@ -57,7 +57,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     public void render(Viaje viaje) {
-        int idUsuario = MainActivity.getUserId();
+        int idUsuario = Session.get(getApplicationContext()).getUserId();
         boolean esConductor = (idUsuario == viaje.getIdConductor());
         boolean esPasajero = viaje.getPasajeros().stream().anyMatch(o -> o.getId() == idUsuario);
 
