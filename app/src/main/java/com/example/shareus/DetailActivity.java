@@ -75,7 +75,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView destino = findViewById(R.id.destino_value);
         destino.setText(viaje.getDestino());
         TextView precio = findViewById(R.id.precio_value);
-        precio.setText("8€");
+        precio.setText(viaje.getPrecio() + "€/plaza");
         TextView numPasajeros = findViewById(R.id.pasajeros_count);
         numPasajeros.setText("Pasajeros (" + viaje.getNum_pasajeros() + "/" + viaje.getMax_plazas() + ")");
 

@@ -50,6 +50,9 @@ public class ViajesDrawer {
 
                     TextView valoracion = view.findViewById(R.id.tw_valoracion);
                     valoracion.setText(Float.toString(viaje.getNota_conductor()));
+
+                    TextView precio = view.findViewById(R.id.tw_precio);
+                    precio.setText(viaje.getPrecio() + "€/plaza");
                 } else {
                     view.setVisibility(View.GONE);
                 }

@@ -1,11 +1,15 @@
 package com.example.shareus.ui.login;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +37,8 @@ import com.microsoft.identity.client.exception.MsalUiRequiredException;
 
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,10 +86,8 @@ public class LoginFragment extends Fragment {
                 });
     } */
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        loginViewModel =
-                new ViewModelProvider(this).get(LoginViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         View root = inflater.inflate(R.layout.fragment_login, container, false);
 
         initializeUI(root);
@@ -99,6 +103,7 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void onError(MsalException exception) {
+                        Log.d("MS", exception.getMessage());
                     }
                 });
 

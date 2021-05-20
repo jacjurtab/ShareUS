@@ -25,13 +25,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="center"
-                android:text="Publique su nuevo viaje"
-                android:textSize="36sp">
+                android:text="Nuevo Viaje"
+                android:textSize="40sp">
             </TextView>
+
 
             <Spinner
                 android:id="@+id/SpinnerUniversidades"
-                android:layout_width="241dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="8dp"
@@ -46,11 +47,13 @@
                 app:layout_constraintHorizontal_bias="0.434"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView52"
-                app:layout_constraintVertical_bias="0.061"></Spinner>
+                app:layout_constraintVertical_bias="0.061">
+
+            </Spinner>
 
             <Spinner
                 android:id="@+id/SpinnerUbicaciones"
-                android:layout_width="240dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="8dp"
@@ -103,7 +106,8 @@
 
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
 
                 <Button
                     android:id="@+id/button"
@@ -117,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_row="0"
                     android:layout_column="2"
-                    android:backgroundTint="@color/colorVerde"
+                    android:backgroundTint="@color/colorAccent"
                     android:text="Publicar" />
 
             </GridLayout>
