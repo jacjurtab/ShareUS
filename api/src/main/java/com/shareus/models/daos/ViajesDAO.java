@@ -410,10 +410,12 @@ public class ViajesDAO implements ViajesDAOInterface {
 					+ "	usuarios us ON vi.conductor = us.id INNER JOIN"
 					+ "	ubicaciones ub ON vi.origen = ub.id INNER JOIN"
 					+ "	ubicaciones ub1 ON vi.destino = ub1.id"
-					+ " WHERE ub.nombre=? && ub2.nombre=?"
-					+ (disponibles!=null && disponibles?" && vi.num_pasajeros < vi.max_plazas":"")
+					+ " WHERE ub.nombre=? AND ub1.nombre=?"
+					+ (disponibles!=null && disponibles?" AND (vi.num_pasajeros<vi.max_plazas)":"")
 					+ " ORDER BY vi.fecha";
 			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, origen);
+			st.setString(2, destino);
 			ResultSet rs = st.executeQuery();
 			if(disponibles != null) {
 				if (disponibles) {
