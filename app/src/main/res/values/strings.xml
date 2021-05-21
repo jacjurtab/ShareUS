@@ -27,7 +27,10 @@
     <string name="ubi3">Espartinas</string>
     <string name="ubi4">Bellavista</string>
     <string name="title_activity_detail">ScrollingActivity</string>
+    <string name="encontrar_viaje">¿A dónde quiere ir?</string>
+    <string name="btn_buscar">Buscar</string>
     <string name="large_text">
+
         "Material is the metaphor.\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
