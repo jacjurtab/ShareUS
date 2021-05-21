@@ -126,14 +126,16 @@ public class BlankFragment extends Fragment {
                 List<Ubicacion> ubicaciones = (List<Ubicacion>) res;
             }
         });
-
+*/
         //Consulta ubicaciones lugares
         ApiREST.obtenerUbicaciones(1,  mRequestQueue, new ApiREST.Callback() {
             @Override
             public void onResult(Object res) {
                 List<Ubicacion> ubicaciones = (List<Ubicacion>) res;
+                System.out.println ("Probando Ubicaciones" + ubicaciones.toArray().length);
             }
         });
+        /*
 
         //Consulta valoraciones de un usuario
         ApiREST.obtenerValoracion(1, 3,  mRequestQueue, new ApiREST.Callback() {

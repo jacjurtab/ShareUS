@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_misviajes" />
 
     <fragment
-        android:id="@+id/nav_login"
+        android:id="@+id/nav_logout"
         android:name="com.example.shareus.ui.login.LoginFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_login" />

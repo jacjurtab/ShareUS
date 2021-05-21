@@ -3,7 +3,7 @@ package com.shareus.controllers;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.shareus.ShareUSApplication;
 import com.shareus.models.Viaje;
-import com.shareus.models.VistasViaje;
+import com.shareus.models.Vistas;
 import com.shareus.models.daos.ViajesDAO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
@@ -30,7 +29,7 @@ public class ViajeController {
     }
 
     @GetMapping("/viajes")
-    @JsonView(VistasViaje.Simple.class)
+    @JsonView(Vistas.Simple.class)
     public List<Viaje> viajes(
             @RequestParam(value = "conductor", required = false) Integer conductor,
             @RequestParam(value = "pasajero", required = false) Integer pasajero,
@@ -55,34 +54,33 @@ public class ViajeController {
         }
     }
 
-    
     @GetMapping("/viaje/{id}")
-    @JsonView(VistasViaje.Completo.class)
+    @JsonView(Vistas.Completo.class)
     public Viaje viaje(
             @PathVariable(value = "id") Integer viaje
     ) {
         return viajes.obtenerViajeId(viaje);
     }
-    
+
     @DeleteMapping("/viaje/{id}")
     public boolean borrar(
-    		@PathVariable(value = "id") Integer viaje
+            @PathVariable(value = "id") Integer viaje
     ) {
-		return viajes.eliminarViaje(viaje);
-    }    
-    
+        return viajes.eliminarViaje(viaje);
+    }
+
     @PutMapping(path = "/viaje/{id}/pasajeros/eliminar")
     public boolean eliminarPasajero(
-    		@PathVariable(value = "id") Integer viaje,
-    		@RequestBody  String pasajero    		
+            @PathVariable(value = "id") Integer viaje,
+            @RequestBody  String pasajero
     ) {
-    	return viajes.eliminarPasajeroViaje(viaje, Integer.parseInt(pasajero)); 	
+        return viajes.eliminarPasajeroViaje(viaje, Integer.parseInt(pasajero));
     }
-       
+
     @PutMapping(path = "/viaje/{id}/pasajeros/insertar")
     public boolean insertaPasajero(
-    		@PathVariable(value = "id") Integer viaje,
-    		@RequestBody  String pasajero    		
+            @PathVariable(value = "id") Integer viaje,
+            @RequestBody  String pasajero
     ) {
         return viajes.insertarPasajeroViaje(viaje, Integer.parseInt(pasajero));
     }

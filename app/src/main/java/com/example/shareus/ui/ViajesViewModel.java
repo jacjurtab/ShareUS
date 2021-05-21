@@ -1,10 +1,13 @@
 package com.example.shareus.ui;
 
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.android.volley.RequestQueue;
 import com.example.shareus.MainActivity;
+import com.example.shareus.Session;
 import com.example.shareus.api.ApiREST;
 import com.example.shareus.model.Viaje;
 
@@ -26,41 +29,41 @@ public class ViajesViewModel extends ViewModel {
     private MutableLiveData<List<Viaje>> viajesConductor;
     RequestQueue mRequestQueue = ApiREST.getInstance(null).getQueue();
 
-    public MutableLiveData<List<Viaje>> getViajes(Tipo tipo) {
+    public MutableLiveData<List<Viaje>> getViajes(Tipo tipo, Context cxt) {
         switch (tipo) {
             case PASADOS:
                 if (viajesPasados == null) {
                     viajesPasados = new MutableLiveData<>();
-                    actualizarViajes(Tipo.PASADOS);
+                    actualizarViajes(Tipo.PASADOS, cxt);
                 }
                 return viajesPasados;
             case PASAJERO:
                 if (viajesPasajero == null) {
                     viajesPasajero = new MutableLiveData<>();
-                    actualizarViajes(Tipo.PASAJERO);
+                    actualizarViajes(Tipo.PASAJERO, cxt);
                 }
                 return viajesPasajero;
             case CONDUCTOR:
                 if (viajesConductor == null) {
                     viajesConductor = new MutableLiveData<>();
-                    actualizarViajes(Tipo.CONDUCTOR);
+                    actualizarViajes(Tipo.CONDUCTOR, cxt);
                 }
                 return viajesConductor;
         }
         return null;
     }
 
-    public void actualizarViajes(Tipo tipo) {
+    public void actualizarViajes(Tipo tipo, Context cxt) {
         switch (tipo) {
             case PASADOS:
-                ApiREST.obtenerViajesCond(MainActivity.getUserId(), true, mRequestQueue, new ApiREST.Callback() {
+                ApiREST.obtenerViajesCond(Session.get(cxt).getUserId(), true, mRequestQueue, new ApiREST.Callback() {
                     @Override
                     public void onResult(Object res) {
                         List<Viaje> viajes_api = new ArrayList<>();
                         List<Viaje> viajes = (List<Viaje>) res;
                         viajes_api.addAll(viajes);
 
-                        ApiREST.obtenerViajesPas(MainActivity.getUserId(), true, mRequestQueue, new ApiREST.Callback() {
+                        ApiREST.obtenerViajesPas(Session.get(cxt).getUserId(), true, mRequestQueue, new ApiREST.Callback() {
                             @Override
                             public void onResult(Object res) {
                                 List<Viaje> viajes = (List<Viaje>) res;
@@ -74,7 +77,7 @@ public class ViajesViewModel extends ViewModel {
                 });
                 break;
             case PASAJERO:
-                ApiREST.obtenerViajesPas(MainActivity.getUserId(), false, mRequestQueue, new ApiREST.Callback() {
+                ApiREST.obtenerViajesPas(Session.get(cxt).getUserId(), false, mRequestQueue, new ApiREST.Callback() {
                     @Override
                     public void onResult(Object res) {
                         List<Viaje> viajes_api = (List<Viaje>) res;
@@ -84,7 +87,7 @@ public class ViajesViewModel extends ViewModel {
 
                 break;
             case CONDUCTOR:
-                ApiREST.obtenerViajesCond(MainActivity.getUserId(), false, mRequestQueue, new ApiREST.Callback() {
+                ApiREST.obtenerViajesCond(Session.get(cxt).getUserId(), false, mRequestQueue, new ApiREST.Callback() {
                     @Override
                     public void onResult(Object res) {
                         List<Viaje> viajes_api = (List<Viaje>) res;

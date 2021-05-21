@@ -9,8 +9,10 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.shareus.Session;
 import com.example.shareus.model.Pasajero;
 import com.example.shareus.model.Ubicacion;
+import com.example.shareus.model.Usuario;
 import com.example.shareus.model.Valoracion;
 import com.example.shareus.model.Viaje;
 
@@ -48,7 +50,7 @@ public final class ApiREST {
         this.queue = queue;
     }
 
-    public interface Callback{
+    public interface Callback {
         void onResult(Object res);
     }
 
@@ -461,6 +463,13 @@ public final class ApiREST {
             }
         };
         mRequestQueue.add(request);
+    }
+
+    public static void loginOrRegister(String userName, Callback callback) {
+        Usuario usuario = new Usuario();
+        usuario.setId(2);
+        usuario.setUsuario("angrodboh");
+        callback.onResult(usuario);
     }
 }
 
