@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class PublicarFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_publicar, container, false);
         Context context = this.getContext();
 
+
         volveratras = root.findViewById(R.id.atras);
         publicar = root.findViewById(R.id.publicar);
         etPlannedDate = (EditText) root.findViewById(R.id.etPlannedDate);
@@ -89,7 +91,7 @@ public class PublicarFragment extends Fragment {
             });
     });
 
-        origen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*origen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 Toast.makeText(adapterView.getContext(), (String) adapterView.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
@@ -110,7 +112,7 @@ public class PublicarFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
 
         etPlannedDate.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +134,7 @@ public class PublicarFragment extends Fragment {
         volveratras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getContext(), "¡Publicación de viaje cancelada!", Toast.LENGTH_SHORT).show();
                 NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment);
                 navController.navigate(R.id.nav_misviajes);
             }
@@ -156,28 +159,45 @@ public class PublicarFragment extends Fragment {
         String fecha;
         String hora;
         String fechora;
-        long fecha_hora;
-        int max_plazas;
-        Float dinero;
+        long fecha_hora = 0;
+        int max_plazas = 0;
+        Float dinero = 0f;
+        boolean isAllFill = true;
+
 
         idOrigen = Utils.getIdUbi(ubicaciones, (String) origen.getSelectedItem());
         idDestino = Utils.getIdUbi(ubicaciones, (String) destino.getSelectedItem());
         fecha = etPlannedDate.getText().toString();
         hora = etPlannedHour.getText().toString();
         fechora = fecha + " " + hora;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date date = dateFormat.parse(fechora);
-        Timestamp timeStamp = new Timestamp(date.getTime());
-        fecha_hora  = timeStamp.getTime();
-        max_plazas = Integer.parseInt(numpPasajeros.getText().toString());
-        dinero = Float.parseFloat(precio.getText().toString());
 
-        ApiREST.crearViaje(2, idOrigen, idDestino, fecha_hora, max_plazas, dinero, mRequestQueue, new ApiREST.Callback() {
-            @Override
-            public void onResult(Object res) {
+        if (etPlannedHour.getText().toString().isEmpty() || etPlannedHour.getText().toString().isEmpty()
+            || numpPasajeros.getText().toString().isEmpty() || precio.getText().toString().isEmpty()){
+            isAllFill = false;
+        }
+        else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = dateFormat.parse(fechora);
+            Timestamp timeStamp = new Timestamp(date.getTime());
+            fecha_hora = timeStamp.getTime();
+            max_plazas = Integer.parseInt(numpPasajeros.getText().toString());
+            dinero = Float.parseFloat(precio.getText().toString());
+        }
 
-            }
-        });
+        if (isAllFill) {
+            Toast.makeText(getContext(), "¡Viaje publicado correctamente!", Toast.LENGTH_SHORT).show();
+            ApiREST.crearViaje(2, idOrigen, idDestino, fecha_hora, max_plazas, dinero, mRequestQueue, new ApiREST.Callback() {
+                @Override
+                public void onResult(Object res) {
+
+                }
+            });
+            NavController navController = Navigation.findNavController((Activity) getContext(), R.id.nav_host_fragment);
+            navController.navigate(R.id.nav_misviajes);
+        }
+        else {
+            Toast.makeText(getContext(),"¡Rellena todos los campos!",Toast.LENGTH_SHORT).show();
+        }
 
 
     }
