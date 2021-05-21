@@ -17,15 +17,20 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuario/inicializar")
-    public String iniciar(
+    @JsonView(Vistas.Simple.class)
+    public Usuario iniciar(
             @RequestBody String email
     ) {
-        if(usuarios.obtenerUsuario(email) == null) {
-            return usuarios.inicializarUsuario(email) ? "TOKEN" : "false";
-        } else {
-            //TODO: Generar token.
-            return "TOKEN";
+        Usuario usuario = usuarios.obtenerUsuario(email);
+        if(usuario == null) {
+            usuarios.inicializarUsuario(email);
+            usuario = usuarios.obtenerUsuario(email);
+            usuario.setFirstTime(true);
         }
+
+        usuario.setToken("TOKEN");
+
+        return usuario;
     }
 
     @GetMapping("/usuario/{id}")

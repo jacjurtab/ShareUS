@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void loginWithAPI(String userName) {
-        ApiREST.loginOrRegister(userName, res -> {
+        ApiREST.loginOrRegister(userName, ApiREST.getInstance(getApplicationContext()).getQueue(), res -> {
             Usuario usuario = (Usuario) res;
             Log.d("LOGIN", "Se obtiene o crea el usuario (" + userName + ") desde el API");
             Session session = new Session(usuario.getId(), usuario.getUsuario());

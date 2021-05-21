@@ -10,6 +10,8 @@ public class Usuario {
 	private String email;
 	private String telefono;
 	private float valoracion;
+	private String token;
+	private boolean firstTime;
 	
 	public int getId() {
 		return id;
@@ -59,6 +61,18 @@ public class Usuario {
 	}
 	public void setValoracion(float valoracion) {
 		this.valoracion = valoracion;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public boolean isFirstTime() {
+		return firstTime;
+	}
+	public void setFirstTime(boolean firstTime) {
+		this.firstTime = firstTime;
 	}
 	
 }
