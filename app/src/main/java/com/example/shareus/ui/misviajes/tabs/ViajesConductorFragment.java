@@ -34,7 +34,7 @@ public class ViajesConductorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_viajes_conductor, container, false);
-        Context context = this.getContext();
+        context = getContext();
         viajesViewModel = new ViewModelProvider(this).get(ViajesViewModel.class);
         viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.CONDUCTOR, getContext());
         Log.d("DEBUG", "Actualizando viajes conductor");

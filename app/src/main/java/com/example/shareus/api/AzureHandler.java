@@ -79,7 +79,9 @@ public class AzureHandler {
 
             @Override
             public void onError(@NonNull MsalException exception) {
-
+                mMultipleAccountApp = null;
+                handler = null;
+                callback.onResult();
             }
         });
     }
