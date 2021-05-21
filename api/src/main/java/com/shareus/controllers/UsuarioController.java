@@ -16,17 +16,17 @@ public class UsuarioController {
         usuarios = new UsuariosDAO(ShareUSApplication.DS);
     }
 
-    @PostMapping("/usuario/inicializar")
+    @PostMapping("/usuario")
     @JsonView(Vistas.Simple.class)
     public Usuario iniciar(
             @RequestBody String email
     ) {
         Usuario usuario = usuarios.obtenerUsuario(email);
-        if(usuario == null) {
-            usuarios.inicializarUsuario(email);
+        if(usuario == null && usuarios.inicializarUsuario(email)) {
             usuario = usuarios.obtenerUsuario(email);
-            usuario.setFirstTime(true);
         }
+
+        if (usuario.getNombre() == null) usuario.setFirstTime(true);
 
         usuario.setToken("TOKEN");
 
@@ -41,12 +41,13 @@ public class UsuarioController {
         return usuarios.obtenerUsuario(id);
     }
 
-    @PutMapping(path="/usuario/completar", consumes = "application/json")
+    @PutMapping(path="/usuario/{id}/completar", consumes = "application/json")
     @JsonView(Vistas.Simple.class)
     public boolean completar(
+            @PathVariable Integer id,
             @RequestBody Usuario usuario
     ) {
-        return usuarios.completarUsuario(usuario.getId(), usuario.getNombre(), usuario.getPrimer_apellido(),
+        return usuarios.completarUsuario(id, usuario.getNombre(), usuario.getPrimer_apellido(),
                 usuario.getSegundo_apellido(), usuario.getTelefono());
     }
 
