@@ -1,6 +1,6 @@
 package com.shareus.models;
 
-public class VistasViaje {
+public class Vistas {
 
     public interface Simple { }
 

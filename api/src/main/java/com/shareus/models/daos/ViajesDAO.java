@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.shareus.models.Pasajero;
-import com.shareus.models.Valoracion;
 import com.shareus.models.Viaje;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -158,7 +157,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 							rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
 							rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
 					viajes.add(viaje);
-				}            	
+				}
 			}
 			rs.close();
 			st.close();
@@ -239,7 +238,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
 							viajes.add(viaje);
 						}
-					} 
+					}
 				} else {
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").before(Timestamp.from(Instant.now()))) {
@@ -309,7 +308,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 			if (st[0].executeUpdate() == 1) {
 				deshacer = true;
-				if(st[1].executeUpdate() == 1) {					
+				if(st[1].executeUpdate() == 1) {
 					resultado = true;
 					deshacer = false;
 				}
@@ -395,8 +394,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 
 		return resultado;
 	}
-	
-	public List<Viaje> obtenerViajesUbi(String origen, String destino, Boolean disponibles){		
+
+	public List<Viaje> obtenerViajesUbi(String origen, String destino, Boolean disponibles){
 		Connection conn;
 		List<Viaje> viajes = new ArrayList<>();
 		try {
@@ -426,7 +425,7 @@ public class ViajesDAO implements ViajesDAOInterface {
 									rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
 							viajes.add(viaje);
 						}
-					} 
+					}
 				} else {
 					while (rs.next()) {
 						if (rs.getTimestamp("fecha").before(Timestamp.from(Instant.now()))) {
@@ -453,6 +452,5 @@ public class ViajesDAO implements ViajesDAOInterface {
 			System.out.println("Error en ViajesDAO (obtenerViajes): " + e.getMessage());
 		}
 		return viajes;		
-	
 	}
 }

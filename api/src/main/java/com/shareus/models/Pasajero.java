@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 public class Pasajero {
 
-	@JsonView(VistasViaje.Completo.class)
+	@JsonView(Vistas.Completo.class)
 	private int id;
-	@JsonView(VistasViaje.Completo.class)
+	@JsonView(Vistas.Completo.class)
 	private String nombre;
 	
 	public Pasajero () {

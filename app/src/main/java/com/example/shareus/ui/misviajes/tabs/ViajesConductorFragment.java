@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class ViajesConductorFragment extends Fragment {
 
     private static ViajesViewModel viajesViewModel;
+    private static Context context;
 
     public ViajesConductorFragment() {
         // Required empty public constructor
@@ -35,7 +36,7 @@ public class ViajesConductorFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_viajes_conductor, container, false);
         Context context = this.getContext();
         viajesViewModel = new ViewModelProvider(this).get(ViajesViewModel.class);
-        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.CONDUCTOR);
+        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.CONDUCTOR, getContext());
         Log.d("DEBUG", "Actualizando viajes conductor");
 
         ExtendedFloatingActionButton fab = root.findViewById(R.id.fab);
@@ -55,7 +56,7 @@ public class ViajesConductorFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ViajesViewModel viajesViewModel = new ViewModelProvider(this).get(ViajesViewModel.class);
 
-        viajesViewModel.getViajes(ViajesViewModel.Tipo.CONDUCTOR).observe(getViewLifecycleOwner(), viajes -> {
+        viajesViewModel.getViajes(ViajesViewModel.Tipo.CONDUCTOR, getContext()).observe(getViewLifecycleOwner(), viajes -> {
             Log.d("DEBUG", "Recibida actualización viajes conductor");
             ViajesDrawer.renderViajes(viajes, this.getContext(), this.getView());
         });
@@ -63,6 +64,6 @@ public class ViajesConductorFragment extends Fragment {
 
     //TODO: Create singleton instance ViewModel.
     public static void update() {
-        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.CONDUCTOR);
+        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.CONDUCTOR, context);
     }
 }
