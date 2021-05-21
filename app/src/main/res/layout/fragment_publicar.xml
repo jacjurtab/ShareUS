@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_publicar"
+    android:orientation="vertical"
     tools:context=".ui.publicar.PublicarFragment">
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="15dp"
         app:cardCornerRadius="10dp"
         android:elevation="20dp">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_marginVertical="10dp"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
@@ -27,79 +30,163 @@
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="center"
                 android:text="Nuevo Viaje"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:textSize="40sp">
             </TextView>
-
-            <Spinner
-                android:id="@+id/Spinnerorigen"
-                android:layout_marginTop="10dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textAlignment="center">
-
-            </Spinner>
-
-            <Spinner
-                android:id="@+id/Spinnerdestino"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:entries="@array/ubicaciones"
-                android:prompt="@string/spinnerubi"
-                android:textAlignment="center">
-
-            </Spinner>
-
-            <EditText
-                android:id="@+id/etPlannedDate"
-                android:layout_width="248dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="Introduzca fecha"
-                android:inputType="date"
-                android:maxLines="1"
-                android:textAlignment="center" />
-
-            <EditText
-                android:id="@+id/etPlannedHour"
-                android:layout_width="248dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="Introduzca hora"
-                android:inputType="date"
-                android:maxLines="1"
-                android:textAlignment="center" />
-
-            <EditText
-                android:id="@+id/plazasTotales"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:hint="Número de pasajeros"
-                android:inputType="number"
-                android:textAlignment="center">
-            </EditText>
-
-            <EditText
-                android:id="@+id/precio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:hint="Precio por pasajero"
-                android:inputType="numberDecimal"
-                android:textAlignment="center">
-            </EditText>
-
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:useDefaultMargins="true"
+                android:columnCount="2">
+                <RelativeLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitXY"
+                        android:id="@+id/imagen"
+                        app:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_baseline_trip_origin_24"/>
+                    <LinearLayout
+                        android:layout_toEndOf="@id/imagen"
+                        android:layout_width="match_parent"
+                        android:id="@+id/primerselect"
+                        android:layout_height="wrap_content">
+                        <Spinner
+                            android:id="@+id/Spinnerorigen"
+                            android:layout_height="35dp"
+                            android:textAlignment="center"
+                            android:layout_width="match_parent" />
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_below="@id/primerselect"
+                        android:layout_width="30dp"
+                        android:id="@+id/segundo_icono"
+                        android:layout_height="30dp"
+                        android:scaleType="fitXY"
+                        app:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_baseline_trip_destination_24"/>
+                    <LinearLayout
+                        android:layout_toEndOf="@id/segundo_icono"
+                        android:layout_below="@id/primerselect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <Spinner
+                            android:id="@+id/Spinnerdestino"
+                            android:layout_height="35dp"
+                            android:textAlignment="center"
+                            android:layout_width="match_parent" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </GridLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginVertical="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/colorPrimary"/>
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:columnCount="2"
+                android:layout_gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    app:tint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_menu_calendario"/>
+                <EditText
+                    android:id="@+id/etPlannedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:layout_column="1"
+                    android:hint="Introduzca fecha"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:textAlignment="center" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="fitXY"
+                    android:layout_column="0"
+                    app:tint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_baseline_more_time_24"/>
+                <EditText
+                    android:id="@+id/etPlannedHour"
+                    android:layout_column="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Introduzca hora"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:textAlignment="center" />
+            </GridLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginVertical="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/colorPrimary"/>
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:columnCount="2"
+                android:layout_gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    app:tint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_baseline_people_alt_24"/>
+                <EditText
+                    android:id="@+id/plazasTotales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:hint="Número de pasajeros"
+                    android:inputType="number"
+                    android:textAlignment="center">
+                </EditText>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center_vertical"
+                    android:layout_column="0"
+                    app:tint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_baseline_euro_24"/>
+                <EditText
+                    android:id="@+id/precio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Precio por pasajero"
+                    android:layout_column="1"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center">
+                </EditText>
+            </GridLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="10dp">
 
                 <Button
@@ -107,25 +194,31 @@
                     android:layout_width="wrap_content"
                     android:backgroundTint="@color/colorRojoBoton"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
                     android:text="Cancelar" />
 
                 <Button
                     android:id="@+id/publicar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_row="0"
-                    android:layout_column="2"
+                    android:layout_marginStart="20dp"
                     android:backgroundTint="@color/colorAccent"
                     android:text="Publicar" />
 
-            </GridLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_undraw_city_driver"/>
 
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
