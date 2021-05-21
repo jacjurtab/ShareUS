@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -15,6 +16,7 @@ import com.example.shareus.model.Ubicacion;
 import com.example.shareus.model.Usuario;
 import com.example.shareus.model.Valoracion;
 import com.example.shareus.model.Viaje;
+import com.sun.jersey.spi.monitoring.ResponseListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -465,11 +467,37 @@ public final class ApiREST {
         mRequestQueue.add(request);
     }
 
-    public static void loginOrRegister(String userName, Callback callback) {
-        Usuario usuario = new Usuario();
-        usuario.setId(2);
-        usuario.setUsuario("angrodboh");
-        callback.onResult(usuario);
+    public static void loginOrRegister(String email, RequestQueue mRequestQueue, Callback callback) {
+        String url = BASE + "/usuario/inicializar";
+        System.out.println(url);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null, res -> {
+            Usuario usuario = new Usuario();
+            try {
+                usuario.setId(res.getInt("id"));
+                usuario.setUsuario(res.getString("usuario"));
+                usuario.setToken(res.getString("token"));
+                usuario.setFirstTime(res.getBoolean("firstTime"));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            callback.onResult(usuario);
+            System.out.println("[REST][loginOrRegister]Respuesta inicializarUsuario: " + res);
+        }, error ->
+            System.out.println("[REST] Error respuestas: inicializarUsuario :"+error.getMessage()))
+        {
+            @Override
+            public byte[] getBody(){
+                return email.getBytes();
+            }
+            @Override
+            public String getBodyContentType() {
+                return "text/plain";
+            }
+        };
+        mRequestQueue.add(request);
     }
 }
 

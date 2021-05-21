@@ -28,7 +28,6 @@ public class AzureHandler {
     private static IMultipleAccountPublicClientApplication mMultipleAccountApp;
 
     private IAccount account;
-    private Date expiration;
 
     public AzureHandler() {
         SCOPES = new String[]{"user.read"};
@@ -97,7 +96,6 @@ public class AzureHandler {
             @Override
             public void onSuccess(IAuthenticationResult authenticationResult) {
                 account = authenticationResult.getAccount();
-                expiration = authenticationResult.getExpiresOn();
                 callback.onResult(account);
             }
 
