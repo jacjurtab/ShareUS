@@ -136,4 +136,8 @@
     <string name="login">Iniciar Sesión</string>
     <string name="log_out">Cerrar Sesión</string>
     <string name="loging_in">Iniciando Sesión...</string>
+    <string name="valora_al_conductor">Valora al conductor</string>
+    <string name="subtext_stars1">De 0 a 5 estrellas donde:</string>
+    <string name="subtext_stars2">0 estrellas es un 0/10</string>
+    <string name="subtext_stars3">5 estrellas es un 10/10</string>
 </resources>

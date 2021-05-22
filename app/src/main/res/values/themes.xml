@@ -23,4 +23,10 @@
     <style name="Theme.ShareUS.SplashTheme">
         <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
+
+    <style name="Theme.ShareUS.Stars">
+        <item name="colorControlActivated">
+            #FBC02D
+        </item>
+    </style>
 </resources>

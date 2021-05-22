@@ -5,9 +5,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +35,7 @@ public class DetailActivity extends AppCompatActivity {
     ListView lista;
     Activity cxt;
     RequestQueue mRequestQueue = ApiREST.getInstance(null).getQueue();
+    Viaje viaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,7 @@ public class DetailActivity extends AppCompatActivity {
         int id = getIntent().getIntExtra("id", -1);
 
         ApiREST.obtenerViaje(id, mRequestQueue, res -> {
-            Viaje viaje = (Viaje) res;
+            viaje = (Viaje) res;
             render(viaje);
         });
     }
@@ -156,13 +160,46 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void insertarValoracion(Viaje viaje, View view) {
-        Snackbar.make(view, "Valoración añadida correctamente", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+        int idConductor = viaje.getIdConductor();
+        int idViaje = viaje.getId();
+        int idValorador = Session.get(getApplicationContext()).getUserId();
+        Utils.showValoracionDialog(this, new DialogCallback() {
+            @Override
+            public void callBack(int rating) {
+
+                ApiREST.crearValoracion(idViaje, idValorador , idConductor, rating,   mRequestQueue, new ApiREST.Callback() {
+                    @Override
+                    public void onResult(Object res) {
+                        Boolean resultado = Boolean.parseBoolean(String.valueOf(res));
+                        if (resultado) {
+                            Snackbar.make(view, "¡Valoración añadida correctamente!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onDismissed(Snackbar snackbar, int event) {
+                                    finish();
+                                    cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                                }
+                            }).show();
+                        }
+                        else {
+                            Snackbar.make(view, "¡No puedes valorar 2 veces el mismo viaje!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onDismissed(Snackbar snackbar, int event) {
+                                    finish();
+                                    cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                                }
+                            }).show();
+                        }
+                    }
+                });
+            }
+        }, mRequestQueue);
+        /*Snackbar.make(view, "Me salgo", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
                 finish();
                 cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
             }
-        }).show();
+        }).show();*/
     }
 
     public void insertarPasajero(Viaje viaje, int pasajero, View view) {
