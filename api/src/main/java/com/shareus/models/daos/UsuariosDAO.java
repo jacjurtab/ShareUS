@@ -51,13 +51,14 @@ public class UsuariosDAO {
         try {
             conn = ds.getConnection();
             String sql = "SELECT " +
-                    "us.id AS userId, us.uvus AS userName, us.email AS email " +
+                    "us.id AS userId, us.nombre AS nombre, us.uvus AS userName, us.email AS email " +
                     "FROM usuarios us WHERE us.email = ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                usuario = new Usuario(rs.getInt("userId"), rs.getString("userName"), rs.getString("email"));
+                usuario = new Usuario(rs.getInt("userId"), rs.getString("userName"),
+                        rs.getString("email"), rs.getString("nombre"));
             }
             rs.close();
             st.close();

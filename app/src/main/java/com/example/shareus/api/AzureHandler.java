@@ -28,7 +28,6 @@ public class AzureHandler {
     private static IMultipleAccountPublicClientApplication mMultipleAccountApp;
 
     private IAccount account;
-    private Date expiration;
 
     public AzureHandler() {
         SCOPES = new String[]{"user.read"};
@@ -91,18 +90,19 @@ public class AzureHandler {
         mMultipleAccountApp.acquireToken(activity, SCOPES, new AuthenticationCallback() {
             @Override
             public void onCancel() {
+                callback.onResult(null);
                 Log.d(TAG, "Authentication cancelled.");
             }
 
             @Override
             public void onSuccess(IAuthenticationResult authenticationResult) {
                 account = authenticationResult.getAccount();
-                expiration = authenticationResult.getExpiresOn();
                 callback.onResult(account);
             }
 
             @Override
             public void onError(MsalException exception) {
+                callback.onResult(null);
                 Log.d(TAG, "Authentication failed: " + exception.toString());
             }
         });

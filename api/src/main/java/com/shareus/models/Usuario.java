@@ -22,11 +22,16 @@ public class Usuario {
 	private String telefono;
 	@JsonView(Vistas.Completo.class)
 	private float valoracion;
+	@JsonView(Vistas.Simple.class)
+	private String token;
+	@JsonView(Vistas.Simple.class)
+	private boolean firstTime;
 
-	public Usuario(int id, String usuario, String email) {
+	public Usuario(int id, String usuario, String email, String nombre) {
 		this.id = id;
 		this.usuario = usuario;
 		this.email = email;
+		this.nombre = nombre;
 	}
 
 	public Usuario() {
@@ -47,7 +52,6 @@ public class Usuario {
 	public String getUsuario() {
 		return usuario;
 	}
-
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
@@ -92,6 +96,18 @@ public class Usuario {
 	}
 	public void setValoracion(float valoracion) {
 		this.valoracion = valoracion;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public boolean isFirstTime() {
+		return firstTime;
+	}
+	public void setFirstTime(boolean firstTime) {
+		this.firstTime = firstTime;
 	}
 	
 }
