@@ -67,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
                     if (id == R.id.nav_logout) {
                         Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
                         Session.destroy(getApplicationContext());
-                        AzureHandler.getInstance().destroy(this::recreate);
+                        AzureHandler.getInstance().destroy(() -> {
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
+                        });
                         return false;
                     }
 
