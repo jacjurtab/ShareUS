@@ -28,6 +28,7 @@
         <item name="colorControlActivated">
             #FBC02D
         </item>
+    </style>
     
     <style name="ThemeOverlay.ShareUS.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
