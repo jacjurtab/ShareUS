@@ -59,12 +59,8 @@ public class PublicarFragment extends Fragment {
     Spinner origen;
     Spinner destino;
 
-    private PublicarViewModel publicarViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        publicarViewModel =
-                new ViewModelProvider(this).get(PublicarViewModel.class);
         View root = inflater.inflate(R.layout.fragment_publicar, container, false);
         Context context = this.getContext();
 
@@ -85,7 +81,7 @@ public class PublicarFragment extends Fragment {
                 universidades = (List<Ubicacion>) res1;
                 ubicaciones.addAll(universidades);
                 String[] ubs = Utils.getListaNombres(ubicaciones);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, ubs);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.simple_item, ubs);
                 origen.setAdapter(adapter);
                 destino.setAdapter(adapter);
             });

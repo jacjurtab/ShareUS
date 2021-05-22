@@ -215,6 +215,17 @@ public class BlankFragment extends Fragment {
         });
 
 
+        //Viajes disponibles
+        ApiREST.obtenerViajesUbi("Sevilla Este", "ETSI", true, mRequestQueue, new ApiREST.Callback() {
+            @Override
+            public void onResult(Object res) {
+                List<Viaje> viajes_api = (List<Viaje>) res;
+                for (Viaje i : viajes_api){
+                    System.out.println("i " + i.getConductor());
+                }
+            }
+        });
+
         return vista;
     }
 }

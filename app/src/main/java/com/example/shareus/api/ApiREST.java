@@ -1,6 +1,7 @@
 package com.example.shareus.api;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -140,8 +141,7 @@ public final class ApiREST {
         mRequestQueue.add(request);
     }
 
-    public static void obtenerViajesUbi(String origen, String destino, boolean disponible,
-                                        RequestQueue mRequestQueue, Callback callback) {
+    public static void obtenerViajesUbi(String origen, String destino, boolean disponible, RequestQueue mRequestQueue, Callback callback) {
         String url = BASE + "/viajes?origen=" + origen + "&destino=" + destino + "&disponibles=" + disponible;
         System.out.println(url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, res -> {
@@ -152,14 +152,7 @@ public final class ApiREST {
 
                     Viaje viaje = null;
                     JSONObject item = res.getJSONObject(j);
-                    List<Pasajero> pasajeros = new ArrayList<>();
 
-                    JSONArray pasajeros_js = item.getJSONArray("pasajeros");
-                    for (int i = 0; i < pasajeros_js.length(); i++) {
-                        JSONObject pasajero = pasajeros_js.getJSONObject(i);
-                        pasajeros.add(new Pasajero(pasajero.getInt("id"),
-                                pasajero.getString("nombre")));
-                    }
                     viaje = new Viaje(item.getInt("id"),
                             item.getInt(("idConductor")),
                             item.getString("conductor"),
@@ -168,7 +161,7 @@ public final class ApiREST {
                             new Timestamp(item.getLong("fecha_hora")),
                             item.getInt("num_pasajeros"),
                             item.getInt("max_plazas"),
-                            pasajeros,
+                            null,
                             Float.parseFloat(item.getString("nota_conductor")),
                             Float.parseFloat(item.getString("precio")));
                     viajes.add(viaje);

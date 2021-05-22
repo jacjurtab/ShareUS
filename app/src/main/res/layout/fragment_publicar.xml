@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="center"
-                android:text="Nuevo Viaje"
+                android:text="@string/nuevo_viaje"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textSize="40sp">
             </TextView>
@@ -45,6 +45,7 @@
                         android:layout_height="30dp"
                         android:scaleType="fitXY"
                         android:id="@+id/imagen"
+                        android:layout_centerVertical="true"
                         app:tint="@color/colorPrimaryDark"
                         android:src="@drawable/ic_baseline_trip_origin_24"/>
                     <LinearLayout
@@ -56,26 +57,31 @@
                             android:id="@+id/Spinnerorigen"
                             android:layout_height="35dp"
                             android:textAlignment="center"
-                            android:layout_width="match_parent" />
+                            android:layout_width="match_parent"
+                            style="@style/spinner_style"/>
                     </LinearLayout>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_row="1"
+                    android:layout_column="0">
                     <ImageView
-                        android:layout_below="@id/primerselect"
                         android:layout_width="30dp"
                         android:id="@+id/segundo_icono"
                         android:layout_height="30dp"
+                        android:layout_centerVertical="true"
                         android:scaleType="fitXY"
                         app:tint="@color/colorPrimaryDark"
                         android:src="@drawable/ic_baseline_trip_destination_24"/>
                     <LinearLayout
                         android:layout_toEndOf="@id/segundo_icono"
-                        android:layout_below="@id/primerselect"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <Spinner
                             android:id="@+id/Spinnerdestino"
                             android:layout_height="35dp"
                             android:textAlignment="center"
-                            android:layout_width="match_parent" />
+                            android:layout_width="match_parent"
+                            style="@style/spinner_style"/>
                     </LinearLayout>
                 </RelativeLayout>
             </GridLayout>

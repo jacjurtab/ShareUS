@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/viajes_encontrados_fr"
+tools:context=".ui.encontrar.ViajesEncontradosFragment">
+
+    <ListView
+        android:id="@+id/listado"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:layout_marginHorizontal="10dp">
+    </ListView>
+
+    <include layout="@layout/empty" android:id="@+id/empty" android:visibility="invisible"/>
+    <include layout="@layout/loading" android:id="@+id/loading" android:visibility="visible"/>
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Cambiar"
+        app:elevation="20dp"
+        app:icon="@drawable/ic_baseline_edit_calendar_24"/>
+</FrameLayout>
