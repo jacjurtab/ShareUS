@@ -1,6 +1,7 @@
 package com.example.shareus.api;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -150,14 +151,7 @@ public final class ApiREST {
 
                     Viaje viaje = null;
                     JSONObject item = res.getJSONObject(j);
-                    List<Pasajero> pasajeros = new ArrayList<>();
 
-                    JSONArray pasajeros_js = item.getJSONArray("pasajeros");
-                    for (int i = 0; i < pasajeros_js.length(); i++) {
-                        JSONObject pasajero = pasajeros_js.getJSONObject(i);
-                        pasajeros.add(new Pasajero(pasajero.getInt("id"),
-                                pasajero.getString("nombre")));
-                    }
                     viaje = new Viaje(item.getInt("id"),
                             item.getInt(("idConductor")),
                             item.getString("conductor"),
@@ -166,15 +160,17 @@ public final class ApiREST {
                             new Timestamp(item.getLong("fecha_hora")),
                             item.getInt("num_pasajeros"),
                             item.getInt("max_plazas"),
-                            pasajeros,
+                            null,
                             Float.parseFloat(item.getString("nota_conductor")),
                             Float.parseFloat(item.getString("precio")));
                     viajes.add(viaje);
 
                 }
+                Log.d("DEBUG", "Preparando callback");
                 callback.onResult(viajes);
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.d("DEBUG", "Error bbdd");
             }
             System.out.println("[REST][obtenerViajesUbi] Respuesta recibida: " + res.toString());
             VolleyLog.v("Response:%n %s", res);

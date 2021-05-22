@@ -13,7 +13,7 @@
         android:theme="@style/Theme.ShareUS">
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"

@@ -21,7 +21,7 @@ public class ViajesPasajeroFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViajesViewModel viajesViewModel = new ViewModelProvider(this).get(ViajesViewModel.class);
-        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.PASAJERO, getContext());
+        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.PASAJERO,null, null, getContext());
 
         return inflater.inflate(R.layout.fragment_viajes_pasajero, container, false);
     }
@@ -31,7 +31,7 @@ public class ViajesPasajeroFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ViajesViewModel viajesViewModel = new ViewModelProvider(this).get(ViajesViewModel.class);
 
-        viajesViewModel.getViajes(ViajesViewModel.Tipo.PASAJERO, getContext()).observe(getViewLifecycleOwner(), viajes -> {
+        viajesViewModel.getViajes(ViajesViewModel.Tipo.PASAJERO, null, null, getContext()).observe(getViewLifecycleOwner(), viajes -> {
             ViajesDrawer.renderViajes(viajes, this.getContext(), this.getView());
         });
     }

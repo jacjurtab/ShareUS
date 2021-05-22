@@ -1,6 +1,7 @@
 package com.example.shareus.ui;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -21,39 +22,47 @@ public class ViajesViewModel extends ViewModel {
     public enum Tipo {
         PASADOS,
         PASAJERO,
-        CONDUCTOR
+        CONDUCTOR,
+        OR_DEST
     }
 
     private MutableLiveData<List<Viaje>> viajesPasados;
     private MutableLiveData<List<Viaje>> viajesPasajero;
     private MutableLiveData<List<Viaje>> viajesConductor;
+    private MutableLiveData<List<Viaje>> viajesDisponibles;
     RequestQueue mRequestQueue = ApiREST.getInstance(null).getQueue();
 
-    public MutableLiveData<List<Viaje>> getViajes(Tipo tipo, Context cxt) {
+    public MutableLiveData<List<Viaje>> getViajes(Tipo tipo, String origen, String destino, Context cxt) {
         switch (tipo) {
             case PASADOS:
                 if (viajesPasados == null) {
                     viajesPasados = new MutableLiveData<>();
-                    actualizarViajes(Tipo.PASADOS, cxt);
+                    actualizarViajes(Tipo.PASADOS, null, null, cxt);
                 }
                 return viajesPasados;
             case PASAJERO:
                 if (viajesPasajero == null) {
                     viajesPasajero = new MutableLiveData<>();
-                    actualizarViajes(Tipo.PASAJERO, cxt);
+                    actualizarViajes(Tipo.PASAJERO, null, null, cxt);
                 }
                 return viajesPasajero;
             case CONDUCTOR:
                 if (viajesConductor == null) {
                     viajesConductor = new MutableLiveData<>();
-                    actualizarViajes(Tipo.CONDUCTOR, cxt);
+                    actualizarViajes(Tipo.CONDUCTOR, null, null, cxt);
                 }
                 return viajesConductor;
+            case OR_DEST:
+                if (viajesDisponibles == null) {
+                    viajesDisponibles = new MutableLiveData<>();
+                    actualizarViajes(Tipo.OR_DEST, origen, destino, cxt);
+                }
+                return viajesDisponibles;
         }
         return null;
     }
 
-    public void actualizarViajes(Tipo tipo, Context cxt) {
+    public void actualizarViajes(Tipo tipo, String origen, String destino, Context cxt) {
         switch (tipo) {
             case PASADOS:
                 ApiREST.obtenerViajesCond(Session.get(cxt).getUserId(), true, mRequestQueue, new ApiREST.Callback() {
@@ -95,6 +104,18 @@ public class ViajesViewModel extends ViewModel {
                     }
                 });
                 break;
+
+            case OR_DEST:
+                ApiREST.obtenerViajesUbi(origen, destino, true, mRequestQueue, new ApiREST.Callback() {
+                    @Override
+                    public void onResult(Object res) {
+                        List<Viaje> viajes_api = (List<Viaje>) res;
+                        viajesDisponibles.setValue(viajes_api);
+                        Log.d("DEBUG", "Obtencion viajes disponibles: " + viajesDisponibles.getValue().size());
+                    }
+                });
+                break;
+
         }
     }
 
