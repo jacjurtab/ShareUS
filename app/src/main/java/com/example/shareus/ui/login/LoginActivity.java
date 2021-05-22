@@ -5,18 +5,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shareus.MainActivity;
 import com.example.shareus.R;
+import com.example.shareus.RegisterActivity;
 import com.example.shareus.Session;
 import com.example.shareus.api.ApiREST;
 import com.example.shareus.api.AzureHandler;
 import com.example.shareus.model.Usuario;
-import com.microsoft.identity.client.IAccount;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,8 +38,13 @@ public class LoginActivity extends AppCompatActivity {
             findViewById(R.id.signing_in).setVisibility(View.VISIBLE);
             findViewById(R.id.login).setVisibility(View.GONE);
             AzureHandler.getInstance().authorize(this, account -> {
-                String userName = account.getUsername();
-                loginWithAPI(userName);
+                if(account != null) {
+                    String userName = account.getUsername();
+                    loginWithAPI(userName);
+                } else {
+                    findViewById(R.id.signing_in).setVisibility(View.GONE);
+                    findViewById(R.id.login).setVisibility(View.VISIBLE);
+                }
             });
         });
     }
@@ -50,11 +53,17 @@ public class LoginActivity extends AppCompatActivity {
     public void loginWithAPI(String userName) {
         ApiREST.loginOrRegister(userName, ApiREST.getInstance(getApplicationContext()).getQueue(), res -> {
             Usuario usuario = (Usuario) res;
-            Log.d("LOGIN", "Se obtiene o crea el usuario (" + userName + ") desde el API");
+            Log.d("LOGIN", "Se obtiene o crea el usuario (" + usuario.getId() + "," + usuario.getUsuario() + ",nuevo=" + usuario.isFirstTime() + ") desde el API");
             Session session = new Session(usuario.getId(), usuario.getUsuario());
             Session.save(session, getApplicationContext());
+            Intent intent;
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            if(usuario.isFirstTime()) {
+                intent = new Intent(getApplicationContext(), RegisterActivity.class);
+            } else {
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+            }
+
             startActivity(intent);
             finish();
         });

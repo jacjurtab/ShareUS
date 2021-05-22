@@ -90,6 +90,7 @@ public class AzureHandler {
         mMultipleAccountApp.acquireToken(activity, SCOPES, new AuthenticationCallback() {
             @Override
             public void onCancel() {
+                callback.onResult(null);
                 Log.d(TAG, "Authentication cancelled.");
             }
 
@@ -101,6 +102,7 @@ public class AzureHandler {
 
             @Override
             public void onError(MsalException exception) {
+                callback.onResult(null);
                 Log.d(TAG, "Authentication failed: " + exception.toString());
             }
         });

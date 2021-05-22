@@ -27,10 +27,11 @@ public class Usuario {
 	@JsonView(Vistas.Simple.class)
 	private boolean firstTime;
 
-	public Usuario(int id, String usuario, String email) {
+	public Usuario(int id, String usuario, String email, String nombre) {
 		this.id = id;
 		this.usuario = usuario;
 		this.email = email;
+		this.nombre = nombre;
 	}
 
 	public Usuario() {

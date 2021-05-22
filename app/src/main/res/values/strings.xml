@@ -136,4 +136,12 @@
     <string name="login">Iniciar Sesión</string>
     <string name="log_out">Cerrar Sesión</string>
     <string name="loging_in">Iniciando Sesión...</string>
+    <string name="title_activity_register">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="welcome_msg">¡Bienvenido a la aplicación de ShareUS!</string>
+    <string name="welcome_msg_ext">Como es la primera vez que te vemos por aquí necesitamos saber un poco más de ti. Recuerda que tus datos son obligatorios para que el resto de usuarios de ShareUS puedan contactar contigo :)</string>
+    <string name="telf">666555444</string>
+    <string name="nombre">Jose Manuel</string>
+    <string name="send">Enviar datos</string>
 </resources>

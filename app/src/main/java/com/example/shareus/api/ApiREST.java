@@ -468,7 +468,7 @@ public final class ApiREST {
     }
 
     public static void loginOrRegister(String email, RequestQueue mRequestQueue, Callback callback) {
-        String url = BASE + "/usuario/inicializar";
+        String url = BASE + "/usuario";
         System.out.println(url);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null, res -> {
@@ -499,6 +499,36 @@ public final class ApiREST {
         };
         mRequestQueue.add(request);
     }
+
+    public static void completarUsuario(int usuario, String nombre, String telefono, RequestQueue mRequestQueue, Callback callback) {
+        String url = BASE + "/usuario/" + usuario + "/completar";
+        System.out.println(url);
+        StringRequest request = new StringRequest(Request.Method.PUT, url, res -> {
+            callback.onResult(res);
+            System.out.println("[REST][completarUsuario]Respuesta completarUsuario: " + res);
+        }, error ->
+                System.out.println("[REST] Error respuestas: completarUsuario :"+error.getMessage()))
+        {
+            @Override
+            public byte[] getBody(){
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("nombre", nombre);
+                    json.put("telefono", telefono);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return json.toString().getBytes();
+            }
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        mRequestQueue.add(request);
+    }
+
+
 }
 
 
