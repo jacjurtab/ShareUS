@@ -1,5 +1,14 @@
 package com.example.shareus;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.example.shareus.api.ApiREST;
 import com.example.shareus.model.Ubicacion;
 
 import java.text.SimpleDateFormat;
@@ -63,5 +72,27 @@ public class Utils {
             }
         }
         return id;
+    }
+
+    public static void showValoracionDialog (Context context, DialogCallback dialogCallback, RequestQueue mRequestQueue){
+        final CustomDialog dialog = new CustomDialog(context);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.valoracion, null);
+        dialog.setContentView(view);
+        RatingBar ratingBar = view.findViewById(R.id.ratingBar);
+        Button valorar = view.findViewById(R.id.enviarvaloracion);
+        valorar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float numEstrellas = ratingBar.getRating();
+                int valoracion = (int) (numEstrellas * 2);
+                if (dialogCallback != null) {
+                    dialogCallback.callBack(valoracion);
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
     }
 }

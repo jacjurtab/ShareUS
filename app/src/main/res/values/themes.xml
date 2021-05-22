@@ -24,12 +24,12 @@
         <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
-    <style name="Theme.ShareUS.Fullscreen" parent="Theme.ShareUS">
-        <item name="android:actionBarStyle">@style/Widget.Theme.ShareUS.ActionBar.Fullscreen</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowBackground">@null</item>
+    <style name="Theme.ShareUS.Stars">
+        <item name="colorControlActivated">
+            #FBC02D
+        </item>
     </style>
-
+    
     <style name="ThemeOverlay.ShareUS.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
