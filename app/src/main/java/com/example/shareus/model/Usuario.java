@@ -12,7 +12,17 @@ public class Usuario {
 	private float valoracion;
 	private String token;
 	private boolean firstTime;
-	
+
+	public Usuario() {
+
+	}
+
+	public Usuario(int id, String nombre, String usuario) {
+		this.id = id;
+		this.nombre = nombre;
+		this.usuario = usuario;
+	}
+
 	public int getId() {
 		return id;
 	}

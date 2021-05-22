@@ -528,6 +528,25 @@ public final class ApiREST {
         mRequestQueue.add(request);
     }
 
+    public static void obtenerUsuario(int id, RequestQueue mRequestQueue, Callback callback){
+        String url = BASE + "/usuario/" + id;
+        System.out.println(url);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, res -> {
+            Usuario usuario;
+            try {
+                usuario = new Usuario(id, res.getString("nombre"), res.getString("usuario"));
+                callback.onResult(usuario);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println("[REST][obtenerUsuario]Respuesta obtenerUsuario: " + res);
+        }, error -> System.out.println("[REST] Error respuestas: obtenerUsuario :"+error.getMessage()));
+        mRequestQueue.add(request);
+    }
+
+
+
+
 
 }
 
