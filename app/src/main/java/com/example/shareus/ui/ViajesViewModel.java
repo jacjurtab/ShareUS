@@ -1,6 +1,7 @@
 package com.example.shareus.ui;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -21,12 +22,17 @@ public class ViajesViewModel extends ViewModel {
     public enum Tipo {
         PASADOS,
         PASAJERO,
-        CONDUCTOR
+        CONDUCTOR,
+        OR_DEST
     }
+
+    private MutableLiveData<String> origen;
+    private MutableLiveData<String> destino;
 
     private MutableLiveData<List<Viaje>> viajesPasados;
     private MutableLiveData<List<Viaje>> viajesPasajero;
     private MutableLiveData<List<Viaje>> viajesConductor;
+    private MutableLiveData<List<Viaje>> viajesDisponibles;
     RequestQueue mRequestQueue = ApiREST.getInstance(null).getQueue();
 
     public MutableLiveData<List<Viaje>> getViajes(Tipo tipo, Context cxt) {
@@ -49,6 +55,12 @@ public class ViajesViewModel extends ViewModel {
                     actualizarViajes(Tipo.CONDUCTOR, cxt);
                 }
                 return viajesConductor;
+            case OR_DEST:
+                if (viajesDisponibles == null) {
+                    viajesDisponibles = new MutableLiveData<>();
+                    actualizarViajes(Tipo.OR_DEST, cxt);
+                }
+                return viajesDisponibles;
         }
         return null;
     }
@@ -95,7 +107,33 @@ public class ViajesViewModel extends ViewModel {
                     }
                 });
                 break;
+
+            case OR_DEST:
+                Log.d("DEBUG", "ORIGEN-DESTINO: " + origen.getValue() + "-" + destino.getValue());
+                ApiREST.obtenerViajesUbi(origen.getValue(), destino.getValue(), true, mRequestQueue, new ApiREST.Callback() {
+                    @Override
+                    public void onResult(Object res) {
+                        List<Viaje> viajes_api = (List<Viaje>) res;
+                        viajesDisponibles.setValue(viajes_api);
+                    }
+                });
+                break;
+
         }
+    }
+
+    public void changeLocations(String origenStr, String destinoStr) {
+        if(origen == null) {
+            origen = new MutableLiveData<>();
+        }
+
+        if(destino == null) {
+            destino = new MutableLiveData<>();
+        }
+
+        origen.setValue(origenStr);
+        destino.setValue(destinoStr);
+        Log.d("DEBUG", "UPDATE -> ORIGEN-DESTINO: " + origen.getValue() + "-" + destino.getValue());
     }
 
 }

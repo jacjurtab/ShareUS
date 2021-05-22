@@ -2,37 +2,37 @@ package com.example.shareus;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.android.volley.RequestQueue;
 import com.example.shareus.api.ApiREST;
 import com.example.shareus.api.AzureHandler;
-import com.example.shareus.ui.login.LoginActivity;
+import com.example.shareus.model.Usuario;
 import com.google.android.material.navigation.NavigationView;
-import com.microsoft.identity.client.IAccount;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_ShareUS_NoActionBar);
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 NavigationView navigationView = findViewById(R.id.nav_view);
                 mAppBarConfiguration = new AppBarConfiguration.Builder(
-                        R.id.nav_misviajes, R.id.nav_logout, R.id.nav_publicar,R.id.nav_encontrar, R.id.nav_prueba)
+                        R.id.nav_misviajes, R.id.nav_logout, R.id.nav_publicar,R.id.nav_encontrar, R.id.nav_resultados)
                         .setDrawerLayout(drawer)
                         .build();
                 NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -67,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
                     if (id == R.id.nav_logout) {
                         Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
                         Session.destroy(getApplicationContext());
-                        AzureHandler.getInstance().destroy(this::recreate);
+                        AzureHandler.getInstance().destroy(() -> {
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
+                        });
                         return false;
                     }
 
@@ -76,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 });
                 ApiREST.getInstance(this);
+                ApiREST.obtenerUsuario(Session.get(this).getUserId(), ApiREST.getInstance(this).getQueue(), res -> {
+                    TextView welcome = findViewById(R.id.welcome_user);
+                    Usuario usuario = (Usuario) res;
+                    welcome.setText("¡Bienvenido " + usuario.getNombre() + " a ShareUS!");
+                    setNeededHeight();
+                });
             }
         });
     }
@@ -91,5 +101,14 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void setNeededHeight() {
+        Rect rectangle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        int statusBarHeight = rectangle.top;
+        View spacer = findViewById(R.id.nav_header);
+        spacer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusBarHeight));
     }
 }

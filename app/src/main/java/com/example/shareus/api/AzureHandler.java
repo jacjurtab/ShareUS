@@ -22,7 +22,7 @@ import java.util.List;
 public class AzureHandler {
 
     private static AzureHandler handler;
-    public final String TAG = getClass().getName();
+    public final String TAG = "LOGIN";
 
     private static String[] SCOPES;
     private static IMultipleAccountPublicClientApplication mMultipleAccountApp;
@@ -67,8 +67,8 @@ public class AzureHandler {
         );
     }
 
-    public void destroy(Callback callback) {
-        mMultipleAccountApp.removeAccount(account, new IMultipleAccountPublicClientApplication.RemoveAccountCallback() {
+    public void destroy(Callback callback){
+        mMultipleAccountApp.removeAccount(getAccount(), new IMultipleAccountPublicClientApplication.RemoveAccountCallback() {
             @Override
             public void onRemoved() {
                 mMultipleAccountApp = null;
@@ -83,6 +83,20 @@ public class AzureHandler {
                 callback.onResult();
             }
         });
+
+//        mMultipleAccountApp.removeAccount(account, new IMultipleAccountPublicClientApplication.RemoveAccountCallback() {
+//            @Override
+//            public void onRemoved() {
+//
+//            }
+//
+//            @Override
+//            public void onError(@NonNull MsalException exception) {
+//                mMultipleAccountApp = null;
+//                handler = null;
+//                callback.onResult();
+//            }
+//        });
     }
 
     //Authorize new user to the app.

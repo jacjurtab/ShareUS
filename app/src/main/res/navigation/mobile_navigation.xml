@@ -10,13 +10,6 @@
         android:name="com.example.shareus.ui.misviajes.MisViajesFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_misviajes" />
-
-    <fragment
-        android:id="@+id/nav_logout"
-        android:name="com.example.shareus.ui.login.LoginFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_login" />
-
     <fragment
         android:id="@+id/nav_publicar"
         android:name="com.example.shareus.ui.publicar.PublicarFragment"
@@ -28,8 +21,8 @@
         android:label="Encontrar Viaje"
         tools:layout="@layout/encontrar_fragment" />
     <fragment
-        android:id="@+id/nav_prueba"
-        android:name="com.example.shareus.ui.pruebas.BlankFragment"
-        android:label="Prueba"
-        tools:layout="@layout/fragment_blank" />
+        android:id="@+id/nav_resultados"
+        android:name="com.example.shareus.ui.encontrar.ViajesEncontradosFragment"
+        android:label="Resultados de búsqueda"
+        tools:layout="@layout/fragment_viajes_encontrados" />
 </navigation>

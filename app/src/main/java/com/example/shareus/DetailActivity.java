@@ -23,6 +23,7 @@ import com.example.shareus.model.Pasajero;
 import com.example.shareus.model.Viaje;
 import com.example.shareus.ui.ViajesViewModel;
 import com.example.shareus.ui.misviajes.tabs.ViajesConductorFragment;
+import com.example.shareus.ui.misviajes.tabs.ViajesPasajeroFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -136,18 +137,15 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void eliminarViaje(Viaje viaje, View view) {
-        ApiREST.eliminarViaje(viaje.getId(), mRequestQueue, new ApiREST.Callback() {
-            @Override
-            public void onResult(Object res) {
-                boolean result = Boolean.parseBoolean((String) res);
+        ApiREST.eliminarViaje(viaje.getId(), mRequestQueue, res -> {
+            boolean result = Boolean.parseBoolean((String) res);
 
-                if(result) {
-                    finish();
-                    cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-                    ViajesConductorFragment.update();
-                } else {
-                    Snackbar.make(view, "No se ha podido eliminar el viaje", Snackbar.LENGTH_SHORT).show();
-                }
+            if(result) {
+                finish();
+                cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                ViajesConductorFragment.update(getApplicationContext());
+            } else {
+                Snackbar.make(view, "No se ha podido eliminar el viaje", Snackbar.LENGTH_SHORT).show();
             }
         });
         Snackbar.make(view, "Viaje eliminado correctamente", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
@@ -163,36 +161,27 @@ public class DetailActivity extends AppCompatActivity {
         int idConductor = viaje.getIdConductor();
         int idViaje = viaje.getId();
         int idValorador = Session.get(getApplicationContext()).getUserId();
-        Utils.showValoracionDialog(this, new DialogCallback() {
-            @Override
-            public void callBack(int rating) {
-
-                ApiREST.crearValoracion(idViaje, idValorador , idConductor, rating,   mRequestQueue, new ApiREST.Callback() {
+        Utils.showValoracionDialog(this, rating -> ApiREST.crearValoracion(idViaje, idValorador , idConductor, rating,  mRequestQueue, res -> {
+            Boolean resultado = Boolean.parseBoolean(String.valueOf(res));
+            if (resultado) {
+                Snackbar.make(view, "¡Valoración añadida correctamente!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
                     @Override
-                    public void onResult(Object res) {
-                        Boolean resultado = Boolean.parseBoolean(String.valueOf(res));
-                        if (resultado) {
-                            Snackbar.make(view, "¡Valoración añadida correctamente!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-                                @Override
-                                public void onDismissed(Snackbar snackbar, int event) {
-                                    finish();
-                                    cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-                                }
-                            }).show();
-                        }
-                        else {
-                            Snackbar.make(view, "¡No puedes valorar 2 veces el mismo viaje!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-                                @Override
-                                public void onDismissed(Snackbar snackbar, int event) {
-                                    finish();
-                                    cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-                                }
-                            }).show();
-                        }
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        finish();
+                        cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
                     }
-                });
+                }).show();
             }
-        }, mRequestQueue);
+            else {
+                Snackbar.make(view, "¡No puedes valorar 2 veces el mismo viaje!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        finish();
+                        cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                    }
+                }).show();
+            }
+        }), mRequestQueue);
         /*Snackbar.make(view, "Me salgo", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
@@ -209,12 +198,9 @@ public class DetailActivity extends AppCompatActivity {
 
             if(result) {
                 msg = "Añadido al viaje correctamente";
-                ApiREST.obtenerViaje(viaje.getId(), mRequestQueue, new ApiREST.Callback() {
-                    @Override
-                    public void onResult(Object res) {
-                        Viaje nuevo = (Viaje) res;
-                        render(nuevo);
-                    }
+                ApiREST.obtenerViaje(viaje.getId(), mRequestQueue, res1 -> {
+                    Viaje nuevo = (Viaje) res1;
+                    render(nuevo);
                 });
             } else {
                 msg = "Se ha producido un error al añadir pasajero";
@@ -230,12 +216,10 @@ public class DetailActivity extends AppCompatActivity {
 
             if(result) {
                 msg = "Eliminado del viaje correctamente";
-                ApiREST.obtenerViaje(viaje.getId(), mRequestQueue, new ApiREST.Callback() {
-                    @Override
-                    public void onResult(Object res) {
-                        Viaje nuevo = (Viaje) res;
-                        render(nuevo);
-                    }
+                ApiREST.obtenerViaje(viaje.getId(), mRequestQueue, res1 -> {
+                    Viaje nuevo = (Viaje) res1;
+                    render(nuevo);
+                    ViajesPasajeroFragment.update(getApplicationContext());
                 });
             } else {
                 msg = "Se ha producido un error al eliminar pasajero";

@@ -1,10 +1,12 @@
-package com.example.shareus.ui.login;
+package com.example.shareus;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,20 +20,25 @@ import com.example.shareus.model.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setTitle("Inicio de Sesión");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
-        AzureHandler handler = AzureHandler.getInstance();
+        TextView desc = findViewById(R.id.state_desc);
 
+        //TODO: BUG CERRANDO SESIÓN. Azure no elimina la cuenta completamente.
+/*        AzureHandler handler = AzureHandler.getInstance();
         if(handler.getAccount() != null) {
             Log.d("LOGIN", "Hay cuenta guardada en AzureHandler");
             loginWithAPI(handler.getAccount().getUsername());
         } else {
             Log.d("LOGIN", "No hay cuenta guardada en AzureHandler, necesario el login interactivo");
-        }
+        }*/
 
         Button btn = findViewById(R.id.login);
         btn.setOnClickListener(view -> {
@@ -41,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(account != null) {
                     String userName = account.getUsername();
                     loginWithAPI(userName);
+                    desc.setText("Iniciando Sesión...");
                 } else {
                     findViewById(R.id.signing_in).setVisibility(View.GONE);
                     findViewById(R.id.login).setVisibility(View.VISIBLE);
