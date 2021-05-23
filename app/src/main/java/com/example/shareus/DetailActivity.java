@@ -25,6 +25,7 @@ import com.example.shareus.model.ListAdapter;
 import com.example.shareus.model.Pasajero;
 import com.example.shareus.model.Viaje;
 import com.example.shareus.ui.ViajesViewModel;
+import com.example.shareus.ui.encontrar.ViajesEncontradosFragment;
 import com.example.shareus.ui.misviajes.tabs.ViajesConductorFragment;
 import com.example.shareus.ui.misviajes.tabs.ViajesPasadosFragment;
 import com.example.shareus.ui.misviajes.tabs.ViajesPasajeroFragment;
@@ -219,6 +220,7 @@ public class DetailActivity extends AppCompatActivity {
                         Viaje nuevo = (Viaje) res1;
                         render(nuevo);
                         veces_insertar++;
+                        ViajesEncontradosFragment.update(getApplicationContext());
                     });
                 } else {
                     msg = "Se ha producido un error al añadir pasajero";
@@ -238,6 +240,7 @@ public class DetailActivity extends AppCompatActivity {
                 ApiREST.obtenerViaje(viaje.getId(), mRequestQueue, res1 -> {
                     Viaje nuevo = (Viaje) res1;
                     render(nuevo);
+                    ViajesEncontradosFragment.update(getApplicationContext());
                     ViajesPasajeroFragment.update(getApplicationContext());
                 });
             } else {

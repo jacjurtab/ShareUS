@@ -49,7 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_column="2"
                     android:fontFamily="sans-serif-condensed"
-                    android:textSize="22sp" />
+                    android:layout_gravity="center_vertical"
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:layout_height="32dp"
@@ -69,8 +70,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="2"
+                    android:layout_gravity="center_vertical"
                     android:fontFamily="sans-serif-condensed"
-                    android:textSize="22sp" />
+                    android:textSize="20sp" />
             </GridLayout>
 
             <View
@@ -106,7 +108,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
-                        android:textSize="22sp" />
+                        android:layout_gravity="center_vertical"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,7 +120,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
-                        android:textSize="22sp" />
+                        android:layout_gravity="center_vertical"
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -153,7 +157,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
-                        android:textSize="22sp" />
+                        android:layout_gravity="center_vertical"
+                        android:textSize="20sp" />
                 </LinearLayout>
                 <ImageView
                     android:layout_width="wrap_content"
@@ -168,7 +173,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
-                        android:textSize="22sp" />
+                        android:layout_gravity="center_vertical"
+                        android:textSize="20sp" />
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
@@ -179,10 +185,10 @@
                     android:id="@+id/tw_precio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
                     android:padding="2dp"
                     android:fontFamily="sans-serif-condensed"
-                    android:textSize="22sp"/>
+                    android:layout_gravity="center_vertical|end"
+                    android:textSize="20sp" />
             </GridLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

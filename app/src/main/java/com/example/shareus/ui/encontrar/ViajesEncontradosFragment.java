@@ -1,6 +1,7 @@
 package com.example.shareus.ui.encontrar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 public class ViajesEncontradosFragment extends Fragment {
 
-    ViajesViewModel viajesViewModel;
+    private static ViajesViewModel viajesViewModel;
 
     public ViajesEncontradosFragment() {
         // Required empty public constructor
@@ -47,5 +48,10 @@ public class ViajesEncontradosFragment extends Fragment {
         viajesViewModel.getViajes(ViajesViewModel.Tipo.OR_DEST, getContext()).observe(getViewLifecycleOwner(), viajes -> {
             ViajesDrawer.renderViajes(viajes, this.getContext(), this.getView());
         });
+    }
+
+    public static void update(Context context) {
+        if(viajesViewModel != null)
+            viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.OR_DEST, context);
     }
 }

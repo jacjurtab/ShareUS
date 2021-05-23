@@ -26,7 +26,7 @@ tools:context=".ui.encontrar.ViajesEncontradosFragment">
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="@color/colorAccent"
-        android:text="Cambiar"
+        android:text="@string/modificar"
         app:elevation="20dp"
-        app:icon="@drawable/ic_baseline_edit_calendar_24"/>
+        app:icon="@drawable/ic_baseline_edit_24"/>
 </FrameLayout>

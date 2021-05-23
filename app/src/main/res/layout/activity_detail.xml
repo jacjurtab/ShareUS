@@ -45,6 +45,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:text="@null"
+                        android:fontFamily="sans-serif-condensed"
                         android:textSize="22sp"/>
                     <ImageView
                         android:layout_marginHorizontal="10dp"
@@ -57,6 +58,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:text="@null"
+                        android:fontFamily="sans-serif-condensed"
                         android:textSize="22sp"/>
                     <ImageView
                         android:layout_width="wrap_content"

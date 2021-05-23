@@ -37,7 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:useDefaultMargins="true"
                 android:columnCount="2">
                 <RelativeLayout>
                     <ImageView
@@ -98,46 +97,50 @@
                 android:layout_marginHorizontal="10dp"
                 android:columnCount="2"
                 android:layout_gravity="center_horizontal">
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:scaleType="fitXY"
+                <LinearLayout
                     android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    app:tint="@color/colorPrimaryDark"
-                    android:src="@drawable/ic_menu_calendario"/>
-                <EditText
-                    android:id="@+id/etPlannedDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:clickable="true"
-                    android:focusable="false"
+                    android:paddingHorizontal="10dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitXY"
+                        android:layout_gravity="start|center_vertical"
+                        app:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_menu_calendario"/>
+                    <EditText
+                        android:id="@+id/etPlannedDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:hint="@string/fecha_solo"
+                        android:inputType="date"
+                        android:maxLines="1"
+                        android:textAlignment="center" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_column="1"
-                    android:hint="Introduzca fecha"
-                    android:inputType="date"
-                    android:maxLines="1"
-                    android:textAlignment="center" />
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:scaleType="fitXY"
-                    android:layout_column="0"
-                    app:tint="@color/colorPrimaryDark"
-                    android:src="@drawable/ic_baseline_more_time_24"/>
-                <EditText
-                    android:id="@+id/etPlannedHour"
-                    android:layout_column="1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:hint="Introduzca hora"
-                    android:inputType="date"
-                    android:maxLines="1"
-                    android:textAlignment="center" />
+                    android:paddingHorizontal="10dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:scaleType="fitXY"
+                        app:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_baseline_more_time_24"/>
+                    <EditText
+                        android:id="@+id/etPlannedHour"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:hint="@string/hora"
+                        android:inputType="date"
+                        android:maxLines="1"
+                        android:textAlignment="center" />
+                </LinearLayout>
             </GridLayout>
             <View
                 android:layout_width="match_parent"
@@ -165,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:hint="Número de pasajeros"
+                    android:hint="@string/n_mero_de_pasajeros"
                     android:inputType="number"
                     android:textAlignment="center">
                 </EditText>
@@ -181,7 +184,7 @@
                     android:id="@+id/precio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Precio por pasajero"
+                    android:hint="@string/precio_por_pasajero"
                     android:layout_column="1"
                     android:inputType="numberDecimal"
                     android:textAlignment="center">
@@ -201,7 +204,7 @@
                     android:backgroundTint="@color/colorRojoBoton"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-                    android:text="Cancelar" />
+                    android:text="@string/cancelar" />
 
                 <Button
                     android:id="@+id/publicar"
@@ -209,22 +212,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:backgroundTint="@color/colorAccent"
-                    android:text="Publicar" />
+                    android:text="@string/publicar" />
 
             </LinearLayout>
-
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_undraw_city_driver"/>
-
-
-
-
-
 </LinearLayout>
