@@ -220,7 +220,7 @@ public final class ApiREST {
             VolleyLog.v("Response:%n %s", res);
         }, error -> {
             VolleyLog.e("Error: ", error.getMessage());
-            System.out.println("[REST] Error respuestas: obtenerViaje");
+            System.out.println("[REST] Error respuestas: obtenerViaje: " + error.getMessage());
         });
         mRequestQueue.add(request);
     }
@@ -432,7 +432,7 @@ public final class ApiREST {
         mRequestQueue.add(request);
     }
 
-    public static void crearValoracion(int idViaje, int idValorador, int idValorado, float nota,
+    public static void crearValoracion(int idViaje, int idValorador, int idValorado, int nota,
                                        RequestQueue mRequestQueue, Callback callback){
         String url = BASE + "/valoracion";
         System.out.println(url);
@@ -458,6 +458,7 @@ public final class ApiREST {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Log.d("DEBUG", json.toString());
                 return json.toString().getBytes();
             }
         };

@@ -89,7 +89,9 @@
                 android:layout_column="1"
                 android:layout_marginStart="5dp"
                 android:text="@string/origen"
-                android:textSize="20sp"/>
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textSize="22sp"/>
         </GridLayout>
         <TextView
             android:id="@+id/origen_value"
@@ -98,7 +100,8 @@
             android:text="@null"
             android:layout_marginVertical="5dp"
             android:textSize="20sp"
-            android:layout_below="@id/origen_grid"/>
+            android:layout_below="@id/origen_grid"
+            android:fontFamily="sans-serif-condensed"/>
         <GridLayout
             android:id="@+id/destino_grid"
             android:layout_width="match_parent"
@@ -116,7 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/destino"
-                android:textSize="20sp"/>
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textSize="22sp"/>
         </GridLayout>
         <TextView
             android:id="@+id/destino_value"
@@ -125,7 +129,8 @@
             android:text="@null"
             android:layout_marginVertical="5dp"
             android:textSize="20sp"
-            android:layout_below="@id/destino_grid"/>
+            android:layout_below="@id/destino_grid"
+            android:fontFamily="sans-serif-condensed"/>
         <GridLayout
             android:id="@+id/precio_grid"
             android:layout_width="match_parent"
@@ -143,7 +148,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/precio"
-                android:textSize="20sp"/>
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textSize="22sp"/>
         </GridLayout>
         <TextView
             android:id="@+id/precio_value"
@@ -152,7 +158,8 @@
             android:text="@null"
             android:layout_marginVertical="5dp"
             android:textSize="20sp"
-            android:layout_below="@id/precio_grid"/>
+            android:layout_below="@id/precio_grid"
+            android:fontFamily="sans-serif-condensed"/>
         <GridLayout
             android:id="@+id/pasajeros_grid"
             android:layout_width="match_parent"
@@ -171,7 +178,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@null"
-                android:textSize="20sp"/>
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-condensed-medium"/>
         </GridLayout>
         <ListView
             android:id="@+id/pasajeros_detalle"
@@ -189,7 +197,8 @@
             android:text="@string/no_se_han_encontrado_pasajeros"
             android:layout_below="@id/pasajeros_detalle"
             android:textSize="20sp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-condensed"/>
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

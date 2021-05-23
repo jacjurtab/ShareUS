@@ -41,6 +41,6 @@ public class ViajesPasadosFragment extends Fragment {
     }
 
     public static void update(Context context) {
-        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.CONDUCTOR, context);
+        viajesViewModel.actualizarViajes(ViajesViewModel.Tipo.PASADOS, context);
     }
 }

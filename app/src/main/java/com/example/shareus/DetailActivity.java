@@ -26,6 +26,7 @@ import com.example.shareus.model.Pasajero;
 import com.example.shareus.model.Viaje;
 import com.example.shareus.ui.ViajesViewModel;
 import com.example.shareus.ui.misviajes.tabs.ViajesConductorFragment;
+import com.example.shareus.ui.misviajes.tabs.ViajesPasadosFragment;
 import com.example.shareus.ui.misviajes.tabs.ViajesPasajeroFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -167,19 +168,25 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void insertarValoracion(Viaje viaje, View view) {
-        int idConductor = viaje.getIdConductor();
+        int idConductor = viaje.getConductorObj().getId();
         int idViaje = viaje.getId();
         int idValorador = Session.get(getApplicationContext()).getUserId();
         Dialogs.showValoracionDialog(this, rating -> ApiREST.crearValoracion(idViaje, idValorador, idConductor, rating, mRequestQueue, res -> {
             boolean resultado = Boolean.parseBoolean(String.valueOf(res));
             if (resultado) {
-                Snackbar.make(view, "¡Valoración añadida correctamente!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-                    @Override
-                    public void onDismissed(Snackbar snackbar, int event) {
-                        finish();
-                        cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-                    }
-                }).show();
+                ApiREST.obtenerViaje(viaje.getId(), mRequestQueue, res1 -> {
+                    Viaje nuevo = (Viaje) res1;
+                    render(nuevo);
+                    Snackbar.make(view, "¡Valoración añadida correctamente!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            finish();
+                            cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                        }
+                    }).show();
+                });
+                ViajesPasadosFragment.update(getApplicationContext());
+
             }
             else {
                 Snackbar.make(view, "¡No puedes valorar 2 veces el mismo viaje!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
