@@ -31,6 +31,7 @@ import androidx.navigation.Navigation;
 
 import com.android.volley.RequestQueue;
 import com.example.shareus.R;
+import com.example.shareus.Session;
 import com.example.shareus.api.ApiREST;
 import com.example.shareus.model.Ubicacion;
 
@@ -182,7 +183,7 @@ public class PublicarFragment extends Fragment {
 
         if (isAllFill) {
             Toast.makeText(getContext(), "¡Viaje publicado correctamente!", Toast.LENGTH_SHORT).show();
-            ApiREST.crearViaje(2, idOrigen, idDestino, fecha_hora, max_plazas, dinero, mRequestQueue, new ApiREST.Callback() {
+            ApiREST.crearViaje(Session.get(getContext()).getUserId(), idOrigen, idDestino, fecha_hora, max_plazas, dinero, mRequestQueue, new ApiREST.Callback() {
                 @Override
                 public void onResult(Object res) {
 
