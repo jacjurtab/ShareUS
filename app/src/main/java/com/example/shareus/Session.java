@@ -1,6 +1,7 @@
 package com.example.shareus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -31,7 +32,12 @@ public class Session {
     public static Session get(Context cxt) {
         SharedPreferences sp = cxt.getSharedPreferences("shareus", Context.MODE_PRIVATE);
         Session result = new Session(sp.getInt(USER_ID, -1), sp.getString(USER_NAME, "null"));
-        return result.getUserId()!=-1 ? result : null;
+        if (result.getUserId() == -1) {
+            destroy(cxt);
+            Intent intent = new Intent(cxt, MainActivity.class);
+            cxt.startActivity(intent);
+        }
+        return result;
     }
 
     public static void destroy(Context cxt) {
