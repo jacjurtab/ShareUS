@@ -34,8 +34,7 @@ public class Session {
         Session result = new Session(sp.getInt(USER_ID, -1), sp.getString(USER_NAME, "null"));
         if (result.getUserId() == -1) {
             destroy(cxt);
-            Intent intent = new Intent(cxt, MainActivity.class);
-            cxt.startActivity(intent);
+            return null;
         }
         return result;
     }
