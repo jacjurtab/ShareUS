@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.shareus.models.Conductor;
 import com.shareus.models.Pasajero;
 import com.shareus.models.Viaje;
 import org.postgresql.ds.PGSimpleDataSource;
@@ -176,7 +177,8 @@ public class ViajesDAO implements ViajesDAOInterface {
 		try {
 			conn = ds.getConnection();
 			String sql = "SELECT"
-					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.id AS idConductor, us.valoracion AS nota_conductor, us2.id AS pasajero_id, us2.nombre AS pasajero,"
+					+ "	vi.id AS id_viaje, us.nombre AS conductor, us.id AS idConductor, us.telefono AS telefono,"
+					+ " us.valoracion AS nota_conductor, us2.id AS pasajero_id, us2.nombre AS pasajero,"
 					+ "	ub.nombre AS origen, ub1.nombre AS destino, vi.fecha, vi.num_pasajeros, vi.max_plazas, vi.precio"
 					+ " FROM "
 					+ "	viajes vi INNER JOIN"
@@ -191,9 +193,13 @@ public class ViajesDAO implements ViajesDAOInterface {
 			st.setInt(1, idViaje);
 			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
-				viaje = new Viaje(rs.getInt("id_viaje"), rs.getInt("idConductor"), rs.getString("conductor"), rs.getString("origen"),
+				Conductor conductor = new Conductor(rs.getInt("idConductor"), rs.getString("conductor"),
+						rs.getString("telefono"));
+				viaje = new Viaje(rs.getInt("id_viaje"), rs.getString("origen"),
 						rs.getString("destino"), rs.getTimestamp("fecha").getTime(),
-						rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null, rs.getFloat("nota_conductor"), rs.getFloat("precio"));
+						rs.getInt("num_pasajeros"), rs.getInt("max_plazas"), null,
+						rs.getFloat("nota_conductor"), rs.getFloat("precio"));
+				viaje.setConductorObj(conductor);
 				rs.previous();
 				List<Pasajero> pasajeros = new ArrayList<>();
 				while (rs.next()) {

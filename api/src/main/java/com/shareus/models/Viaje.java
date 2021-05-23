@@ -1,9 +1,11 @@
 package com.shareus.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Viaje {
 
 	@JsonView(Vistas.Simple.class)
@@ -12,6 +14,8 @@ public class Viaje {
 	private int idConductor;
 	@JsonView(Vistas.Simple.class)
 	private String conductor;
+	@JsonView(Vistas.Completo.class)
+	private Conductor conductorObj;
 	@JsonView(Vistas.Simple.class)
 	private String origen;
 	@JsonView(Vistas.Simple.class)
@@ -23,6 +27,7 @@ public class Viaje {
 	@JsonView(Vistas.Simple.class)
 	private int max_plazas;
 	@JsonView(Vistas.Completo.class)
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<Pasajero> pasajeros;  //nombres de los pasajeros asociados al viaje
 	@JsonView(Vistas.Simple.class)
 	private float nota_conductor;  //Representa a nota media del conductor
@@ -39,6 +44,20 @@ public class Viaje {
 		this.id = id;
 		this.idConductor = idConductor;
 		this.conductor = conductor;
+		this.origen = origen;
+		this.destino = destino;
+		this.fecha_hora = fecha_hora;
+		this.num_pasajeros = num_pasajeros;
+		this.max_plazas = max_plazas;
+		this.pasajeros = pasajeros;
+		this.nota_conductor = nota_conductor;
+		this.precio = precio;
+	}
+
+	public Viaje(int id, String origen, String destino, long fecha_hora,
+				 int num_pasajeros, int max_plazas, List<Pasajero> pasajeros, float nota_conductor, float precio) {
+		super();
+		this.id = id;
 		this.origen = origen;
 		this.destino = destino;
 		this.fecha_hora = fecha_hora;
@@ -128,5 +147,13 @@ public class Viaje {
 	public float getPrecio() { return precio; }
 
 	public void setPrecio(float precio) { this.precio = precio; }
+
+	public Conductor getConductorObj() {
+		return conductorObj;
+	}
+
+	public void setConductorObj(Conductor conductorObj) {
+		this.conductorObj = conductorObj;
+	}
 }
 

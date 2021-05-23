@@ -1,7 +1,9 @@
 package com.shareus.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Pasajero {
 
 	@JsonView(Vistas.Completo.class)
