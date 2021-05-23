@@ -109,7 +109,6 @@ public class ViajesViewModel extends ViewModel {
                 break;
 
             case OR_DEST:
-                Log.d("DEBUG", "ORIGEN-DESTINO: " + origen.getValue() + "-" + destino.getValue());
                 ApiREST.obtenerViajesUbi(origen.getValue(), destino.getValue(), true, mRequestQueue, new ApiREST.Callback() {
                     @Override
                     public void onResult(Object res) {
@@ -133,7 +132,6 @@ public class ViajesViewModel extends ViewModel {
 
         origen.setValue(origenStr);
         destino.setValue(destinoStr);
-        Log.d("DEBUG", "UPDATE -> ORIGEN-DESTINO: " + origen.getValue() + "-" + destino.getValue());
     }
 
 }

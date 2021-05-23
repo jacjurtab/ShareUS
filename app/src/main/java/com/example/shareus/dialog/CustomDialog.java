@@ -1,4 +1,4 @@
-package com.example.shareus;
+package com.example.shareus.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

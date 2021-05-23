@@ -153,4 +153,12 @@
     <string name="send">Enviar datos</string>
     <string name="azure">Lanzando autenticación con Microsoft Azure...</string>
     <string name="nuevo_viaje">Nuevo Viaje</string>
+    <string name="bienvenido_a_bordo">¡Bienvenido a bordo!</string>
+    <string name="subtext_viaje">Ahora mismo formas parte de los pasajeros de este viaje, por lo que hemos decidido recordarte algunos de los detalles más importantes.</string>
+    <string name="de_acuerdo">De acuerdo</string>
+    <string name="conductor">Conductor</string>
+    <string name="ubicacion">Ubicación</string>
+    <string name="fecha">Día y Hora</string>
+    <string name="aviso_importante">Aviso importante</string>
+    <string name="subtext_aviso">Hemos detectado demasiadas interacciones como pasajero en este viaje. Te aconsejamos que estes seguro antes de inscribirte en un viaje ya que se te bloqueará el acceso si continuamos detectando más cambios inesperados.</string>
 </resources>

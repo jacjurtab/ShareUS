@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,45 +56,31 @@ public class MainActivity extends AppCompatActivity {
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 NavigationView navigationView = findViewById(R.id.nav_view);
                 mAppBarConfiguration = new AppBarConfiguration.Builder(
-                        R.id.nav_misviajes, R.id.nav_logout, R.id.nav_publicar,R.id.nav_encontrar, R.id.nav_resultados)
+                        R.id.nav_misviajes, R.id.nav_publicar,R.id.nav_encontrar, R.id.nav_resultados)
                         .setDrawerLayout(drawer)
                         .build();
                 NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
                 NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
                 NavigationUI.setupWithNavController(navigationView, navController);
-                navigationView.setNavigationItemSelectedListener(menuItem -> {
-                    int id = menuItem.getItemId();
-
-                    if (id == R.id.nav_logout) {
-                        Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
-                        Session.destroy(getApplicationContext());
-                        AzureHandler.getInstance().destroy(() -> {
-                            Intent intent = getIntent();
-                            finish();
-                            startActivity(intent);
-                        });
-                        return false;
-                    }
-
-                    NavigationUI.onNavDestinationSelected(menuItem, navController);
-                    drawer.closeDrawer(GravityCompat.START);
-                    return true;
-                });
                 ApiREST.getInstance(this);
                 ApiREST.obtenerUsuario(Session.get(this).getUserId(), ApiREST.getInstance(this).getQueue(), res -> {
                     TextView welcome = findViewById(R.id.welcome_user);
                     Usuario usuario = (Usuario) res;
-                    welcome.setText("¡Bienvenido " + usuario.getNombre() + " a ShareUS!");
+                    welcome.setText("¡Bienvenido a ShareUS " + usuario.getNombre()  + "!");
                     setNeededHeight();
+                });
+                Button btn = findViewById(R.id.logout);
+                btn.setOnClickListener(view -> {
+                    Toast.makeText(getApplicationContext(), "Cerrando sesión...", Toast.LENGTH_SHORT).show();
+                    Session.destroy(getApplicationContext());
+                    AzureHandler.getInstance().destroy(() -> {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    });
                 });
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override

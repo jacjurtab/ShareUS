@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.RequestQueue;
 import com.example.shareus.api.ApiREST;
+import com.example.shareus.dialog.DialogCallback;
+import com.example.shareus.dialog.Dialogs;
 import com.example.shareus.model.ListAdapter;
 import com.example.shareus.model.Pasajero;
 import com.example.shareus.model.Viaje;
@@ -37,6 +40,8 @@ public class DetailActivity extends AppCompatActivity {
     Activity cxt;
     RequestQueue mRequestQueue = ApiREST.getInstance(null).getQueue();
     Viaje viaje;
+    int veces_insertar = 0;
+    boolean avisado = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +68,10 @@ public class DetailActivity extends AppCompatActivity {
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     public void render(Viaje viaje) {
         int idUsuario = Session.get(getApplicationContext()).getUserId();
-        boolean esConductor = (idUsuario == viaje.getIdConductor());
+        boolean esConductor = (idUsuario == viaje.getConductorObj().getId());
         boolean esPasajero = viaje.getPasajeros().stream().anyMatch(o -> o.getId() == idUsuario);
+
+        Log.d("DEBUG", viaje.getConductorObj().getTelefono());
 
         TextView titulo = findViewById(R.id.titulo);
         titulo.setText("Viaje programado para " + Utils.prettyParse(viaje.getFecha_hora()));
@@ -72,7 +79,7 @@ public class DetailActivity extends AppCompatActivity {
         if(esConductor)
             conductor.setText("Tú");
         else
-            conductor.setText(viaje.getConductor());
+            conductor.setText(viaje.getConductorObj().getNombre());
         TextView valoracion = findViewById(R.id.valoracion);
         valoracion.setText(Float.toString(viaje.getNota_conductor()));
         TextView origen = findViewById(R.id.origen_value);
@@ -117,6 +124,8 @@ public class DetailActivity extends AppCompatActivity {
                 option.setText("Cancelar Viaje");
                 option.setExtended(true);
                 option.setOnClickListener(view -> quitarPasajero(viaje, idUsuario, view));
+                if(!avisado)
+                    Dialogs.showViajeInfoDialog(this, viaje);
             } else {
                 option.setIconResource(R.drawable.ic_baseline_person_add_alt_1_24);
                 option.setText("Inscribir en Viaje");
@@ -161,8 +170,8 @@ public class DetailActivity extends AppCompatActivity {
         int idConductor = viaje.getIdConductor();
         int idViaje = viaje.getId();
         int idValorador = Session.get(getApplicationContext()).getUserId();
-        Utils.showValoracionDialog(this, rating -> ApiREST.crearValoracion(idViaje, idValorador , idConductor, rating,  mRequestQueue, res -> {
-            Boolean resultado = Boolean.parseBoolean(String.valueOf(res));
+        Dialogs.showValoracionDialog(this, rating -> ApiREST.crearValoracion(idViaje, idValorador, idConductor, rating, mRequestQueue, res -> {
+            boolean resultado = Boolean.parseBoolean(String.valueOf(res));
             if (resultado) {
                 Snackbar.make(view, "¡Valoración añadida correctamente!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
                     @Override
@@ -181,32 +190,35 @@ public class DetailActivity extends AppCompatActivity {
                     }
                 }).show();
             }
-        }), mRequestQueue);
-        /*Snackbar.make(view, "Me salgo", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-            @Override
-            public void onDismissed(Snackbar snackbar, int event) {
-                finish();
-                cxt.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-            }
-        }).show();*/
+        }));
     }
 
     public void insertarPasajero(Viaje viaje, int pasajero, View view) {
-        ApiREST.insertarPasajero(viaje.getId(), pasajero, mRequestQueue, res -> {
-            boolean result = Boolean.parseBoolean((String) res);
-            String msg;
-
-            if(result) {
-                msg = "Añadido al viaje correctamente";
-                ApiREST.obtenerViaje(viaje.getId(), mRequestQueue, res1 -> {
-                    Viaje nuevo = (Viaje) res1;
-                    render(nuevo);
-                });
-            } else {
-                msg = "Se ha producido un error al añadir pasajero";
+        Log.d("DEBUG", veces_insertar + "");
+        if(veces_insertar > 1) {
+            Snackbar.make(view, "Se te ha bloqueado el acceso a este viaje por seguridad", Snackbar.LENGTH_SHORT).show();
+        } else {
+            if(veces_insertar == 1) {
+                Dialogs.showAvisoViajeDialog(this);
+                avisado = true;
             }
-            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
-        });
+            ApiREST.insertarPasajero(viaje.getId(), pasajero, mRequestQueue, res -> {
+                boolean result = Boolean.parseBoolean((String) res);
+                String msg;
+
+                if(result) {
+                    msg = "Añadido al viaje correctamente";
+                    ApiREST.obtenerViaje(viaje.getId(), mRequestQueue, res1 -> {
+                        Viaje nuevo = (Viaje) res1;
+                        render(nuevo);
+                        veces_insertar++;
+                    });
+                } else {
+                    msg = "Se ha producido un error al añadir pasajero";
+                }
+                Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
+            });
+        }
     }
 
     public void quitarPasajero(Viaje viaje, int pasajero, View view) {

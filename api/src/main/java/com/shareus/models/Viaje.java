@@ -11,6 +11,7 @@ public class Viaje {
 	@JsonView(Vistas.Simple.class)
 	private int id;
 	@JsonView(Vistas.Simple.class)
+	@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 	private int idConductor;
 	@JsonView(Vistas.Simple.class)
 	private String conductor;

@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.shareus.Session;
+import com.example.shareus.model.Conductor;
 import com.example.shareus.model.Pasajero;
 import com.example.shareus.model.Ubicacion;
 import com.example.shareus.model.Usuario;
@@ -187,9 +188,12 @@ public final class ApiREST {
             Viaje viaje;
             List<Pasajero> pasajeros = new ArrayList<>();
             try {
+                JSONObject conductor_js = res.getJSONObject("conductorObj");
+                Conductor conductor = new Conductor(conductor_js.getInt("id"),
+                        conductor_js.getString("nombre"), conductor_js.getString("telefono"));
+
                 viaje = new Viaje(res.getInt("id"),
-                        res.getInt(("idConductor")),
-                        res.getString("conductor"),
+                        conductor,
                         res.getString("origen"),
                         res.getString("destino"),
                         new Timestamp(res.getLong("fecha_hora")),

@@ -1,4 +1,4 @@
-package com.example.shareus;
+package com.example.shareus.dialog;
 
 public interface DialogCallback {
     public void callBack(int rating);
