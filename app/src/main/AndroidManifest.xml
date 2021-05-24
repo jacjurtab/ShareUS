@@ -12,6 +12,8 @@
         android:theme="@style/Theme.ShareUS">
         <activity android:name=".RegisterActivity" />
         <activity
+            android:name=".LoginActivity"/>
+        <activity
             android:name=".DetailActivity"
             android:theme="@style/Theme.ShareUS.NoActionBar" />
         <activity
