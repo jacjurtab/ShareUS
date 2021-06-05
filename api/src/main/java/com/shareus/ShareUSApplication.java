@@ -3,6 +3,12 @@ package com.shareus;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -17,6 +23,7 @@ import java.util.Properties;
 public class ShareUSApplication {
 
     public static DataSource DS;
+    public static String PASS;
 
     public static void main(String[] args) throws SQLException, IOException {
         PGSimpleDataSource ds = new PGSimpleDataSource();
@@ -38,11 +45,26 @@ public class ShareUSApplication {
             user = env.get("USER");
             pass = env.get("PASS");
         }
+        PASS = pass;
         ds.setUrl(url);
         ds.setUser(user);
         ds.setPassword(pass);
         DS = ds;
         SpringApplication.run(ShareUSApplication.class, args);
+    }
+
+    @EnableWebSecurity
+    @Configuration
+    static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.csrf().disable()
+                    .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.POST, "/usuario/").permitAll()
+                    .anyRequest().authenticated();
+        }
     }
 
 }

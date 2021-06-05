@@ -1,6 +1,7 @@
 package com.shareus.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.shareus.JWTAuthorizationFilter;
 import com.shareus.ShareUSApplication;
 import com.shareus.models.Usuario;
 import com.shareus.models.Vistas;
@@ -28,7 +29,8 @@ public class UsuarioController {
 
         if (usuario.getNombre() == null) usuario.setFirstTime(true);
 
-        usuario.setToken("TOKEN");
+        String token = JWTAuthorizationFilter.getJWTToken(usuario.getUsuario());
+        usuario.setToken(token);
 
         return usuario;
     }
